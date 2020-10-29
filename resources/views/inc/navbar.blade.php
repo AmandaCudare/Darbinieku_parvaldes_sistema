@@ -7,13 +7,13 @@
     <div class="collapse navbar-collapse" id="navbarCollapse">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item ">
-          <a class="nav-link" href="/">Hours </a>
+          <a class="nav-link" href="/">Stundas</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/skills">Skills</a>
+          <a class="nav-link" href="/skills">Prasmes</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link " href="/projects">Project</a>
+          <a class="nav-link " href="/projects">Projekts</a>
         </li>
       </ul>
     </div>

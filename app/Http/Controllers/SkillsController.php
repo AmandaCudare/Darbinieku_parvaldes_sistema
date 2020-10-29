@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Skill;
 use Illuminate\Http\Request;
 
 class SkillsController extends Controller
@@ -13,7 +13,9 @@ class SkillsController extends Controller
      */
     public function index()
     {
-        return view('skills');
+        
+        $skills = Skill::all();
+   return view('skills.skillmain')->with('skills', $skills);
     }
 
     /**

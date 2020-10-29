@@ -13,8 +13,12 @@ class HoursController extends Controller
      */
     public function index()
     {
-        return view('hours');
+        return view('hour.hourmain');
     }
+public function vacation(){
+    return view('hour.vacation');
+}
+
 
     /**
      * Show the form for creating a new resource.

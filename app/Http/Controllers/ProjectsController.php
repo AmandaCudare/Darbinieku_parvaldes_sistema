@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Project;
 use Illuminate\Http\Request;
 
 class ProjectsController extends Controller
@@ -13,7 +13,8 @@ class ProjectsController extends Controller
      */
     public function index()
     {
-        return view('project');
+        $projects = Project::all();
+        return view('project.projectmain')->with('projects', $projects);
     }
 
     /**
