@@ -16,7 +16,11 @@ class CreateHoursTable extends Migration
         Schema::create('hours', function (Blueprint $table) {
             $table->id();
             $table->boolean('accepted');
+            $table->decimal('hours', 3, 2);
+            $table->foreignId('project_id')->constrained('projects');
+            $table->foreignId('days_id')->constrained('days');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

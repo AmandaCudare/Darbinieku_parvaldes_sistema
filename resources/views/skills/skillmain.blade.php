@@ -2,7 +2,7 @@
 
 @section('content')
 <h1>Prasmes</h1>
-<button type="button" class="btn btn-dark row mt-2">Pievienot prasmi</button>
+<button type="button" class="btn btn-dark row mt-2 ">Pievienot prasmi</button>
 @if(count($skills)>0)
 
 <div class="row mt-3">

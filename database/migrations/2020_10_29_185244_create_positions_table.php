@@ -17,7 +17,10 @@ class CreatePositionsTable extends Migration
             $table->id();
             $table->string('name');
             $table->boolean('accepted');
+            $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('project_id')->constrained('projects');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -18,7 +18,6 @@ class CreateDaysTable extends Migration
             $table->date('date');
             $table->unsignedInteger('week');
             $table->boolean('off-day');
-            $table->decimal('hours', 3, 2);
             $table->timestamps();
         });
     }

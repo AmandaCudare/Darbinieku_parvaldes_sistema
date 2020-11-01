@@ -3,7 +3,9 @@
 @section('content')
 
 <h1> Nostrādatās darba stunda</h1>
-<a href="/vacation" type="submit" class="btn btn-outline-secondary">Prombūtne</a>
+<div class="text-right">
+<a href="/vacation" type="submit" class="btn btn-outline-secondary row mb-3">Prombūtne</a>
+</div>
     {{--@if(count($projects)>0)
 --}}
         <div class="well">
@@ -61,6 +63,8 @@
 Nedēļa
   <a type="button" class="btn btn-outline-secondary" href="#">></a>
 </p>
+<div class="text-right">
   <a type="button" class="btn btn-outline-secondary" href="#">Iesniegt</a>
+</div>
 @endsection
 
