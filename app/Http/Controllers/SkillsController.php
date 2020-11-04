@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 use App\Skill;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Gate;
 class SkillsController extends Controller
 {
     /**
@@ -13,9 +13,11 @@ class SkillsController extends Controller
      */
     public function index()
     {
-        
+        if (Gate::allows('user-only')) {
         $skills = Skill::all();
    return view('skills.skillmain')->with('skills', $skills);
+        }
+        return redirect()->back();
     }
 
     /**

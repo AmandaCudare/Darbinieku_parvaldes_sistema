@@ -1,8 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HoursController extends Controller
 {
@@ -13,10 +14,18 @@ class HoursController extends Controller
      */
     public function index()
     {
+        $role=Auth::user();
+        
+        if (Gate::allows('user-only')) {
         return view('hour.hourmain');
+        }
+        return redirect()->back();
     }
 public function vacation(){
+    if (Gate::allows('user-only',Auth::user())) {
     return view('hour.vacation');
+    }
+    return redirect()->back();
 }
 
 

@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->boolean('Active');
             $table->unsignedInteger('Role');
+            $table->double('Workload',4,2);
             $table->rememberToken();
             $table->timestamps();
         });

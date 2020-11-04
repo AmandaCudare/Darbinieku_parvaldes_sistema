@@ -13,9 +13,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', 'HoursController@index');
+Route::get('/', 'StartController@index');
+Route::get('/hour', 'HoursController@index');
 Route::get('/skills', 'SkillsController@index');
 Route::get('/projects', 'ProjectsController@index');
 Route::get('/vacation', 'HoursController@vacation');
-
+Route::get('/admin', 'AdminController@index');
 //Route::resources('hours')
+Auth::routes();
+
+
+
+Route::get('/profile', 'HomeController@index')->name('profile')->middleware('auth');

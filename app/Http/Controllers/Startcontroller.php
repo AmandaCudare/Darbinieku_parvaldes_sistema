@@ -1,11 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Project;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
 
-class ProjectsController extends Controller
+use Illuminate\Http\Request;
+
+class Startcontroller extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,11 +13,7 @@ class ProjectsController extends Controller
      */
     public function index()
     {
-        if (Gate::allows('user-only')) {
-        $projects = Project::all();
-        return view('project.projectmain')->with('projects', $projects);
-        }
-        return redirect()->back();
+        return view('start');
     }
 
     /**

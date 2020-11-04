@@ -2,9 +2,13 @@
 
 @section('content')
 
-<h1> Projekts</h1>
-    @if(count($projects)>0)
+<h1> Projekts</h1>  
 
+   @if (Auth::user()->Role == '2' || Auth::user()->Role == '3')
+
+    
+   @if(count($projects)>0)
+    
         <div class="well">
             <table class="table table-bordered">
                 <thead>
@@ -36,4 +40,5 @@
      <h4>Patreiz Jums nav projektu</h4>
      @endif
 
+@endif
 @endsection
