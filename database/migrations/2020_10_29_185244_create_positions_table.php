@@ -15,12 +15,12 @@ class CreatePositionsTable extends Migration
     {
         Schema::create('positions', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->boolean('accepted');
-            $table->foreignId('user_id')->constrained('users');
+            $table->string('name',50);
+            $table->boolean('accepted')->nullable();
+            $table->boolean('assigned')->nullable();
+            $table->foreignId('user_id')->nullable()->constrained('users');
             $table->foreignId('project_id')->constrained('projects');
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 

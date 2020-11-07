@@ -1,12 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Project;
 use App\Position;
+use App\Project;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
-class ProjectsController extends Controller
+class PositionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,11 +15,12 @@ class ProjectsController extends Controller
      */
     public function index()
     {
-        if (Gate::allows('user-only')) {
-        $projects = Project::all();
-        return view('project.projectmain')->with('projects', $projects);
-        }
-        return redirect()->back();
+       return 123;
+        /*if (Gate::allows('user-only')) {
+            
+            return view('project.position_create')->with('project_id', $id);
+            }
+            return redirect()->back();*/
     }
 
     /**
@@ -27,9 +28,13 @@ class ProjectsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id)
     {
-        return view('project.pcreate');
+        if (Gate::allows('manager-only')) {
+            
+            return view('project.position_create')->with('project_id', $id);
+            }
+            return redirect()->back();
     }
 
     /**
@@ -41,31 +46,18 @@ class ProjectsController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'title' => ['required', 'string','max:50'],
-            'Description' => ['required', 'string','max:250'],
-            'start_date' => ['required','date', 'after:assign_till'],
-            'end_date' => ['required','date', 'after:start_date'],
-            'assign_till' => ['required', 'date','after:tomorrow' ,'before:start_date'],
-        ]);
+            'name' => ['required', 'string','max:50'],
+            ]);
 
-        $project = new Project;
-        $project->title = $request->input('title');
-        $project->Description = $request->input('Description');
-        $project->start_date = $request->input('start_date');
-        $project->end_date = $request->input('end_date');
-        $project->assign_till= $request->input('assign_till');
-        $project->creator_id = auth()->user()->id;
-         $project->save();
-         
-        /*$position = new Position;
+        $position = new Position;
         $position->name = $request->input('name');
-        $position->project_id = $project->id;
+        $position->project_id = $request->input('project_id');
         $position->assigned = false;
         $position->accepted = false;
-        $position->save;*/
+        $position->save();
 
-       return redirect('/projects');
-    }
+        return back();
+     }
 
     /**
      * Display the specified resource.
@@ -75,11 +67,7 @@ class ProjectsController extends Controller
      */
     public function show($id)
     {
-        
-        $project = Project::find($id);
-        $positions = Position::where('project_id',$id)->get();
-        return view('project.pshow')->with('project',$project)->with('positions',$positions);
-    
+        //
     }
 
     /**

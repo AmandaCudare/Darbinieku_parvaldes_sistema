@@ -20,7 +20,7 @@ class CreateHoursTable extends Migration
             $table->foreignId('project_id')->constrained('projects');
             $table->foreignId('days_id')->constrained('days');
             $table->timestamps();
-            $table->softDeletes();
+            
         });
     }
 

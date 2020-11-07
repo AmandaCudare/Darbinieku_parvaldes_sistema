@@ -18,7 +18,6 @@ class CreateHoursUsersTable extends Migration
             $table->foreignId('worked_hours_id')->constrained('hours');
             $table->foreignId('user_id')->constrained('users');
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 

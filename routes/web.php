@@ -16,12 +16,16 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', 'StartController@index');
 Route::get('/hour', 'HoursController@index');
 Route::get('/skills', 'SkillsController@index');
-Route::get('/projects', 'ProjectsController@index');
+
 Route::get('/vacation', 'HoursController@vacation');
 Route::get('/admin', 'AdminController@index');
 //Route::resources('hours')
 Auth::routes();
 
+Route::resource('projects', 'ProjectsController');
 
-
+/*Route::resource('projects/position', 'PositionController')->except([
+    'index', 'show'
+]);*/
+Route::post('/position/store', 'PositionController@store')->name('position.add');
 Route::get('/profile', 'HomeController@index')->name('profile')->middleware('auth');

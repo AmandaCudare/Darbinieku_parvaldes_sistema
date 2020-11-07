@@ -15,13 +15,13 @@ class CreateAbsencesTable extends Migration
     {
         Schema::create('absences', function (Blueprint $table) {
             $table->id();
-            $table->string('reason');
+            $table->string('reason',50);
             $table->date('start_date');
             $table->date('end_date');
             $table->boolean('accepted');
             $table->foreignId('user_id')->constrained('users');
             $table->timestamps();
-            $table->softDeletes();
+          
         });
     }
 

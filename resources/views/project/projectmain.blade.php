@@ -3,10 +3,11 @@
 @section('content')
 
 <h1> Projekts</h1>  
-
+    @if (Auth::user()->Role == '3')
+    <a href="/projects/create" class="btn btn-outline-secondary row mb-3">Izveidot projektu</a>
+    @endif
    @if (Auth::user()->Role == '2' || Auth::user()->Role == '3')
 
-    
    @if(count($projects)>0)
     
         <div class="well">
@@ -29,16 +30,20 @@
                 <td><p>{{$project->start_date}}</p></td>
                 <td><p>{{$project->end_date}}</p></td>
                 <td><p>{{$project->assign_till}}</p></td>
-                <td><a type="button" class="btn btn-outline-secondary" href="#">Apskatīt projektu</a> </td>
+            <td><a type="button" class="btn btn-outline-secondary" href="/projects/{{$project->id}}">Apskatīt projektu</a> </td>
             </tr>
             @endforeach
         </div>  
         </tbody>
           </table>
     
+           {{--{{$projects->links()}}--}}
+
     @else 
      <h4>Patreiz Jums nav projektu</h4>
      @endif
+
+     {{--{{$projects->links()}}--}}
 
 @endif
 @endsection
