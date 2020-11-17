@@ -19,7 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('Last_name',50);
             $table->string('email',50)->unique();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
+            $table->string('password',150);
             $table->boolean('Active');
             $table->unsignedInteger('Role');
             $table->double('Workload',4,2);

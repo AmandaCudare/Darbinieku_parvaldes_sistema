@@ -37,8 +37,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function positions(){
-        return $this->hasMany('App\Position');
+    public function user_positions(){
+        return $this->hasMany('App\UserPosition');
     }
 
     public function projects(){
@@ -53,7 +53,7 @@ class User extends Authenticatable
         return $this->hasMany('App\Absence');
     }
 
-    public function hours_users(){
-        return $this->hasMany('App\Hours_user');
+    public function hours(){
+        return $this->hasMany('App\Hour');
     }
 }

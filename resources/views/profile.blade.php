@@ -3,18 +3,23 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-10">
             <div class="card">
-                <div class="card-header">{{ __('Dashboard') }}</div>
-
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    {{ __('You are logged in!') }}
+                <div class="card-header">{{ __('Profile') }}</div>
+                    <div class="container">
+                <p><b>Vārds:</b> {{$user->First_name}}</p>
+                <p><b>Uzvārds:</b> {{$user->Last_name}}</p>
+                <p><b>E-pasts:</b> {{$user->email}}</p>
+                <p><b>Loma: </b>
+                    @if ($user->Role == 1)
+                   Administrators
+                   @elseif($user->Role == 2)
+                  Darbinieks
+                   @else
+                   Vadītājs
+                    @endif</p>
+                <p><b>Darba slodze:</b> {{$user->Workload}}</p>
+                     </div>
                 </div>
             </div>
         </div>

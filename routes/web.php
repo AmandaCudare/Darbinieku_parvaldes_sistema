@@ -23,9 +23,6 @@ Route::get('/admin', 'AdminController@index');
 Auth::routes();
 
 Route::resource('projects', 'ProjectsController');
-
-/*Route::resource('projects/position', 'PositionController')->except([
-    'index', 'show'
-]);*/
-Route::post('/position/store', 'PositionController@store')->name('position.add');
+Route::post('/userposition/store', 'PositionController@store_userposition')->name('user_position.add');
+Route::post('/project/{project_id}/position', 'PositionController@store')->name('position.add');
 Route::get('/profile', 'HomeController@index')->name('profile')->middleware('auth');

@@ -1,36 +1,50 @@
 @extends('layout.app')
 
 @section('content')
-
-<h1>{{$project->title}}</h1>
+<main >
+{{--Projekta apraksts--}}
 <div class='container'>
-        <p>{{$project->Description}}</p>
-        <p>{{$project->start_date}}</p></td>
-        <p>{{$project->end_date}}</p>
-        <p>{{$project->assign_till}}</p>
-</div>
+       <h1>{{$project->title}}</h1> 
+       <h5>Apraksts : {{$project->Description}}</h5>
+        <p>Sākuma datums : {{$project->start_date}}</p></td>
+        <p>Beigu datums : {{$project->end_date}}</p>
+        <p>Var pieteikties līdz : {{$project->assign_till}}</p>
 
-<div class="card-body">
+
         <h5>Amati</h5>
-    
+            {{-- Amatu parādīšanas lapa--}}
         @include('project.position', [ 'positions' => $positions])
 
-        
-       </div>
+    @if (Auth::user()->Role == '3')
+<a href="/projects/{{$project->id}}/edit" class="btn btn-warning">Edit Project</a>
 
-@if (Auth::user()->Role == '3')
-<div class="card-body">
+<form action="/projects/{{$project->id}}/delete" method="POST">
+    @csrf
+    @method('DELETE')
+        <a type="submit" class="btn btn-danger">delete</a>
+</form>
+{{--Amata pievienošana--}}
         <h5>Pievienot amatus</h5>
-        <form method="post" action="{{ route('position.add') }}">
+
+<form method="post" action="/project/{{$project->id}}/position">
             @csrf
+    <div class="form-inline mb-2">
             <div class="form-group">
-                
-                        <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Amats') }}</label>
-                      
                         <div class="col-md-6">
+                            <label class="label">Amata nosaukums</label>
                             <input id="name" type="text" class="form-control @error('name') is-invalid @enderror"  name="name" />
                       
                             @error('name')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                        <div class="col-md-6">
+                            <label class="label">Amatam cilvēku skaits</label>
+                            <input id="people_count" type="number" class="form-control @error('people_count') is-invalid @enderror"  name="people_count" />
+                      
+                            @error('people_count')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
@@ -40,10 +54,13 @@
                 <input type="hidden" name="project_id" value="{{ $project->id }}" />
             </div>
             <div class="form-group">
-                <input type="submit" class="btn btn-sm btn-outline-danger py-0" style="font-size: 0.8em;" value="Pievienot amatu" />
+                <input type="submit" class="btn btn-outline-secondary" value="Pievienot amatu" />
             </div>
-        
-       </div>
+</div>
+</form>
 @endif
+{{--Visu projektu lapas poga--}}
 <a type="button" class="btn btn-outline-secondary" href="/projects">Atpakaļ</a> 
+</div>
+</main>
 @endsection

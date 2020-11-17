@@ -6,10 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Hour extends Model
 {
-    public function hours_users(){
-        return $this->hasMany('App\Hours_user');
+    public function user(){
+        return $this->belongsTo('App\User','user_id');
     }
-
     public function project(){
         return $this->belongsTo('App\Project','project_id');
     }

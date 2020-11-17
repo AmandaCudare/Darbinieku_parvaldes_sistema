@@ -1,11 +1,59 @@
 
 
 @if(count($positions)>0)
-@foreach($positions as $position)
-<div class="display-comment">
-    <p>{{ $position->name}}</p>
+
+        <table class="table">
+            <thead>
+              <tr>
+                <th>Amats</th>
+                <th>Amatu skaits</th>
+                <th></th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>@foreach($positions as $position)
+             
+              <tr>
+                <td>{{ $position->name}}</td>
+                <td>{{ $position->people_count}}</td>
+                <td> 
+                  <div class="container">
+                    <div class="row">
+                      <div class="col-12 col-md-3">
+                        {{--Ja nav neviens pieteicis kādam amatam projektā--}}
+                        @if(count($position->user_positions) == 0)
+                        <form method="post" action="{{ route('user_position.add') }}">
+                          @csrf
+                      <input type="hidden" name="position_id" value="{{ $position->id }}" >
+                      <input type="submit" class="btn btn-outline-secondary" value="Pieteikties" >
+                      </form>
+                      @endif
+                      {{-- Pieteikšanās amatam pogas vai status--}}
+        @foreach($position->user_positions as $uposition)                
+    @if($uposition->assigned == false &&  $uposition->accepted== false)
+    <form method="post" action="{{ route('user_position.add') }}">
+        @csrf
+    <input type="hidden" name="position_id" value="{{ $position->id }}" >
+    <input type="submit" class="btn btn-outline-secondary" value="Pieteikties" >
+    </form>
+    @elseif($uposition->assigned == true &&  $uposition->accepted == false)
+    <p> Status: Pieteicies</p>
+    @else
+    <p> Status: Pieņemts</p>
+    @endif
+                      </div>
+                      <div class="col-12 col-md-9">
+<input  type="submit" class="btn btn-outline-danger" value="X">
+                      </div>
+                    </div></div>
+                </td>
+              </tr>@endforeach
+              @endforeach 
+            </tbody>
+          </table>
+    
 </div>
-@endforeach 
+
 @else 
 <p>no positions </p>
 @endif

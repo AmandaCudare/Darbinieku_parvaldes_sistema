@@ -6,11 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Position extends Model
 {
-   public function user(){
-       return $this->belongsTo('App\User','user_id');
-   }
+    protected $table = "positions";
 
    public function project(){
     return $this->belongsTo('App\Project','project_id');
-}
+   }
+    public function user_positions(){
+        return $this->hasMany('App\UserPosition');
+    }
+
 }

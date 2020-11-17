@@ -19,6 +19,7 @@ class CreateHoursTable extends Migration
             $table->decimal('hours', 3, 2);
             $table->foreignId('project_id')->constrained('projects');
             $table->foreignId('days_id')->constrained('days');
+            $table->foreignId('user_id')->constrained('users');
             $table->timestamps();
             
         });
