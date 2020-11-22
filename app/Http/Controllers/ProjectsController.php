@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 use App\Project;
 use App\Position;
-use App\User_Position;
+use App\UserPosition;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -84,10 +84,16 @@ class ProjectsController extends Controller
     public function show($id)
     {
         $project = Project::find($id);
-        $positions = Position::where('project_id',$id)->with('user_positions')->get();
-        //$positions = Position::where('project_id',$id)->get();
-        //$upositions = User_Position::where("position_id", "=", $positions->id)->get();
-        return view('project.pshow')->with(array("project" => $project, "positions" => $positions ));
+        $positions = Position::where('project_id',$id)->get();
+        //with('user_positions')->
+            $position_id = Position::where('project_id',$id)->pluck('id')->toArray();
+        $upositions_id = UserPosition::where('user_id', auth()->user()->id)->pluck('id')->toArray();
+         $results = UserPosition::whereIn('position_id', $position_id)->pluck('id')->toArray();
+         $result = array_intersect($results, $upositions_id);
+        //$upositions = UserPosition::fi(
+        $upositions = UserPosition::whereIn('id', $result)->get();
+        //
+        return view('project.pshow')->with(array("project" => $project, "positions" => $positions , "upositions"=>$upositions));
     
     }
 
@@ -100,7 +106,11 @@ class ProjectsController extends Controller
     public function edit($id)
     {
         $project = Project::find($id);
-        return view('project.pedit')->with('project',$project);
+        //Pārbaudīt vai pareizā vadītāja projekts
+        if(auth()->user()->id == $project->creator_id){
+            return view('project.pedit')->with('project',$project);
+        }
+        return redirect()->back();
     }
 
     /**
@@ -141,10 +151,10 @@ class ProjectsController extends Controller
     public function destroy($id)
     {
         $project = Project::find($id);
-        $position = Position::where('project_id',id)->get();
-        $userposition = UserPosition::
-        
-        $project=delete();
+        $position_id = Position::where('project_id',$id)->pluck('id')->toArray();
+        $upositions= UserPosition::whereIn('position_id', $position_id)->get()->each->delete();
+        $position = Position::where('project_id',$id)->get()->each->delete();
+        $project->delete();
         return redirect('/projects');
-    }
+     }
 }

@@ -15,15 +15,16 @@
             {{-- Amatu parādīšanas lapa--}}
         @include('project.position', [ 'positions' => $positions])
 
-    @if (Auth::user()->Role == '3')
+    @if(Auth::user()->id == $project->creator_id)
 <a href="/projects/{{$project->id}}/edit" class="btn btn-warning">Edit Project</a>
 
-<form action="/projects/{{$project->id}}/delete" method="POST">
+<form action="/projects/{{$project->id}}" method="POST">
     @csrf
     @method('DELETE')
-        <a type="submit" class="btn btn-danger">delete</a>
+    <input type="submit" class="btn btn-danger" value="Dzēst" />
 </form>
 {{--Amata pievienošana--}}
+
         <h5>Pievienot amatus</h5>
 
 <form method="post" action="/project/{{$project->id}}/position">

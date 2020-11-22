@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Absence;
+use Carbon\Carbon;
 
-class HoursController extends Controller
+class AbsenceController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,14 +16,13 @@ class HoursController extends Controller
      */
     public function index()
     {
-        $role=Auth::user();
-        
-        if (Gate::allows('user-only')) {
-        return view('hour.hourmain');
-        }
-        return redirect()->back();
+        if (Gate::allows('user-only',Auth::user())) {
+             $user_id= auth()->user()->id;
+             $absence = Absence::where('user_id',$user_id)->get();
+            return view('absence.show')->with('absences', $absence);
+            }
+            return redirect()->back();
     }
-
 
     /**
      * Show the form for creating a new resource.
@@ -30,7 +31,10 @@ class HoursController extends Controller
      */
     public function create()
     {
-        return view('hour.create');
+        if (Gate::allows('user-only',Auth::user())) {
+            return view('absence.create');
+            }
+            return redirect()->back();
     }
 
     /**
@@ -41,7 +45,23 @@ class HoursController extends Controller
      */
     public function store(Request $request)
     {
-        //
+       $two_weeks=Carbon::now()->addWeeks(2)->format('d-m-Y');
+        $validatedData = $request->validate([
+            'reason' => ['required', 'string','max:50'],
+            'start_date' => ['required','date','before:end_date','after:'.$two_weeks, ],
+            'end_date' => ['required','date', 'after:start_date'],
+        ]);
+
+        $absence = new Absence;
+        $absence->reason = $request->input('reason');
+        $absence->start_date = $request->input('start_date');
+        $absence->end_date = $request->input('end_date');
+        $absence->accepted= false;
+        $absence->user_id = auth()->user()->id;
+        $absence->save();
+         
+
+       return redirect('/absence');
     }
 
     /**

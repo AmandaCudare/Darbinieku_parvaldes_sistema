@@ -16,9 +16,9 @@ class CreateUserPositionsTable extends Migration
         Schema::create('user_positions', function (Blueprint $table) {
             $table->id();
             $table->boolean('accepted')->nullable();
-            $table->boolean('assigned')->nullable();
-            $table->foreignId('user_id')->nullable()->constrained('users');
-            $table->foreignId('position_id')->nullable()->constrained('positions');
+            $table->boolean('assigned');
+            $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('position_id')->constrained('positions');
             $table->timestamps();
         });
     }

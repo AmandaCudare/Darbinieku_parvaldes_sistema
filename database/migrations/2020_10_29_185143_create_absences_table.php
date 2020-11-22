@@ -18,7 +18,7 @@ class CreateAbsencesTable extends Migration
             $table->string('reason',50);
             $table->date('start_date');
             $table->date('end_date');
-            $table->boolean('accepted');
+            $table->boolean('accepted')->nullable();
             $table->foreignId('user_id')->constrained('users');
             $table->timestamps();
           

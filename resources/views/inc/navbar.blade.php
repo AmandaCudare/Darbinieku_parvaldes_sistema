@@ -55,6 +55,9 @@
                <a class="nav-link" href="/hour">Stundas</a>
             </li>
             <li class="nav-item">
+              <a class="nav-link" href="/absence">Prombūtne</a>
+          </li>
+            <li class="nav-item">
                 <a class="nav-link" href="/skills">Prasmes</a>
             </li>
             <li class="nav-item">

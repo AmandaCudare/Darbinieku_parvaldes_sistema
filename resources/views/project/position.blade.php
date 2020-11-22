@@ -16,44 +16,51 @@
               <tr>
                 <td>{{ $position->name}}</td>
                 <td>{{ $position->people_count}}</td>
-                <td> 
-                  <div class="container">
+                  {{--<div class="container">
                     <div class="row">
                       <div class="col-12 col-md-3">
-                        {{--Ja nav neviens pieteicis kādam amatam projektā--}}
-                        @if(count($position->user_positions) == 0)
+                        Ja nav neviens pieteicis kādam amatam projektā--}}
+                        <td>
+                          @if(count($upositions) == 0)
                         <form method="post" action="{{ route('user_position.add') }}">
                           @csrf
-                      <input type="hidden" name="position_id" value="{{ $position->id }}" >
+                     <input type="hidden" name="position_id" value="{{ $position->id }}" >
                       <input type="submit" class="btn btn-outline-secondary" value="Pieteikties" >
                       </form>
-                      @endif
-                      {{-- Pieteikšanās amatam pogas vai status--}}
-        @foreach($position->user_positions as $uposition)                
-    @if($uposition->assigned == false &&  $uposition->accepted== false)
+                      @endif  
+                      {{-- Pieteikšanās amatam pogas vai status--}} 
+                       <?php $a=0 ?>
+        @foreach($upositions as $uposition)  
+          @if($uposition->position_id == $position->id)  
+          <?php $a-- ?>     
+    @if($uposition->accepted== true )
+   Status: Pieņemts
+    @else
+   Status: Pieteicies
+     @endif 
+     @endif
+     <?php $a++ ?>
+     @if(count($upositions) == $a)
     <form method="post" action="{{ route('user_position.add') }}">
         @csrf
-    <input type="hidden" name="position_id" value="{{ $position->id }}" >
+    <input type="hidden" name="position_id" value="{{ $position ->id }}" >
     <input type="submit" class="btn btn-outline-secondary" value="Pieteikties" >
     </form>
-    @elseif($uposition->assigned == true &&  $uposition->accepted == false)
-    <p> Status: Pieteicies</p>
-    @else
-    <p> Status: Pieņemts</p>
-    @endif
-                      </div>
-                      <div class="col-12 col-md-9">
+     @endif
+                      </div>@endforeach
+                    </td>
+                      <td>
+                        @if(Auth::user()->id == $project->creator_id)
 <input  type="submit" class="btn btn-outline-danger" value="X">
-                      </div>
-                    </div></div>
-                </td>
-              </tr>@endforeach
+</td>
+@endif
+                     
+                
+              </tr>
               @endforeach 
             </tbody>
           </table>
-    
-</div>
-
+ 
 @else 
 <p>no positions </p>
 @endif

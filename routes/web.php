@@ -14,10 +14,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', 'StartController@index');
-Route::get('/hour', 'HoursController@index');
+Route::resource('hour', 'HoursController');
 Route::get('/skills', 'SkillsController@index');
 
-Route::get('/vacation', 'HoursController@vacation');
+Route::resource('absence', 'AbsenceController');
 Route::get('/admin', 'AdminController@index');
 //Route::resources('hours')
 Auth::routes();
