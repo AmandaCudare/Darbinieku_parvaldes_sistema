@@ -25,9 +25,9 @@ class SkillsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
+   public function create()
+     {
+        return redirect('/skills');
     }
 
     /**
@@ -38,7 +38,17 @@ class SkillsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'name' => ['required', 'string','max:50'],
+        ]);
+
+        $skill = new Skill;
+        $skill->name = $request->input('name');
+        $skill->user_id = auth()->user()->id;
+         $skill->save();
+         
+
+       return redirect('/skills')->with('success', 'Prasme ir pievienota');
     }
 
     /**

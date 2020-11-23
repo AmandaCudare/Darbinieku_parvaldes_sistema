@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'StartController@index');
 Route::resource('hour', 'HoursController');
-Route::get('/skills', 'SkillsController@index');
+Route::resource('skills', 'SkillsController');
 
 Route::resource('absence', 'AbsenceController');
 Route::get('/admin', 'AdminController@index');

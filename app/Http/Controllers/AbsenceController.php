@@ -61,7 +61,7 @@ class AbsenceController extends Controller
         $absence->save();
          
 
-       return redirect('/absence');
+       return redirect('/absence')->with('success', 'Prombūtnes pieteikums ir izveidots');
     }
 
     /**
@@ -72,7 +72,7 @@ class AbsenceController extends Controller
      */
     public function show($id)
     {
-        //
+        return redirect()->back();
     }
 
     /**
@@ -82,8 +82,16 @@ class AbsenceController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {
-        //
+    {  
+        $one_week=Carbon::now()->addWeeks(1)->format('Y-m-d');
+        $absence = Absence::find($id); 
+        if(auth()->user()->id == $absence->user_id ){
+         if($absence->start_date > $one_week){
+          return view('absence.edit')->with('absence',$absence);
+         }
+         return redirect()->back()->with('error', 'Pieteikumu var rediģēt, ja sākuma datums ir vismaz pirms nedēļas');;
+        }
+        return redirect()->back()->with('error', 'Šis lietotājs nav veidojis so pieteikumu');
     }
 
     /**
@@ -95,7 +103,20 @@ class AbsenceController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+       $one_weeks=Carbon::now()->addWeeks(1)->format('d-m-Y');
+        $validatedData = $request->validate([
+            'reason' => ['required', 'string','max:50'],
+            'start_date' => ['required','date','before:end_date','after:'.$one_weeks, ],
+            'end_date' => ['required','date', 'after:start_date'],
+        ]);
+
+        $absence = Absence::find($id);
+        $absence->reason = $request->input('reason');
+        $absence->start_date = $request->input('start_date');
+        $absence->end_date = $request->input('end_date');
+        $absence->save();
+         
+       return redirect('/absence')->with('success', 'Prombūtnes pieteikums ir atjaunināts');
     }
 
     /**
@@ -106,6 +127,11 @@ class AbsenceController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $absence = Absence::find($id);
+        if(auth()->user()->id == $absence->user_id){
+           $absence->delete();
+         redirect('/absence')->with('success', 'Prombūtnes pieteikums ir izdzēsts');
+        }
+        return redirect()->back();
     }
 }

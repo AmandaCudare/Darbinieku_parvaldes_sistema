@@ -15,8 +15,8 @@
           <th>Sākuma datums</th>
           <th>Beigu datums</th>
           <th>Status</th>
-          <th>Rediģēt</th>
-          <th>Dzēst</th>
+          <th></th>
+          <th></th>
         </tr>
     </thead>
     <tbody>
@@ -27,15 +27,25 @@
                 <td><p>{{$absence->end_date}}</p></td>
                 <td>
                    @if($absence->accepted != false && $absence->accepted != true)
-                   <p>Nav vel izskatīts</p>
+                   <p>Nav vēl izskatīts</p>
                     @elseif($absence->accepted == true)
                    <p> Akceptēts</p> 
                    @else
                         <p>Noraidīts</p>
                    @endif
                 </td>
-                <td><a type="button" class="btn btn-warning" href="/absence/edit">Edit</a> </td>
-            <td><a type="button" class="btn btn-outline-danger" href="/absence/delete">Dzēst</a> </td>
+                @if($absence->accepted != true)
+                <td>
+                    <a type="button" class="btn btn-warning" href="/absence/{{$absence->id}}/edit">Rediģēt</a> 
+                 </td>
+            <td>
+                <form action="/absence/{{$absence->id}}" method="POST">
+                @csrf
+                @method('DELETE')
+                <input type="submit" class="btn btn-danger" value="Dzēst" />
+            </form>
+        </td>
+             @endif
             </tr>
         @endforeach
             </div>  

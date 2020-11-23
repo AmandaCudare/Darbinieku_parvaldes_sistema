@@ -26,6 +26,12 @@ class AdminController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function showAbsence()
+    {
+        
+    }
+
     public function create()
     {
         //

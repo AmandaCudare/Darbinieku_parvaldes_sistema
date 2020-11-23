@@ -48,6 +48,7 @@ class PositionController extends Controller
     {
         $validatedData = $request->validate([
             'name' => ['required', 'string','max:50'],
+            'people_count' => ['required', 'numeric'],
             ]);
 
         $position = new Position;

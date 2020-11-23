@@ -72,7 +72,7 @@ class ProjectsController extends Controller
          $project->save();
          
 
-       return redirect('/projects');
+       return redirect('/projects')->with('success', 'Projekts ir izveidots');;
     }
 
     /**
@@ -139,7 +139,7 @@ class ProjectsController extends Controller
          $project->save();
          
 
-       return redirect('/projects');
+       return redirect('/projects')->with('success', 'Projekta izmaiņas ir saglabātas');
     }
 
     /**
@@ -151,10 +151,13 @@ class ProjectsController extends Controller
     public function destroy($id)
     {
         $project = Project::find($id);
+        if(auth()->user()->id == $project->creator_id){
         $position_id = Position::where('project_id',$id)->pluck('id')->toArray();
         $upositions= UserPosition::whereIn('position_id', $position_id)->get()->each->delete();
         $position = Position::where('project_id',$id)->get()->each->delete();
         $project->delete();
-        return redirect('/projects');
+        return redirect('/projects')->with('success', 'Projekts ir izdzēsts');
+        }
+        return redirect()->back();
      }
 }
