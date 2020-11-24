@@ -2,7 +2,7 @@
 
 @section('content')
 {{--Šiet vadītājs var izveidot projektu--}}
-<h1>Izveidot projektu</h1>
+<h1>Izveidot stundas</h1>
 
 @if ($errors->any())
     <div class="alert alert-danger">

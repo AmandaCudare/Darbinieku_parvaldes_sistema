@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
+use App\Absence;
+use App\User;
 
 class AdminController extends Controller
 {
@@ -21,6 +23,16 @@ class AdminController extends Controller
         return redirect()->back();
     }
 
+    public function showUsers()
+    {
+        if (Gate::allows('admin-only')) {
+            $users = User::where('Active', true)->get();
+        return view ('admin.users')->with(array('users' => $users));
+        }
+     
+        return redirect()->back();
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -29,7 +41,37 @@ class AdminController extends Controller
 
     public function showAbsence()
     {
-        
+        if (Gate::allows('admin-only')) {
+           $absences = Absence::where('accepted', false)->with('user')->get();
+            //return array('absences' => $absences);
+           return view ('admin.absence')->with(array('absences' => $absences));
+            }
+         
+            return redirect()->back();
+    }
+
+    public function updateAbsence($id)
+    {
+        if (Gate::allows('admin-only')) {
+           $absences = Absence::find($id);
+           $absences->accepted = true;
+           $absences->save();
+           return redirect('admin/absence')->with('success', 'Prombūtnes pieteikums ir apstiprināta');
+            }
+         
+            return redirect()->back();
+    }
+
+    public function declineAbsence($id)
+    {
+        if (Gate::allows('admin-only')) {
+           $absences = Absence::find($id);
+           $absences->accepted = false;
+           $absences->save();
+           return redirect('admin/absence')->with('danger', 'Prombūtnes pieteikums noraidīts');
+            }
+         
+            return redirect()->back();
     }
 
     public function create()

@@ -72,7 +72,7 @@ class ProjectsController extends Controller
          $project->save();
          
 
-       return redirect('/projects')->with('success', 'Projekts ir izveidots');;
+       return redirect('/projects')->with('success', 'Projekts ir izveidots');
     }
 
     /**

@@ -14,7 +14,8 @@ class SkillsController extends Controller
     public function index()
     {
         if (Gate::allows('user-only')) {
-        $skills = Skill::all();
+            $user_id= auth()->user()->id;
+            $skills = Skill::where('user_id',$user_id)->get();
    return view('skills.skillmain')->with('skills', $skills);
         }
         return redirect()->back();
@@ -70,7 +71,10 @@ class SkillsController extends Controller
      */
     public function edit($id)
     {
-        //
+        $skill = Skill::find($id); 
+        if(auth()->user()->id == $skill->user_id ){
+          return view('skills.edit')->with('skill',$skill);
+         }
     }
 
     /**
@@ -82,7 +86,15 @@ class SkillsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validatedData = $request->validate([
+            'name' => ['required', 'string','max:50'],
+        ]);
+
+        $skill = Skill::find($id);
+        $skill->name = $request->input('name');
+        $skill->save();
+         
+       return redirect('/skills')->with('success', 'Prasme ir atjaunināta');
     }
 
     /**
@@ -93,6 +105,12 @@ class SkillsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $skill = Skill::find($id);
+        if(auth()->user()->id == $skill->user_id){
+           $skill->delete();
+         redirect('/skills')->with('success', 'Prasme ir izdzēsta');
+        }
+        return redirect()->back();
+    
     }
 }

@@ -19,6 +19,10 @@ Route::resource('skills', 'SkillsController');
 
 Route::resource('absence', 'AbsenceController');
 Route::get('/admin', 'AdminController@index');
+Route::get('/admin/absence', 'AdminController@showAbsence');
+Route::put('/admin/absence/{absence_id}', 'AdminController@updateAbsence');
+Route::put('/admin/absence/{absence_id}/decline', 'AdminController@declineAbsence');
+Route::get('/admin/users', 'AdminController@showUsers');
 //Route::resources('hours')
 Auth::routes();
 

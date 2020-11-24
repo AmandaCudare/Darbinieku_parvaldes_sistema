@@ -5,28 +5,36 @@
 <h1>Prasmes</h1>
 
 @if(count($skills)>0)
-<div class="row mt-3">
-<div class="col col-lg-2">
+
+
 
      <ul class="list-group" >
        @foreach($skills as $skill)
-       <li class="list-group-item">
+       <div class="row mb-3">
+        <div class="col-md-7 themed-grid-col"><li class="list-group-item">
          • {{$skill->name}}
-        
-      <a type="button" class="btn btn-warning" href="/skills/{{$skill->id}}/edit">Rediģēt</a> 
-       
-      <form action="/absence/{{$skill->id}}" method="POST">
+        </li></div>
+        <div class="col-md-1 themed-grid-col">
+          <a type="button" class="btn btn-warning" href="/skills/{{$skill->id}}/edit">Rediģēt</a> 
+       </div>
+        <div class="col-md-2 themed-grid-col">
+          <form action="/skills/{{$skill->id}}" method="POST">
       @csrf
       @method('DELETE')
       <input type="submit" class="btn btn-danger" value="Dzēst" />
       </form>
+        </div>
+      </div>
+       
+      
+      
         
-      </li>
+      
     @endforeach
   </ul>
             
 
-  </div></div>
+ 
 
 @else 
 <div class="row mt-2">

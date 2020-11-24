@@ -4,28 +4,42 @@
 <main >
 {{--Projekta apraksts--}}
 <div class='container'>
-       <h1>{{$project->title}}</h1> 
+    <div class="row mb-1">
+        <div class="col-md-3 themed-grid-col">  
+        <h1>{{$project->title}}</h1>
+         </div>
+
+         @if(Auth::user()->id == $project->creator_id)
+
+        <div class="col-md-2 themed-grid-col">
+            <a href="/projects/{{$project->id}}/edit" class="btn btn-warning">Rediģēt Projektu</a>
+        </div>
+
+        <div class="col-md-2 themed-grid-col">
+            <form action="/projects/{{$project->id}}" method="POST">
+            @csrf
+            @method('DELETE')
+            <input type="submit" class="btn btn-danger" value="Dzēst Projektu" />
+        </form>
+        </div>
+        @endif
+      </div>
+     
        <h5>Apraksts : {{$project->Description}}</h5>
         <p>Sākuma datums : {{$project->start_date}}</p></td>
         <p>Beigu datums : {{$project->end_date}}</p>
         <p>Var pieteikties līdz : {{$project->assign_till}}</p>
 
 
-        <h5>Amati</h5>
+        <h4>Amati</h4>
             {{-- Amatu parādīšanas lapa--}}
         @include('project.position', [ 'positions' => $positions])
 
     @if(Auth::user()->id == $project->creator_id)
-<a href="/projects/{{$project->id}}/edit" class="btn btn-warning">Edit Project</a>
 
-<form action="/projects/{{$project->id}}" method="POST">
-    @csrf
-    @method('DELETE')
-    <input type="submit" class="btn btn-danger" value="Dzēst" />
-</form>
 {{--Amata pievienošana--}}
 
-        <h5>Pievienot amatus</h5>
+        <h4>Pievienot amatus</h4>
 
 <form method="post" action="/project/{{$project->id}}/position">
             @csrf

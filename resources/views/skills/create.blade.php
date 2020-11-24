@@ -18,7 +18,7 @@
 
 </div>
    
-    <button type="submit" class="btn btn-primary">
+    <button type="submit" class="btn btn-outline-secondary">
       {{ __('Pievienot prasmi') }}
   </button>
 

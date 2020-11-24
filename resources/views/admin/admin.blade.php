@@ -12,7 +12,11 @@
     </div>
     <div class="d-flex justify-content-between align-items-center w-100">
       <h4 class="text-gray-dark">Prombūtnes pieteikumi</h4>
-      <a class="btn btn-secondary" href=""></a>
+      <a class="btn btn-secondary" href="admin/absence">Apskatīt</a>
   </div>
+  <div class="d-flex justify-content-between align-items-center w-100">
+    <h4 class="text-gray-dark">Rediģēt lietotājus</h4>
+    <a class="btn btn-secondary" href="admin/users">Rediģēt</a>
+</div>
   </div>
   @endsection

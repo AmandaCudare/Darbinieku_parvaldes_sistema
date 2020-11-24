@@ -48,6 +48,8 @@
              @endif
             </tr>
         @endforeach
-            </div>  
-            @endif
+            </div> 
+        @else
+        <h4>Patreiz nav izveidoti prombūtnes pieteikumu.</h4>
+        @endif
 @endsection
