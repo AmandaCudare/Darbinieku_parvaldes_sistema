@@ -12,6 +12,7 @@ class HomeController extends Controller
      *
      * @return void
      */
+    //Šīm lapam var piekļut tikai autenficējusies lietotāji
     public function __construct()
     {
         $this->middleware('auth');
@@ -22,6 +23,7 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
+    //Parāda profila lapu
     public function index()
     {
         $user_id= auth()->user()->id;

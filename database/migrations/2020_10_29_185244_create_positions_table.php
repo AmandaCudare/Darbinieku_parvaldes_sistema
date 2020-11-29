@@ -15,7 +15,7 @@ class CreatePositionsTable extends Migration
     {
         Schema::create('positions', function (Blueprint $table) {
             $table->id();
-            $table->string('name',50);
+            $table->string('name',100);
             $table->foreignId('project_id')->constrained('projects');
             $table->Integer('people_count');
             $table->timestamps();

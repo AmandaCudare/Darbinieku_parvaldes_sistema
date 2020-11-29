@@ -44,13 +44,15 @@ class PositionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    //Saglabā izveidotā amata datus
     public function store(Request $request)
     {
+        //Validācija
         $validatedData = $request->validate([
             'name' => ['required', 'string','max:50'],
             'people_count' => ['required', 'numeric'],
             ]);
-
+        //Saglabā amata datus datubazē
         $position = new Position;
         $position->name = $request->input('name');
         $position->people_count = $request->input('people_count');
@@ -59,7 +61,7 @@ class PositionController extends Controller
         return back();
      }
 
-
+     //Saglabā amata pieteikumu
      public function store_userposition(Request $request)
      {
          $position = new UserPosition;

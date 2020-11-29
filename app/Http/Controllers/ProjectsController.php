@@ -15,9 +15,10 @@ class ProjectsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    //Parāda projektu galveno lapu
     public function index()
     {
-        //* Šai lapai vienīgi var piekļūt darbinieks un vadītajs */
+        // Šai lapai vienīgi var piekļūt darbinieks un vadītajs
         if (Gate::allows('user-only')) {
         $projects = Project::all();
        // $my_projects =  Project::orderByDesc(
@@ -37,6 +38,7 @@ class ProjectsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    //Nosuta uz projekt izveides lapu
     public function create()
     {
        //* Šai lapai vienīgi var piekļūt vadītājs */
@@ -52,8 +54,10 @@ class ProjectsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    //Saglabā izveidotā projekta datus
     public function store(Request $request)
     {
+        //Projekta datu validācija
         $validatedData = $request->validate([
             'title' => ['required', 'string','max:50'],
             'Description' => ['required', 'string','max:400'],
@@ -61,7 +65,7 @@ class ProjectsController extends Controller
             'end_date' => ['required','date', 'after:start_date'],
             'assign_till' => ['required', 'date','after:tomorrow' ,'before:start_date'],
         ]);
-
+            //Projekta saglabāšana datubāzē
         $project = new Project;
         $project->title = $request->input('title');
         $project->Description = $request->input('Description');
@@ -81,6 +85,7 @@ class ProjectsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    //Nosūta uz vienu no projektiem 
     public function show($id)
     {
         $project = Project::find($id);
@@ -103,6 +108,7 @@ class ProjectsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    //Nosuta uz projekta reiģēsanas lapu
     public function edit($id)
     {
         $project = Project::find($id);
@@ -120,8 +126,10 @@ class ProjectsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    //Saglabā projekta veiktas izmaiņas
     public function update(Request $request, $id)
     {
+        //Projekta datu validacija
         $validatedData = $request->validate([
             'title' => ['required', 'string','max:50'],
             'Description' => ['required', 'string','max:400'],
@@ -129,7 +137,7 @@ class ProjectsController extends Controller
             'end_date' => ['required','date', 'after:start_date'],
             
         ]);
-
+            //Atrod izvelēto projektu saglabā izmaiņas
         $project = Project::find($id);
         $project->title = $request->input('title');
         $project->Description = $request->input('Description');
@@ -148,9 +156,11 @@ class ProjectsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    //Projekta dzēšana
     public function destroy($id)
     {
         $project = Project::find($id);
+        //Parbauda vai lietotajs ir projekta veidotajs
         if(auth()->user()->id == $project->creator_id){
         $position_id = Position::where('project_id',$id)->pluck('id')->toArray();
         $upositions= UserPosition::whereIn('position_id', $position_id)->get()->each->delete();

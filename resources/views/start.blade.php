@@ -1,9 +1,7 @@
 @extends('layout.app')
 
 @section('content')
-
-
-
+{{--Sākuma lapa--}}
  <main role="main" class="inner cover">
     <h1 class="cover-heading">Start</h1>
     <p class="lead">This website start page</p>

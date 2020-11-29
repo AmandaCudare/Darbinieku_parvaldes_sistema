@@ -15,10 +15,11 @@ class CreateHoursTable extends Migration
     {
         Schema::create('hours', function (Blueprint $table) {
             $table->id();
-            $table->boolean('accepted');
-            $table->decimal('hours', 3, 2);
-            $table->foreignId('project_id')->constrained('projects');
-            $table->foreignId('days_id')->constrained('days');
+            $table->string('description',500);
+            $table->date('day');
+            $table->integer('week');
+            $table->integer('hours');
+            $table->foreignId('project_id')->nullable()->constrained('projects');
             $table->foreignId('user_id')->constrained('users');
             $table->timestamps();
             

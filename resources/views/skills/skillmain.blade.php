@@ -3,21 +3,23 @@
 @section('content')
 <div class="container">
 <h1>Prasmes</h1>
-
+{{--Parbauda vai ir vismaz viena prasme--}}
 @if(count($skills)>0)
 
-
-
      <ul class="list-group" >
+      {{--No masīva izņem individuali katru prasmi--}}
        @foreach($skills as $skill)
        <div class="row mb-3">
         <div class="col-md-7 themed-grid-col"><li class="list-group-item">
+          {{--Prasmes nosaukums--}}
          • {{$skill->name}}
         </li></div>
         <div class="col-md-1 themed-grid-col">
+          {{--Prasmes rediģēšanas poga--}}
           <a type="button" class="btn btn-warning" href="/skills/{{$skill->id}}/edit">Rediģēt</a> 
        </div>
         <div class="col-md-2 themed-grid-col">
+          {{--Prasmes dzēšanas poga--}}
           <form action="/skills/{{$skill->id}}" method="POST">
       @csrf
       @method('DELETE')
@@ -26,21 +28,15 @@
         </div>
       </div>
        
-      
-      
-        
-      
     @endforeach
   </ul>
             
-
- 
-
 @else 
 <div class="row mt-2">
 <h4>Patreiz nav prasmes</h4>
 </div>
 @endif
+{{--Šeit ir create.blade.php daļa ievieto šajā lapā--}}
  @include('skills.create')
 
 </div>

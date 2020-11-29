@@ -15,8 +15,8 @@ class CreateProjectsTable extends Migration
     {
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
-            $table->string('title',50);
-            $table->MediumText('Description',400);
+            $table->string('title',100);
+            $table->MediumText('Description',500);
             $table->date('start_date');
             $table->date('end_date');
             $table->date('assign_till');

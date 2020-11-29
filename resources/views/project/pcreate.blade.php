@@ -4,8 +4,6 @@
 {{--Šiet vadītājs var izveidot projektu--}}
 <h1>Izveidot projektu</h1>
 
-
-
 <form method="POST" action="/projects">
   @csrf
 

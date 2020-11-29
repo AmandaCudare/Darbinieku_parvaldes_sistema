@@ -13,19 +13,23 @@ class AdminController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    //Parāda administratora paneļa lapu
     public function index()
     {
+        //atļauj tikai administratoriem
         if (Gate::allows('admin-only')) {
            
         return view ('admin.admin');
         }
-     
-        return redirect()->back();
+     // Ja šis nav administrators, lietotāju nosūta uz atpakaļ uz lapu kura atrodas lietotājs
+         return redirect()->back();
     }
-
+    // parāda aktivu lietotāju lapu
     public function showUsers()
     {
+        //atļauj tikai administratoriem
         if (Gate::allows('admin-only')) {
+            //Atrod aktīvus lietotājus
             $users = User::where('Active', true)->get();
         return view ('admin.users')->with(array('users' => $users));
         }
@@ -38,18 +42,18 @@ class AdminController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-
+    //Parāda prombutnes pieteikumu lapu
     public function showAbsence()
     {
+        //atļauj tikai administratoriem
         if (Gate::allows('admin-only')) {
            $absences = Absence::where('accepted', false)->with('user')->get();
-            //return array('absences' => $absences);
            return view ('admin.absence')->with(array('absences' => $absences));
             }
          
             return redirect()->back();
     }
-
+    //Prombutnes aptiprināšanas funkcija
     public function updateAbsence($id)
     {
         if (Gate::allows('admin-only')) {
@@ -61,7 +65,7 @@ class AdminController extends Controller
          
             return redirect()->back();
     }
-
+    //Prombutnes noraidīšanas funkcija
     public function declineAbsence($id)
     {
         if (Gate::allows('admin-only')) {
