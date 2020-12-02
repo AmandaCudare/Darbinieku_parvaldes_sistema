@@ -47,7 +47,7 @@ class AdminController extends Controller
     {
         //atļauj tikai administratoriem
         if (Gate::allows('admin-only')) {
-           $absences = Absence::where('accepted', false)->with('user')->get();
+           $absences = Absence::where('accepted', null)->with('user')->get();
            return view ('admin.absence')->with(array('absences' => $absences));
             }
          
@@ -72,7 +72,7 @@ class AdminController extends Controller
            $absences = Absence::find($id);
            $absences->accepted = false;
            $absences->save();
-           return redirect('admin/absence')->with('danger', 'Prombūtnes pieteikums noraidīts');
+           return redirect('admin/absence')->with('error', 'Prombūtnes pieteikums noraidīts');
             }
          
             return redirect()->back();

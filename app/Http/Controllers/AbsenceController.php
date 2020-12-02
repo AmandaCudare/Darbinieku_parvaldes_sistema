@@ -24,7 +24,9 @@ class AbsenceController extends Controller
             //Izvēlās visus prombūtnes pieteikumus ko ir izveidojis sistemā esošais lietotājs
              $user_id= auth()->user()->id;
              $absence = Absence::where('user_id',$user_id)->get();
-            return view('absence.show')->with('absences', $absence);
+             //šodienas datums
+             $today=Carbon::now()->format('Y-m-d');
+            return view('absence.show')->with(array('absences'=> $absence, 'today'=>$today));
             }
             // Ja šis nav darbinieks vai vadītajs, lietotāju nosūta uz atpakaļ uz lapu kura atrodas lietotājs
             return redirect()->back();
@@ -56,12 +58,11 @@ class AbsenceController extends Controller
      //Saglabā prombūtnes pieteikumu
     public function store(Request $request)
     {
-        //Iegūsts datumu 2 nedēļas pēc šodienas
-       $two_weeks=Carbon::now()->addWeeks(2)->format('d-m-Y');
+        
        //Iegūtos datu validācija
         $validatedData = $request->validate([
             'reason' => ['required', 'string','max:50'],
-            'start_date' => ['required','date','before:end_date','after:'.$two_weeks, ],
+            'start_date' => ['required','date','before:end_date','after:yesterday', ],
             'end_date' => ['required','date', 'after:start_date'],
         ]);
         //Prombutnes pieteikuma izveide datu bāzē
@@ -69,7 +70,6 @@ class AbsenceController extends Controller
         $absence->reason = $request->input('reason');
         $absence->start_date = $request->input('start_date');
         $absence->end_date = $request->input('end_date');
-        $absence->accepted= false;
         $absence->user_id = auth()->user()->id;
         $absence->save();
          
@@ -98,15 +98,15 @@ class AbsenceController extends Controller
     //Nosūta uz prombūtnes pieteikuma rediģesanas lapu
     public function edit($id)
     {  
-        $two_week=Carbon::now()->addWeeks(2)->format('Y-m-d');
+        $today=Carbon::now()->format('Y-m-d');
         $absence = Absence::find($id);
         //pārbauda vai lietotājs ir prombūtnes pieteikuma viedotajs
         if(auth()->user()->id == $absence->user_id ){
-            //Pārbaude vai prombūtnes pieteikuma sakuma datums ir vairak kā pec 2 nedeļām
-         if($absence->start_date > $two_week){
+            //Pārbaude vai prombūtnes pieteikuma beigu datums ir pirms sodienas
+         if($absence->end_date >= $today){
           return view('absence.edit')->with('absence',$absence);
          }
-         return redirect()->back()->with('error', 'Pieteikumu var rediģēt, ja sākuma datums ir vismaz pirms 2 nedēļām');;
+         return redirect()->back()->with('error', 'Pieteikumu nedrīkst rediģēt pēc beigu datuma');
         }
         return redirect()->back()->with('error', 'Šis lietotājs nav veidojis so pieteikumu');
     }
@@ -121,18 +121,22 @@ class AbsenceController extends Controller
     //Saglabā prombutnes pieteikuma izmaiņas
     public function update(Request $request, $id)
     {
-         //Iegūstam datumu 2 nedēļas pēc šodienas
-       $two_weeks=Carbon::now()->addWeeks(2)->format('d-m-Y');
+         //Iegūstam datumu pirms izmaiņam sakuma datuma
+       $date= Absence::where('id', $id)->value('start_date');
+       $day_before=Carbon::parse($date);
+       $day_before->subDay();
+       //Validācija
         $validatedData = $request->validate([
             'reason' => ['required', 'string','max:50'],
-            'start_date' => ['required','date','before:end_date','after:'.$two_weeks, ],
+            'start_date' => ['required','date','before:end_date','after:'.$day_before, ],
             'end_date' => ['required','date', 'after:start_date'],
         ]);
         //Atjauninati Prombutnes pieteikuma dati
-        $absence = Absence::find($id);
+         $absence = Absence::find($id);
         $absence->reason = $request->input('reason');
         $absence->start_date = $request->input('start_date');
         $absence->end_date = $request->input('end_date');
+        $absence->accepted = NULL;
         $absence->save();
          
        return redirect('/absence')->with('success', 'Prombūtnes pieteikums ir atjaunināts');
@@ -149,11 +153,16 @@ class AbsenceController extends Controller
     {
         //Atrod izvēleto prombutnes pieteikumu
         $absence = Absence::find($id);
-        //pārbauda vai lietotājs ir prombūtnes pieteikuma viedotajs
-        if(auth()->user()->id == $absence->user_id){
-            //Izdzēš prombūtnes pieteikumu
+        
+        $today=Carbon::now()->format('Y-m-d');
+       //pārbauda vai lietotājs ir prombūtnes pieteikuma viedotajs 
+       if(auth()->user()->id == $absence->user_id){
+          if($absence->accepted != true || $absence->start_date>$today){   
+              //Izdzēš prombūtnes pieteikumu
            $absence->delete();
-         redirect('/absence')->with('success', 'Prombūtnes pieteikums ir izdzēsts');
+         return redirect('/absence')->with('success', 'Prombūtnes pieteikums ir izdzēsts');
+        }
+        return redirect('/absence')->with('error', 'Prombūtnes pieteikums nedrīkst dzēst');
         }
         return redirect()->back();
     }

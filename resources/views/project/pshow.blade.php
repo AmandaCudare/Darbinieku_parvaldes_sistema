@@ -22,6 +22,11 @@
             <input type="submit" class="btn btn-danger" value="Dzēst Projektu" />
         </form>
         </div>
+
+        <div class="col-md-2 themed-grid-col">
+            <a href="/projects/{{$project->id}}/assign" class="btn btn-warning">Projekta amatu pieteikumi</a>
+        </div>
+
         @endif
       </div>
      

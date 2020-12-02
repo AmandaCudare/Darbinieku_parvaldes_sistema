@@ -9,6 +9,8 @@
                 <th>Amatu skaits</th>
                 <th></th>
                 <th></th>
+                <th></th>
+                <th></th>
               </tr>
             </thead>
             <tbody>@foreach($positions as $position)
@@ -33,8 +35,10 @@
         @foreach($upositions as $uposition)  
           @if($uposition->position_id == $position->id)  
           <?php $a-- ?>     
-    @if($uposition->accepted== true )
+    @if($uposition->accepted== '1' )
    Status: Pieņemts
+   @elseif($uposition->accepted== '0' )
+   Status: Noraidīts
     @else
    Status: Pieteicies
      @endif 
@@ -49,11 +53,24 @@
      @endif
                       </div>@endforeach
                     </td>
+
                       <td>
-                        @if(Auth::user()->id == $project->creator_id)
-<input  type="submit" class="btn btn-outline-danger" value="X">
-</td>
-@endif
+                        
+       
+                      <input  type="submit" class="btn btn-outline-danger" value="Noņemt pieteikumu">
+                      </td>
+                       
+                    <td>
+                     @if(Auth::user()->id == $project->creator_id)
+                     <a href="/projects/positions/{{$position->id}}/edit" class="btn btn-warning">Rediģēt </a>
+                    </td>
+                    @endif 
+                <td>
+                  @if(Auth::user()->id == $project->creator_id)
+                <input  type="submit" class="btn btn-outline-danger" value="Dzēst">
+                  @endif 
+                </td>   
+
                      
                 
               </tr>

@@ -26,15 +26,16 @@
                 <td><p>{{$absence->start_date}}</p></td>
                 <td><p>{{$absence->end_date}}</p></td>
                 <td>
-                   @if($absence->accepted != false && $absence->accepted != true)
-                   <p>Nav vēl izskatīts</p>
-                    @elseif($absence->accepted == true)
+                   @if($absence->accepted == '0' )
+                   <p>Noraidīts</p>
+                    @elseif($absence->accepted == '1')
                    <p> Akceptēts</p> 
                    @else
-                        <p>Noraidīts</p>
+                        <p>Nav vēl izskatīts</p>
                    @endif
                 </td>
-                @if($absence->accepted != true)
+                {{--Parāda rediģēšanas un dzešanas pogu jo ir sodiena datums  ir pirms vai ir beigu datuma--}}
+                @if($absence->end_date >= $today)
                 <td>
                     <a type="button" class="btn btn-warning" href="/absence/{{$absence->id}}/edit">Rediģēt</a> 
                  </td>

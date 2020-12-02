@@ -7,7 +7,7 @@ use App\UserPosition;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
-
+use Carbon\Carbon;
 class ProjectsController extends Controller
 {
     /**
@@ -20,13 +20,15 @@ class ProjectsController extends Controller
     {
         // Šai lapai vienīgi var piekļūt darbinieks un vadītajs
         if (Gate::allows('user-only')) {
-        $projects = Project::all();
-       // $my_projects =  Project::orderByDesc(
+        $today=Carbon::now()->format('Y-m-d');
+        $projects = Project::orderBy('start_date', 'asc')->where('assign_till','>=',$today)->get();
+       // $my_projects =  
            //   User::select('id')
              //   ->where('Role', 3)
              //   )->get();
+           
        $creator_id= auth()->user()->id;
-      $my_projects  = Project::where('creator_id',$creator_id)->get();
+      $my_projects  = Project::orderBy('start_date', 'asc')->where('creator_id',$creator_id)->get();
         
         return view('project.projectmain')->with('projects', $projects)->with('my_projects', $my_projects);
         }

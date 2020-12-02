@@ -33,4 +33,12 @@ Auth::routes();
 Route::resource('projects', 'ProjectsController');
 Route::post('/userposition/store', 'PositionController@store_userposition')->name('user_position.add');
 Route::post('/project/{project_id}/position', 'PositionController@store')->name('position.add');
+Route::get('/projects/{project_id}/assign', 'PositionController@show');
+Route::get('/projects/{project_id}/accepted', 'PositionController@accept_userposition');
+Route::get('/projects/{project_id}/decline', 'PositionController@decline_userposition');
+Route::get('/user/{user_id}', 'PositionController@user');
+Route::resource('projects/positions', 'PositionController')->except([
+    'show', 'store', 'index', 'create'
+]);
+Route::get('/projects/{project_id}/position/delete', 'PositionController@delete');
 Route::get('/profile', 'HomeController@index')->name('profile')->middleware('auth');
