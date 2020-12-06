@@ -8,6 +8,7 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 class ProjectsController extends Controller
 {
     /**
@@ -22,15 +23,11 @@ class ProjectsController extends Controller
         if (Gate::allows('user-only')) {
         $today=Carbon::now()->format('Y-m-d');
         $projects = Project::orderBy('start_date', 'asc')->where('assign_till','>=',$today)->get();
-       // $my_projects =  
-           //   User::select('id')
-             //   ->where('Role', 3)
-             //   )->get();
-           
-       $creator_id= auth()->user()->id;
-      $my_projects  = Project::orderBy('start_date', 'asc')->where('creator_id',$creator_id)->get();
-        
-        return view('project.projectmain')->with('projects', $projects)->with('my_projects', $my_projects);
+      $user_id=auth()->user()->id;
+      $my_projects  = Project::orderBy('start_date', 'asc')->where('creator_id',$user_id)->get();
+    $assign_projects= DB::select("SELECT projects.title, projects.start_date, projects.end_date, projects.assign_till, projects.id FROM `projects` JOIN `positions` ON projects.id=positions.project_id JOIN `user_positions` ON user_positions.position_id=positions.id JOIN `users` ON user_positions.user_id=users.id WHERE users.id=? AND user_positions.accepted='1' GROUP BY projects.title, projects.start_date ASC, projects.end_date, projects.assign_till, projects.id",[$user_id]);
+    
+        return view('project.projectmain')->with(array('projects'=> $projects,'my_projects'=> $my_projects,'assign_projects' => $assign_projects));
         }
         return redirect()->back();
     }
@@ -62,7 +59,7 @@ class ProjectsController extends Controller
         //Projekta datu validācija
         $validatedData = $request->validate([
             'title' => ['required', 'string','max:50'],
-            'Description' => ['required', 'string','max:400'],
+            'Description' => ['required', 'string','max:500'],
             'start_date' => ['required','date', 'after:assign_till'],
             'end_date' => ['required','date', 'after:start_date'],
             'assign_till' => ['required', 'date','after:tomorrow' ,'before:start_date'],
@@ -90,6 +87,7 @@ class ProjectsController extends Controller
     //Nosūta uz vienu no projektiem 
     public function show($id)
     {
+        $today=Carbon::today();
         $project = Project::find($id);
         $positions = Position::where('project_id',$id)->get();
         //with('user_positions')->
@@ -100,7 +98,7 @@ class ProjectsController extends Controller
         //$upositions = UserPosition::fi(
         $upositions = UserPosition::whereIn('id', $result)->get();
         //
-        return view('project.pshow')->with(array("project" => $project, "positions" => $positions , "upositions"=>$upositions));
+        return view('project.pshow')->with(array("project" => $project, "positions" => $positions , "upositions"=>$upositions, 'today'=>$today));
     
     }
 
@@ -134,7 +132,7 @@ class ProjectsController extends Controller
         //Projekta datu validacija
         $validatedData = $request->validate([
             'title' => ['required', 'string','max:50'],
-            'Description' => ['required', 'string','max:400'],
+            'Description' => ['required', 'string','max:500'],
             'start_date' => ['required','date', 'after:assign_till'],
             'end_date' => ['required','date', 'after:start_date'],
             

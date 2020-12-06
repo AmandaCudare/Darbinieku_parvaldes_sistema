@@ -40,7 +40,7 @@
 <div class="form-group col-md-6">
   <label for="project_id">{{ __('Projekts') }}</label>
       <select id="project_id" class="form-control @error('project_id') is-invalid @enderror" name="project_id" value="{{ old('project_id') }}" required autocomplete="project_id" autofocus>
-          <option >nav</option>
+          <option value=NULL >nav</option>
          {{--paradīs katru projektu kurma ir amats aptiprināts--}}
           @foreach($projects as $project)
           <option value="{{$project->id}}">{{$project->title}}</option>

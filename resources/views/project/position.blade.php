@@ -44,6 +44,7 @@
      @endif 
      @endif
      <?php $a++ ?>
+     @if($project->assign_till>$today)
      @if(count($upositions) == $a)
     <form method="post" action="{{ route('user_position.add') }}">
         @csrf
@@ -51,23 +52,21 @@
     <input type="submit" class="btn btn-outline-secondary" value="Pieteikties" >
     </form>
      @endif
-                      </div>@endforeach
+     @endif         </div>@endforeach
                     </td>
-
-                      <td>
-                        
-       
-                      <input  type="submit" class="btn btn-outline-danger" value="Noņemt pieteikumu">
-                      </td>
-                       
+                    <td>
+                     @if($project->assign_till>$today) 
+                    <a href="/userposition/delete/{{$position->id}}" class="btn btn-outline-danger">Noņemt pieteikumu</a>
+                     @endif 
+                    </td>
                     <td>
                      @if(Auth::user()->id == $project->creator_id)
-                     <a href="/projects/positions/{{$position->id}}/edit" class="btn btn-warning">Rediģēt </a>
+                     <a href="/projects/positions/{{$position->id}}/edit" class="btn btn-warning">Rediģēt</a>
                     </td>
                     @endif 
                 <td>
                   @if(Auth::user()->id == $project->creator_id)
-                <input  type="submit" class="btn btn-outline-danger" value="Dzēst">
+                  <a href="/projects/positions/{{$position->id}}/delete" class="btn btn-danger">Dzēst </a>
                   @endif 
                 </td>   
 

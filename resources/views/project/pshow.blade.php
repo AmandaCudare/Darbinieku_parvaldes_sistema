@@ -38,7 +38,7 @@
 
         <h4>Amati</h4>
             {{-- Amatu parādīšanas lapa--}}
-        @include('project.position', [ 'positions' => $positions])
+        @include('project.position', [ 'positions' => $positions, 'project'=> $project, 'today'=>$today])
 
     @if(Auth::user()->id == $project->creator_id)
 

@@ -68,8 +68,9 @@ class HoursController extends Controller
         $validatedData = $request->validate([
             'day' => ['required','date'], 
             'description' => ['required', 'string','max:500'],
-            'hours' => ['required','digits_between:1,12'],
+            'hours' => ['digits_between:1,12'],
         ]);
+        
         //Pārveido "Day" string data tipu uz laika datu tipu
         $day=Carbon::parse($day=$request->input('day')) ;
         //Saglabā dienas izdarītā ierakstu datubāzē
@@ -78,7 +79,10 @@ class HoursController extends Controller
         $hours->week = $day->week();
         $hours->description = $request->input('description');
         $hours->hours = $request->input('hours');
-        $hours->project_id = $request->input('project_id');
+        $project_id=$request->input('project_id');  
+        if($project_id!= 'NULL'){
+        $hours->project_id = $project_id;
+        }
         $hours->user_id= auth()->user()->id;
          $hours->save();
          

@@ -27,6 +27,9 @@ Route::get('/admin/absence', 'AdminController@showAbsence');
 Route::put('/admin/absence/{absence_id}', 'AdminController@updateAbsence');
 Route::put('/admin/absence/{absence_id}/decline', 'AdminController@declineAbsence');
 Route::get('/admin/users', 'AdminController@showUsers');
+Route::get('/admin/users/{user_id}/edit', 'AdminController@editUser');
+Route::put('/admin/users/{user_id}', 'AdminController@updateUser');
+Route::put('/admin/users/{user_id}/deactivate', 'AdminController@deactivateUser');
 //Autenfifikacija
 Auth::routes();
 //Projeti un amati
@@ -36,9 +39,11 @@ Route::post('/project/{project_id}/position', 'PositionController@store')->name(
 Route::get('/projects/{project_id}/assign', 'PositionController@show');
 Route::get('/projects/{project_id}/accepted', 'PositionController@accept_userposition');
 Route::get('/projects/{project_id}/decline', 'PositionController@decline_userposition');
+Route::get('/userposition/delete/{position_id}', 'PositionController@destroy_UserPosition');
 Route::get('/user/{user_id}', 'PositionController@user');
+Route::get('projects/positions/{position_id}/delete', 'PositionController@destroyPosition');
 Route::resource('projects/positions', 'PositionController')->except([
-    'show', 'store', 'index', 'create'
+    'show', 'store', 'index', 'create', 'destroy'
 ]);
 Route::get('/projects/{project_id}/position/delete', 'PositionController@delete');
 Route::get('/profile', 'HomeController@index')->name('profile')->middleware('auth');

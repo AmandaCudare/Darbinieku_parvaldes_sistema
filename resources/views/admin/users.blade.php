@@ -5,7 +5,7 @@
 <div class="my-3 p-3 bg-white rounded shadow-sm">
     <div class="well">
         <table class="table table-bordered">
-            <h4>Prombūtnes pieteikumi</h4>
+            <h4>Profilu rediģēšana</h4>
             <thead>
             <tr>
               <th>Lietotāja vārds</th>

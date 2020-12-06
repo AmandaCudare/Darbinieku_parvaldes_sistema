@@ -78,10 +78,55 @@ class AdminController extends Controller
             return redirect()->back();
     }
 
-    public function create()
+    //lietotaja datu rediģēšanas lapa
+    public function editUser($id)
     {
-        //
+          //atļauj tikai administratoriem
+          if (Gate::allows('admin-only')) {
+            //Atrod aktīvus lietotājus
+            $user = User::find($id);
+        return view ('admin.user_edit')->with('user', $user);
+        }
     }
+    //lietotaja informācijas izmaiņu saglabāšana
+    public function updateUser(Request $request, $id)
+    {
+          //atļauj tikai administratoriem
+          if (Gate::allows('admin-only')) {
+             //Lietotāja datu validacija
+        $validatedData = $request->validate([
+            'First_name' => ['required', 'string', 'max:50'],
+            'Last_name' => ['required', 'string', 'max:50'],
+            'email' => ['required', 'string', 'email', 'max:255'],
+            'Role' => ['required', 'max:2'],
+            'Workload' => ['required'],
+            
+        ]);
+            //Atrod izvelēto projektu saglabā izmaiņas
+        $user = User::find($id);
+        $user->First_name = $request->input('First_name');
+        $user->Last_name = $request->input('Last_name');
+        $user->email = $request->input('email');
+        $user->Role = $request->input('Role');
+        $user->Workload = $request->input('Workload');
+         $user->save();
+         
+       return redirect('/admin/users')->with('success', 'Lietotāja izmaiņas ir saglabātas');
+        }
+    }
+    //Deaktivizēt lietotāju
+    public function deactivateUser($id)
+    {
+          //atļauj tikai administratoriem
+          if (Gate::allows('admin-only')) {
+            //Atrod aktīvus lietotājus
+            $user = User::find($id);
+            $user->Active = false;
+            $user->save();
+            return redirect('/admin/users')->with('error', 'Lietotājs ir deaktivizēts');
+        }
+    }
+
 
     /**
      * Store a newly created resource in storage.

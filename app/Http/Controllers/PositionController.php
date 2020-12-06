@@ -52,7 +52,7 @@ class PositionController extends Controller
         //Validācija
         $validatedData = $request->validate([
             'name' => ['required', 'string','max:50'],
-            'people_count' => ['required', 'numeric'],
+            'people_count' => ['required', 'numeric', 'gt:0'],
             ]);
         //Saglabā amata datus datubazē
         $position = new Position;
@@ -60,7 +60,7 @@ class PositionController extends Controller
         $position->people_count = $request->input('people_count');
         $position->project_id = $request->input('project_id');
         $position->save();
-        return back();
+        return redirect()->back();
      }
 
      //Saglabā amata pieteikumu
@@ -115,7 +115,7 @@ class PositionController extends Controller
          $uposition = UserPosition::find($id);
          $uposition->accepted = false;
          $uposition->save();
-         return back();
+         return back()->with('error', 'Lietotāja pieteikums ir noraidīts');;
       }
 
       public function user($id)
@@ -140,7 +140,7 @@ class PositionController extends Controller
         if(auth()->user()->id ==$project){
             return view('project.position_edit')->with('position', $position);
         }
-        return redirect()->back();
+        return redirect()->back()->with('error', 'Lietotājs nedrīkst rediģet amatu');
        
     }
 
@@ -156,7 +156,7 @@ class PositionController extends Controller
         //Validācija
         $validatedData = $request->validate([
             'name' => ['required', 'string','max:50'],
-            'people_count' => ['required', 'numeric'],
+            'people_count' => ['required', 'numeric', 'gt:0'],
             ]);
         //Saglabā izmaiņas amata datus datubazē
         $position = Position::find($id);
@@ -173,8 +173,30 @@ class PositionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    //Izdzēst amatu
+    public function destroyPosition($id)
     {
-        //
+        //atrast amata projektu
+        $project_id = Position::where('id',$id)->pluck('project_id');
+        $project=Project::where('id',$project_id)->pluck('creator_id')->sum();
+    //Pārbaudīt vai pareizā vadītāja projekts
+        if(auth()->user()->id ==$project){
+        $position=Position::find($id);
+        $user_id= auth()->user()->id;
+        //izdzēst amata pieteikumus
+        $uposition= UserPosition::where('position_id', $id)->get()->each->delete();
+        //izdzēst amatu
+        $position->delete();
+        return redirect()->back()->with('success', 'Amats izdzēsts');
+    }
+    return redirect()->back()->with('error', 'Lietotājs nedrīkst dzēst so amatu');
+    }
+    //Amata pieteikuma noņemšana
+    public function destroy_UserPosition($id)
+    {
+        $user_id= auth()->user()->id;
+        $uposition= UserPosition::where('position_id', $id)->where('user_id', $user_id)->get()->each->delete();
+        return redirect()->back()->with('success', 'Pieteikums noņemts');
+        
     }
 }
