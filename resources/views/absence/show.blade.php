@@ -1,10 +1,10 @@
 @extends('layout.app')
 
 @section('content')
+<div class="my-3 p-3 bg-white rounded shadow-sm"> 
 <h1> Prombūtne</h1>
 <div class="container">
 <a href="/absence/create" type="submit" class="btn btn-outline-secondary row mb-3">Prombūtne izveidošana</a>
-</div>
 @if(count($absences)>0)
     
    <div class="well">
@@ -49,8 +49,12 @@
              @endif
             </tr>
         @endforeach
-            </div> 
+    </tbody>
+    </table>
+       </div>        
         @else
         <h4>Patreiz nav izveidoti prombūtnes pieteikumu.</h4>
         @endif
+</div>
+</div>
 @endsection

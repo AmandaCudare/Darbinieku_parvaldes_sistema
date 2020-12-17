@@ -34,7 +34,9 @@
         <p>Sākuma datums : {{$project->start_date}}</p></td>
         <p>Beigu datums : {{$project->end_date}}</p>
         <p>Var pieteikties līdz : {{$project->assign_till}}</p>
-
+        @if($project->assign_till<=$today)
+ <p> Nevar vairs pieteikties</p>
+   @endif
 
         <h4>Amati</h4>
             {{-- Amatu parādīšanas lapa--}}
@@ -74,7 +76,9 @@
                 <input type="hidden" name="project_id" value="{{ $project->id }}" />
             </div>
             <div class="form-group">
+                <div class="col-md-6 mt-4">
                 <input type="submit" class="btn btn-outline-secondary" value="Pievienot amatu" />
+                </div>
             </div>
 </div>
 </form>

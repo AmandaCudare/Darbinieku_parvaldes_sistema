@@ -8,7 +8,7 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\DB;
+
 class ProjectsController extends Controller
 {
     /**
@@ -23,10 +23,11 @@ class ProjectsController extends Controller
         if (Gate::allows('user-only')) {
         $today=Carbon::now()->format('Y-m-d');
         $projects = Project::orderBy('start_date', 'asc')->where('assign_till','>=',$today)->get();
-      $user_id=auth()->user()->id;
-      $my_projects  = Project::orderBy('start_date', 'asc')->where('creator_id',$user_id)->get();
-    $assign_projects= DB::select("SELECT projects.title, projects.start_date, projects.end_date, projects.assign_till, projects.id FROM `projects` JOIN `positions` ON projects.id=positions.project_id JOIN `user_positions` ON user_positions.position_id=positions.id JOIN `users` ON user_positions.user_id=users.id WHERE users.id=? AND user_positions.accepted='1' GROUP BY projects.title, projects.start_date ASC, projects.end_date, projects.assign_till, projects.id",[$user_id]);
-    
+        $user_id=auth()->user()->id;
+        $my_projects  = Project::orderBy('start_date', 'asc')->where('creator_id',$user_id)->get();
+        //$assign_projects= DB::select("SELECT projects.title, projects.start_date, projects.end_date, projects.assign_till, projects.id FROM `projects` JOIN `positions` ON projects.id=positions.project_id JOIN `user_positions` ON user_positions.position_id=positions.id JOIN `users` ON user_positions.user_id=users.id WHERE users.id=? AND user_positions.accepted='1' GROUP BY projects.title, projects.start_date ASC, projects.end_date, projects.assign_till, projects.id",[$user_id]);
+        $assign_projects=Project::AssignedProjects($user_id);
+        //return array('projects'=> $projects,'my_projects'=> $my_projects,'assign_projects' => $assign_projects);
         return view('project.projectmain')->with(array('projects'=> $projects,'my_projects'=> $my_projects,'assign_projects' => $assign_projects));
         }
         return redirect()->back();
@@ -97,7 +98,7 @@ class ProjectsController extends Controller
          $result = array_intersect($results, $upositions_id);
         //$upositions = UserPosition::fi(
         $upositions = UserPosition::whereIn('id', $result)->get();
-        //
+        //return array("project" => $project, "positions" => $positions , "upositions"=>$upositions, 'today'=>$today);
         return view('project.pshow')->with(array("project" => $project, "positions" => $positions , "upositions"=>$upositions, 'today'=>$today));
     
     }

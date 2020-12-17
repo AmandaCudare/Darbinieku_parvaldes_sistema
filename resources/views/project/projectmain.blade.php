@@ -1,12 +1,18 @@
 @extends('layout.app')
 
 @section('content')
-
-<h1> Projekts</h1> 
+<div class="my-3 p-3 bg-white rounded shadow-sm"> 
+    <div class="row ">
+        <div class="col-md-9">
+           <h1> Projekts</h1>  
+        </div>
+       
 {{--Šo lapas daļu var redzēt vadītājs tikai--}} 
 @if (Auth::user()->Role == '3')
-
-    <a href="/projects/create" class="btn btn-outline-secondary row mb-3">Izveidot projektu</a>
+ <div class="col-6 col-md-3">
+          <a href="/projects/create" class="btn btn-secondary">Izveidot projektu</a>  
+        </div>
+      </div>
     @if(count($my_projects)>0)
     
    <div class="well">
@@ -17,7 +23,7 @@
           <th>Projekta nosaukums</th>
           <th>Sākuma datums</th>
           <th>Beigu datums</th>
-          <th>Pieteities līdz</th>
+          <th>Pieteikties līdz</th>
           <th>Apskatīt projektu</th>
         </tr>
     </thead>
@@ -47,7 +53,7 @@
         <th>Projekta nosaukums</th>
         <th>Sākuma datums</th>
         <th>Beigu datums</th>
-        <th>Pieteities līdz</th>
+        <th>Pieteikties līdz</th>
         <th>Apskatīt projektu</th>
         </tr>
     </thead>
@@ -64,7 +70,6 @@
 </tbody>
 </table>
 </div> 
-{{--{{$projects->links()}}--}}
 
 @else 
 <h4>Jūs patreiz neesat apstiprināts nevienam projektam</h4>
@@ -81,7 +86,7 @@
                         <th>Projekta nosaukums</th>
                         <th>Sākuma datums</th>
                         <th>Beigu datums</th>
-                        <th>Pieteities līdz</th>
+                        <th>Pieteikties līdz</th>
                         <th>Apskatīt projektu</th>
                         </tr>
                     </thead>
@@ -99,13 +104,13 @@
                 </tbody>
                 </table>
             </div>  
-                {{--{{$projects->links()}}--}}
+             
 
             @else 
-            <h4>Patreiz Jums nav projektu</h4>
+            <h4>Patreiz nav pieejami jauni projekti</h4>
             @endif
 
-     {{--{{$projects->links()}}--}}
-   
+     
+</div>
 
 @endsection

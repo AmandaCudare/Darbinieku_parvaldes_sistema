@@ -2,29 +2,23 @@
 
 @section('content')
 {{--Profil lapa--}}
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-10">
-            <div class="card">
-                <div class="card-header">{{ __('Profile') }}</div>
-                    <div class="container">
+
+<div class="my-3 p-3 bg-white rounded shadow-sm"> 
+                <h1>Profile</h1>
+                   
                         {{--Esošā lietotāja dati--}}
-                <p><b>Vārds:</b> {{$user->First_name}}</p>
-                <p><b>Uzvārds:</b> {{$user->Last_name}}</p>
-                <p><b>E-pasts:</b> {{$user->email}}</p>
-                <p><b>Loma: </b>
+                <h5><b>Vārds:</b> {{$user->First_name}}</h5>
+                <h5><b>Uzvārds:</b> {{$user->Last_name}}</h5>
+                <h5><b>E-pasts:</b> {{$user->email}}</h5>
+                <h5><b>Loma: </b>
                     @if ($user->Role == 1)
                    Administrators
                    @elseif($user->Role == 2)
                   Darbinieks
                    @else
                    Vadītājs
-                    @endif</p>
-                <p><b>Darba slodze:</b> {{$user->Workload}}</p>
-                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
+                    @endif</h5>
+                <h5><b>Darba slodze:</b> {{$user->Workload}}</h5>
+                     
 </div>
 @endsection

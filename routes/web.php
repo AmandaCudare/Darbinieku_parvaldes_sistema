@@ -46,4 +46,5 @@ Route::resource('projects/positions', 'PositionController')->except([
     'show', 'store', 'index', 'create', 'destroy'
 ]);
 Route::get('/projects/{project_id}/position/delete', 'PositionController@delete');
+
 Route::get('/profile', 'HomeController@index')->name('profile')->middleware('auth');

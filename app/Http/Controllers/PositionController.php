@@ -82,7 +82,8 @@ class PositionController extends Controller
     public function show($id)
     {
         //tiek iegūta amata nosaukumus, lietotaja vārds, uzvārds, epasts, identifikātors un pieteikuma identifikators, ja pieteikušais lietotajs sakrīt ar pieteikumu, pieteikums sakrīt ar amatu un amats ar projektu.
-        $positions = DB::select("SELECT positions.name,users.First_name, users.Last_name, users.email, users.id as user_id, user_positions.id as uposition_id FROM `user_positions`JOIN `positions` ON user_positions.position_id=positions.id JOIN `projects` ON projects.id=positions.project_id JOIN `users` ON user_positions.user_id=users.id WHERE projects.id=? AND user_positions.accepted IS NULL GROUP BY user_positions.id, positions.name, users.id, users.First_name, users.Last_name, users.email",[$id]);       
+        $positions=Position::ShowPositions($id);
+       // $positions = DB::select("SELECT positions.name,users.First_name, users.Last_name, users.email, users.id as user_id, user_positions.id as uposition_id FROM `user_positions`JOIN `positions` ON user_positions.position_id=positions.id JOIN `projects` ON projects.id=positions.project_id JOIN `users` ON user_positions.user_id=users.id WHERE projects.id=? AND user_positions.accepted IS NULL GROUP BY user_positions.id, positions.name, users.id, users.First_name, users.Last_name, users.email",[$id]);       
         return view('project.accept')->with(array('positions'=> $positions));
     }
 
@@ -90,8 +91,9 @@ class PositionController extends Controller
     {
         //iegūts pieteikuma amata id
         $position= UserPosition::where('id', $id)->value('position_id');
-        //ieguts pieteikumu skiats kas atbilst amatam un kuri ir apstiprināti
-        $assigned_count = DB::select("SELECT user_positions.id FROM `positions` JOIN `user_positions` ON user_positions.position_id=positions.id WHERE user_positions.accepted=true AND positions.id=?",[$position]);
+        //ieguts pieteikumu skaits, kas atbilst amatam un kuri ir apstiprināti
+        $assigned_count = Position::AssignCount($position);
+        //$assigned_count = DB::select("SELECT user_positions.id FROM `positions` JOIN `user_positions` ON user_positions.position_id=positions.id WHERE user_positions.accepted=true AND positions.id=?",[$position]);
        //iegūta amata vajadzīgo cilveku skaitu
         $count_pos=Position::where('id', $position)->value('people_count');
         //tiek saskaitīt cik ir jau apstiprinati amatam

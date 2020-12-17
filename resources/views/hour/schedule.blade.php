@@ -61,8 +61,6 @@
 Nedēļa
   <a type="button" class="btn btn-outline-secondary" href="#">></a>
 </p>
-<div class="text-right">
-  <a type="button" class="btn btn-outline-secondary" href="#">Iesniegt</a>
-</div>
+
 @endsection
 

@@ -18,47 +18,57 @@
               <tr>
                 <td>{{ $position->name}}</td>
                 <td>{{ $position->people_count}}</td>
-                  {{--<div class="container">
-                    <div class="row">
-                      <div class="col-12 col-md-3">
-                        Ja nav neviens pieteicis kādam amatam projektā--}}
-                        <td>
-                          @if(count($upositions) == 0)
-                        <form method="post" action="{{ route('user_position.add') }}">
+                 
+                        {{--Ja nav neviens pieteicis kādam amatam projektā--}}
+                        
+                          @if(count($upositions) == 0 && $project->assign_till>$today)
+                     <td>   <form method="post" action="{{ route('user_position.add') }}">
                           @csrf
                      <input type="hidden" name="position_id" value="{{ $position->id }}" >
                       <input type="submit" class="btn btn-outline-secondary" value="Pieteikties" >
-                      </form>
+                      </form> </td>
                       @endif  
                       {{-- Pieteikšanās amatam pogas vai status--}} 
+                       {{-- --}} 
                        <?php $a=0 ?>
         @foreach($upositions as $uposition)  
           @if($uposition->position_id == $position->id)  
           <?php $a-- ?>     
     @if($uposition->accepted== '1' )
-   Status: Pieņemts
+  <td> Status: Pieņemts</td>
+  <td> </td>
    @elseif($uposition->accepted== '0' )
-   Status: Noraidīts
+  <td> Status: Noraidīts </td>
+  <td> </td>
     @else
-   Status: Pieteicies
+  <td> Status: Pieteicies </td>
+ @if($project->assign_till>$today) 
+  <td>
+   <a href="/userposition/delete/{{$position->id}}" class="btn btn-outline-danger">Noņemt pieteikumu</a>
+    </td>
+ @endif
      @endif 
      @endif
      <?php $a++ ?>
-     @if($project->assign_till>$today)
-     @if(count($upositions) == $a)
+     @if(count($upositions) == $a && $project->assign_till>$today)
+<td>
     <form method="post" action="{{ route('user_position.add') }}">
         @csrf
     <input type="hidden" name="position_id" value="{{ $position ->id }}" >
     <input type="submit" class="btn btn-outline-secondary" value="Pieteikties" >
     </form>
+</td>
+<td> </td>
      @endif
-     @endif         </div>@endforeach
-                    </td>
-                    <td>
+    </div>@endforeach
+                    
+                   {{-- <td>
                      @if($project->assign_till>$today) 
                     <a href="/userposition/delete/{{$position->id}}" class="btn btn-outline-danger">Noņemt pieteikumu</a>
-                     @endif 
-                    </td>
+                     @else
+                    Nevar vairs pieteikties
+                     @endif
+                    </td>--}}
                     <td>
                      @if(Auth::user()->id == $project->creator_id)
                      <a href="/projects/positions/{{$position->id}}/edit" class="btn btn-warning">Rediģēt</a>
@@ -80,42 +90,3 @@
 @else 
 <p>no positions </p>
 @endif
-
-{{--
-<h1>Izveidot amatu</h1>
-<body class="text-center">
-@if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
-
-<form method="POST" action="/projects/{{$project_id}}">
-  @csrf
-
-
-<div class="form-group row">
-  <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Amats') }}</label>
-
-  <div class="col-md-6">
-      <input id="name" type="text" class="form-control @error('name') is-invalid @enderror"  name="name" >
-
-      @error('name')
-          <span class="invalid-feedback" role="alert">
-              <strong>{{ $message }}</strong>
-          </span>
-      @enderror
-  </div>
-</div>
-
-</div> 
-<button type="submit" class="btn btn-primary">
-  {{ __('Pievienot amatu') }}
-</button>
-
-</form>--}}
-{{--</body>--}}

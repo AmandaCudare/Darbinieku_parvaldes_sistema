@@ -1,7 +1,8 @@
 @extends('layout.app')
 
 @section('content')
-<div class="container">
+
+  <div class="my-3 p-3 bg-white rounded shadow-sm"> 
 <h1>Prasmes</h1>
 {{--Parbauda vai ir vismaz viena prasme--}}
 @if(count($skills)>0)
@@ -38,7 +39,6 @@
 @endif
 {{--Šeit ir create.blade.php daļa ievieto šajā lapā--}}
  @include('skills.create')
-
-</div>
+  </div>
 
 @endsection
