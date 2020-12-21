@@ -18,34 +18,14 @@
                   <th>Piektdiena</th>
                   <th>Sestdiena</th>
                   <th>Svētdiena</th>
-                  <th>Mainīt laiku projektā</th>
                 </tr>
             </thead>
             <tbody>
-              {{--  @foreach($projects as $project)--}}
-            <tr>
-                <td>
-                 {{--  @if(count($projectsid)>0)
-                   <p>{{$project->title}}</p>
-                    @else
-                    <a type="button" class="btn btn-outline-secondary" href="#">Pievienot projekta stundas</a>
-                    @endif
-               --}}</td>
-                <td>{{-- <p>{{$day->phour}}</p>--}}</td>
-                <td>{{-- <p>{{$day->ohour}}</p>--}}</td>
-                <td>{{-- <p>{{$day->thour}}</p>--}}</td>
-                <td>{{-- <p>{{$day->chour}}</p>--}}</td>
-                <td>{{-- <p>{{$day->phour}}</p>--}}</td>
-                <td>{{-- <p>{{$day->shour}}</p>--}}</td>
-                <td>{{-- <p>{{$day->shour}}</p>--}}</td>
-                <td><a type="button" class="btn btn-outline-secondary" href="#">Rediģēt</a></td>
+               @foreach($hours_with_projects as $projectshour)
+            <tr><td><p>{{$projectshour->title}}</p></td>
+                <td><p>{{$projectshour->hours}} {{$projectshour->day}} </p></td>
             </tr>
-            <tr>
-              <td>
-                <a type="button" class="btn btn-outline-secondary" href="hour/create">Pievienot projekta stundas</a>
-              </td>
-            </tr>
-           {{-- @endforeach --}}
+            @endforeach 
         </div>  
         </tbody>
           </table>

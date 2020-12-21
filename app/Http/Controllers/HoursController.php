@@ -34,7 +34,13 @@ class HoursController extends Controller
     public function showSchedule()
     {
         if (Gate::allows('user-only',Auth::user())) {
-        return view('hour.schedule');
+        $week=Carbon::now()->weekOfYear;
+        //$week =52;
+        $user_id= auth()->user()->id;
+        $weeks_hours_with_projects = Hour::WeeksHoursWithProjects($user_id, $week);
+        $weeks_hours_without_projects= Hour::WeeksHoursWithoutProjects($user_id, $week);
+        //return array('hours_with_projects'=>$weeks_hours_with_projects ,'hours_without_projects'=> $weeks_hours_without_projects);
+        return view('hour.schedule')->with(array('hours_with_projects'=>$weeks_hours_with_projects ,'hours_without_projects'=> $weeks_hours_without_projects));
         }
         return redirect()->back();
     }

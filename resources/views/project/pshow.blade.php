@@ -19,7 +19,7 @@
             <form action="/projects/{{$project->id}}" method="POST">
             @csrf
             @method('DELETE')
-            <input type="submit" class="btn btn-danger" value="Dzēst Projektu" />
+            <input type="submit" class="btn btn-danger" onclick="return confirm('Vai jūs tiešām vēlaties dzēst projektu?')" value="Dzēst Projektu" />
         </form>
         </div>
 

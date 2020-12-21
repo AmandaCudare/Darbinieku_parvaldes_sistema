@@ -28,8 +28,10 @@ Route::put('/admin/absence/{absence_id}', 'AdminController@updateAbsence');
 Route::put('/admin/absence/{absence_id}/decline', 'AdminController@declineAbsence');
 Route::get('/admin/users', 'AdminController@showUsers');
 Route::get('/admin/users/{user_id}/edit', 'AdminController@editUser');
+Route::get('/admin/users/{user_id}/role', 'AdminController@editRole');
 Route::put('/admin/users/{user_id}', 'AdminController@updateUser');
 Route::put('/admin/users/{user_id}/deactivate', 'AdminController@deactivateUser');
+
 //Autenfifikacija
 Auth::routes();
 //Projeti un amati
@@ -46,5 +48,8 @@ Route::resource('projects/positions', 'PositionController')->except([
     'show', 'store', 'index', 'create', 'destroy'
 ]);
 Route::get('/projects/{project_id}/position/delete', 'PositionController@delete');
-
+//Profila lapa
 Route::get('/profile', 'HomeController@index')->name('profile')->middleware('auth');
+//Paroles maiņa
+Route::get('/password', 'HomeController@PasswordChange')->middleware('auth');
+Route::post('/password/store', 'HomeController@PasswordUpdate')->middleware('auth');

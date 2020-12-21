@@ -8,6 +8,11 @@ use App\User;
 
 class AdminController extends Controller
 {
+
+    public function __construct()
+    {
+         $this->middleware('admin');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -16,25 +21,16 @@ class AdminController extends Controller
     //Parāda administratora paneļa lapu
     public function index()
     {
-        //atļauj tikai administratoriem
-        if (Gate::allows('admin-only')) {
-           
         return view ('admin.admin');
-        }
-     // Ja šis nav administrators, lietotāju nosūta uz atpakaļ uz lapu kura atrodas lietotājs
-         return redirect()->back();
+     
     }
     // parāda aktivu lietotāju lapu
     public function showUsers()
     {
-        //atļauj tikai administratoriem
-        if (Gate::allows('admin-only')) {
             //Atrod aktīvus lietotājus
             $users = User::where('Active', true)->get();
         return view ('admin.users')->with(array('users' => $users));
-        }
-     
-        return redirect()->back();
+        
     }
 
     /**
@@ -45,54 +41,56 @@ class AdminController extends Controller
     //Parāda prombutnes pieteikumu lapu
     public function showAbsence()
     {
-        //atļauj tikai administratoriem
-        if (Gate::allows('admin-only')) {
            $absences = Absence::where('accepted', null)->with('user')->get();
            return view ('admin.absence')->with(array('absences' => $absences));
-            }
-         
-            return redirect()->back();
+        
     }
     //Prombutnes aptiprināšanas funkcija
     public function updateAbsence($id)
     {
-        if (Gate::allows('admin-only')) {
            $absences = Absence::find($id);
            $absences->accepted = true;
            $absences->save();
            return redirect('admin/absence')->with('success', 'Prombūtnes pieteikums ir apstiprināta');
-            }
-         
-            return redirect()->back();
+           
     }
     //Prombutnes noraidīšanas funkcija
     public function declineAbsence($id)
     {
-        if (Gate::allows('admin-only')) {
            $absences = Absence::find($id);
            $absences->accepted = false;
            $absences->save();
            return redirect('admin/absence')->with('error', 'Prombūtnes pieteikums noraidīts');
-            }
-         
-            return redirect()->back();
+           
     }
 
     //lietotaja datu rediģēšanas lapa
     public function editUser($id)
     {
-          //atļauj tikai administratoriem
-          if (Gate::allows('admin-only')) {
             //Atrod aktīvus lietotājus
             $user = User::find($id);
         return view ('admin.user_edit')->with('user', $user);
+
+    }
+    //Darbinieka loma maiņa uz vadītaju
+    public function editRole($id)
+    {
+        //Atrod lietotāju
+         $user = User::find($id);
+         //Pārbauda vai lietotājs ir darbinieks
+        if($user->Role == '2'){
+        //Nomaina lomu uz vadītāja lomu - 3
+        $user->Role= '3';
+        $user->save();
+        return redirect()->back()->with('success', 'Loma ir nomainīta');
         }
+        return redirect()->back()->with('error', 'šim lietotājam nedrīkst nomainīt lomu');
+        
     }
     //lietotaja informācijas izmaiņu saglabāšana
     public function updateUser(Request $request, $id)
     {
-          //atļauj tikai administratoriem
-          if (Gate::allows('admin-only')) {
+          
              //Lietotāja datu validacija
         $validatedData = $request->validate([
             'First_name' => ['required', 'string', 'max:50'],
@@ -112,19 +110,17 @@ class AdminController extends Controller
          $user->save();
          
        return redirect('/admin/users')->with('success', 'Lietotāja izmaiņas ir saglabātas');
-        }
+    
     }
     //Deaktivizēt lietotāju
     public function deactivateUser($id)
     {
-          //atļauj tikai administratoriem
-          if (Gate::allows('admin-only')) {
             //Atrod aktīvus lietotājus
             $user = User::find($id);
             $user->Active = false;
             $user->save();
             return redirect('/admin/users')->with('error', 'Lietotājs ir deaktivizēts');
-        }
+  
     }
 
 

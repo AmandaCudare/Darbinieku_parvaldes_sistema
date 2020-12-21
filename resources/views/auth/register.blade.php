@@ -40,7 +40,7 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
+                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-pasta Adrese') }}</label>
 
                             <div class="col-md-6">
                                 <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
@@ -54,7 +54,7 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
+                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Parole') }}</label>
 
                             <div class="col-md-6">
                                 <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
@@ -68,29 +68,18 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirm Password') }}</label>
+                            <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Paroles apstiprināšana') }}</label>
 
                             <div class="col-md-6">
                                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
                             </div>
                         </div>
 
-                        <div class="form-group row">
-                            <label for="Active" class="col-md-4 col-form-label text-md-right">{{ __('Active') }}</label>
 
-                            <div class="col-md-6">
-                                <input id="Active" type="text" class="form-control @error('Active') is-invalid @enderror" name="Active" value="{{ old('Active') }}" required autocomplete="Active" autofocus>
-
-                                @error('Active')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
+                        <input type="hidden" name="Active" value="1" >
 
                         <div class="form-group row">
-                            <label for="Role" class="col-md-4 col-form-label text-md-right">{{ __('Role') }}</label>
+                            <label for="Role" class="col-md-4 col-form-label text-md-right">{{ __('Loma') }}</label>
 
                             <div class="col-md-6">
                                 {{--<input id="Role" type="text" class="form-control @error('Role') is-invalid @enderror" name="Role" value="{{ old('Role') }}" required autocomplete="Role" autofocus>--}}
@@ -108,11 +97,14 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="Workload" class="col-md-4 col-form-label text-md-right">{{ __('Workload') }}</label>
+                            <label for="Workload" class="col-md-4 col-form-label text-md-right">{{ __('Darba slodze') }}</label>
 
                             <div class="col-md-6">
-                                <input id="Workload" type="text" class="form-control @error('Workload') is-invalid @enderror" name="Workload" value="{{ old('Workload') }}" required autocomplete="Workload" autofocus>
-
+                                <select id="Workload" class="form-control @error('Workload') is-invalid @enderror" name="Workload" value="{{ old('Workload') }}" required autocomplete="Workload" autofocus>
+                                    <option value="1">Pilna slodze(40h nedēļā)</option> 
+                                    <option value="0.75">Nepilna slodze(30h nedēļā)</option>
+                                    <option value="0.5">Nepilna slodze(20h nedēļā)</option>
+                                  </select>
                                 @error('Workload')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>

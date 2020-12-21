@@ -12,6 +12,7 @@
               <th>Lietotāja uzvārds</th>
               <th></th>
               <th></th>
+              <th></th>
             </tr>
         </thead>
         <tbody>
@@ -27,15 +28,21 @@
                     <form method="POST" action="/admin/users/{{$user->id}}/deactivate">
                         @csrf
                         @method('PUT')
-                    <input type="submit" class="btn btn-outline-secondary" value="Deaktivizēt" >
+                    <input type="submit" class="btn btn-outline-secondary"  onclick="return confirm('Vai tiešām vēlaties deaktivizēt lietotāju?')" value="Deaktivizēt" >
                     </form>
                 </td>
+                @if($user->Role== '2')
+                <td>
+                    <a href="/admin/users/{{$user->id}}/role" onclick="return confirm('Vai vēlaties nomainīt lomu?')" class="btn btn-warning">Lomas maiņa uz vadītaju</a>
+                </td>
+                @endif
                 </tr>
             @endforeach
-                </div>  
-       </div>
+            </tbody>
+        </table>
+        </div> 
     @else 
     <h4> Nav lietotāju</h4>
        @endif
-
+ </div>
 @endsection

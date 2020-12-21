@@ -19,6 +19,9 @@
                    Vadītājs
                     @endif</h5>
                 <h5><b>Darba slodze:</b> {{$user->Workload}}</h5>
-                     
+
+           <a type="button" class="btn btn-outline-secondary" href="/password">Mainīt paroli</a> 
+                  
 </div>
+
 @endsection
