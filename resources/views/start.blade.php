@@ -3,10 +3,10 @@
 @section('content')
 {{--Sākuma lapa--}}
  <main role="main" class="inner cover">
-    <h1 class="cover-heading">Start</h1>
-    <p class="lead">This website start page</p>
+    <h1 class="cover-heading">Mājas lapas sākuma lapa</h1>
+    
     <p class="lead">
-      <a href="#" class="btn btn-lg btn-secondary">login</a>
+      <a href="{{ route('login') }}" class="btn btn-lg btn-secondary">Autentifikācija</a>
     </p>
   </main>
 

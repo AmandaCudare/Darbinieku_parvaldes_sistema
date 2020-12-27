@@ -96,7 +96,6 @@ class AdminController extends Controller
             'First_name' => ['required', 'string', 'max:50'],
             'Last_name' => ['required', 'string', 'max:50'],
             'email' => ['required', 'string', 'email', 'max:255'],
-            'Role' => ['required', 'max:2'],
             'Workload' => ['required'],
             
         ]);
@@ -105,7 +104,6 @@ class AdminController extends Controller
         $user->First_name = $request->input('First_name');
         $user->Last_name = $request->input('Last_name');
         $user->email = $request->input('email');
-        $user->Role = $request->input('Role');
         $user->Workload = $request->input('Workload');
          $user->save();
          
@@ -116,11 +114,13 @@ class AdminController extends Controller
     public function deactivateUser($id)
     {
             //Atrod aktīvus lietotājus
+            if($id != auth()->user()->id){
             $user = User::find($id);
             $user->Active = false;
             $user->save();
             return redirect('/admin/users')->with('error', 'Lietotājs ir deaktivizēts');
-  
+    }
+    return redirect()->back()->with('error', 'Šo lietotāju nedrīkst deaktivizēt');
     }
 
 

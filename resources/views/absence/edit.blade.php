@@ -14,6 +14,7 @@
 
 <div class="form-group col-md-6">
   <label for="reason">{{ __('Iemesls') }}</label>
+  <small  class="form-text text-muted">Maksimālais simbolu skaits ir 100</small>
       <input id="reason" type="text" class="form-control @error('reason') is-invalid @enderror"  name="reason" value={{$absence->reason}}>
       @error('reason')
           <span class="invalid-feedback" role="alert">

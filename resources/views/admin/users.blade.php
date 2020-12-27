@@ -5,7 +5,7 @@
 <div class="my-3 p-3 bg-white rounded shadow-sm">
     <div class="well">
         <table class="table table-bordered">
-            <h4>Profilu rediģēšana</h4>
+            <h4>Lietotājus rediģēšana, dzēšana un lomas maiņa</h4>
             <thead>
             <tr>
               <th>Lietotāja vārds</th>
@@ -25,17 +25,21 @@
                     <a href="/admin/users/{{$user->id}}/edit" class="btn btn-warning">Rediģēt</a>
                 </td>
                 <td>
+                    @if($user->id!= Auth::id())
                     <form method="POST" action="/admin/users/{{$user->id}}/deactivate">
                         @csrf
                         @method('PUT')
                     <input type="submit" class="btn btn-outline-secondary"  onclick="return confirm('Vai tiešām vēlaties deaktivizēt lietotāju?')" value="Deaktivizēt" >
                     </form>
+                    @endif
                 </td>
-                @if($user->Role== '2')
                 <td>
+                @if($user->Role== '2')
+                
                     <a href="/admin/users/{{$user->id}}/role" onclick="return confirm('Vai vēlaties nomainīt lomu?')" class="btn btn-warning">Lomas maiņa uz vadītaju</a>
-                </td>
+                
                 @endif
+            </td>
                 </tr>
             @endforeach
             </tbody>

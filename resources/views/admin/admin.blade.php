@@ -15,8 +15,8 @@
       <a class="btn btn-secondary mb-2" href="admin/absence">Apskatīt</a>
   </div>
   <div class="d-flex justify-content-between align-items-center w-100">
-    <h5 class="text-gray-dark">Rediģēt lietotājus</h5>
-    <a class="btn btn-secondary" href="admin/users">Rediģēt</a>
+    <h5 class="text-gray-dark">Lietotājus rediģēšana, dzēšana un lomas maiņa</h5>
+    <a class="btn btn-secondary" href="admin/users">Apskatīt</a>
 </div>
   </div>
   @endsection

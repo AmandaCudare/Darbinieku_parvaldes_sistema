@@ -4,7 +4,7 @@
 {{--Profil lapa--}}
 
 <div class="my-3 p-3 bg-white rounded shadow-sm"> 
-                <h1>Profile</h1>
+                <h1>Profils</h1>
                    
                         {{--Esošā lietotāja dati--}}
                 <h5><b>Vārds:</b> {{$user->First_name}}</h5>

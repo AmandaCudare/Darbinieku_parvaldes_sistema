@@ -6,7 +6,7 @@
 <div class="container">
 <a href="/absence/create" type="submit" class="btn btn-outline-secondary row mb-3">Prombūtne izveidošana</a>
 @if(count($absences)>0)
-    
+<small  class="form-text text-muted">Nevar rediģēt vai dzēst prombūtnes pieteikumu, ja ir esošā diena ir pēc beigu datuma</small>
    <div class="well">
     <table class="table table-bordered">
         <thead>
@@ -35,18 +35,20 @@
                    @endif
                 </td>
                 {{--Parāda rediģēšanas un dzešanas pogu jo ir sodiena datums  ir pirms vai ir beigu datuma--}}
-                @if($absence->end_date >= $today)
-                <td>
+               <td> @if($absence->end_date >= $today)
+                
                     <a type="button" class="btn btn-warning" href="/absence/{{$absence->id}}/edit">Rediģēt</a> 
+                    
+                    @endif
                  </td>
-            <td>
+                <td>
+                    @if($absence->end_date >= $today)
                 <form action="/absence/{{$absence->id}}" method="POST">
                 @csrf
                 @method('DELETE')
                 <input type="submit" class="btn btn-danger" value="Dzēst" />
             </form>
-        </td>
-             @endif
+             @endif </td>
             </tr>
         @endforeach
     </tbody>

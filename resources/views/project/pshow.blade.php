@@ -4,6 +4,7 @@
 <main >
 {{--Projekta apraksts--}}
 <div class='container'>
+    <div class="my-3 p-3 bg-white rounded shadow-sm"> 
     <div class="row mb-1">
         <div class="col-md-3 themed-grid-col">  
         <h1>{{$project->title}}</h1>
@@ -86,5 +87,7 @@
 {{--Visu projektu lapas poga--}}
 <a type="button" class="btn btn-outline-secondary" href="/projects">Atpakaļ</a> 
 </div>
+</div>
 </main>
+
 @endsection

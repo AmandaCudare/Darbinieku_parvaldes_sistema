@@ -1,6 +1,7 @@
 @extends('layout.app')
 
 @section('content')
+<div class="my-3 p-3 bg-white rounded shadow-sm"> 
 @if(count($positions)>0)
 <div class="well">
                     
@@ -36,5 +37,5 @@
 @else 
 <h4>Patreiz Jums nav pieteikumu</h4>
 @endif
-
+</div>
 @endsection

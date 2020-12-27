@@ -1,7 +1,7 @@
 @extends('layout.app')
 
 @section('content')
-
+<div class="my-3 p-3 bg-white rounded shadow-sm"> 
 <div class="well">
                     
     <table class="table table-bordered">
@@ -24,5 +24,5 @@
 </tbody>
 </table>
 </div> 
-
+</div>
 @endsection

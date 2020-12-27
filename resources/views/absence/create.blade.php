@@ -18,7 +18,9 @@
 <div class="container">
   <div class="form-group col-md-6">
     <label for="reason">{{ __('Iemesls') }}</label>
+    
         <input id="reason" type="text" class="form-control @error('reason') is-invalid @enderror"  name="reason" >
+        <small  class="form-text text-muted">Maksimālais simbolu skaits ir 100</small>
         @error('reason')
             <span class="invalid-feedback" role="alert">
                 <strong>{{ $message }}</strong>

@@ -2,7 +2,7 @@
 
 @section('content')
  <div class="my-3 p-3 bg-white rounded shadow-sm"> 
-<h1>Šīs nedēļas projekti</h1>
+<h1>Izveidotie dienas izdarītā ieraksti</h1>
 {{--Apskatīt grafiku poga--}}
 <a type="button" class="btn btn-outline-secondary" href="/schedule">Apskatīt grafiku</a> 
 {{--Pievienot dienas izdarītā lapa--}}
@@ -19,7 +19,16 @@
                        <h4 class="card-text">Datums: {{$hour->day}}</h4>
                        <p  class="card-text">Apraksts: {{$hour->description}}</p>
                        <p  class="card-text">Nostrādātās stundas: {{$hour->hours}}</p>
-                       <p  class="card-text">Projekts: {{$hour->project_id}}</p>
+                       <p  class="card-text">Projekts:
+                         @foreach ($projects as $project)
+                         @if($hour->project_id == $project->id)
+                        {{$project->title}}
+                        @endif
+                        @endforeach
+
+                      @if($hour->project_id == NULL) Ārpus projekta
+                      @endif
+                      </p>
                       <div class="d-flex justify-content-between align-items-center">
                         <div class="btn-group">
                           <button type="button" href="/hour/{{$hour->id}}/edit" class="btn btn-sm btn-warning">Rediģēt</button>
