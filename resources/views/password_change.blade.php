@@ -1,3 +1,4 @@
+{{--Paroles maiņas lapa--}}
 @extends('layout.app')
 
 @section('content')
@@ -10,6 +11,7 @@
                 <div class="card-body">
 <form method="POST" action="/password/store">
     @csrf
+    {{--Paroles ievades lauks--}}
 <div class="form-group row">
     <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Parole') }}</label>
 
@@ -23,7 +25,7 @@
         @enderror
     </div>
 </div>
-
+{{--Paroles apstiprināšanas ievades lauks--}}
 <div class="form-group row">
     <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Paroles apstiprināšana') }}</label>
 
@@ -34,7 +36,7 @@
 
 <div class="form-group row mb-0">
     <div class="col-md-6 offset-md-4">
-        <button type="submit" class="btn btn-primary">
+        <button type="submit" class="btn btn-secondary">
             {{ __('Mainīt paroli') }}
         </button>
     </div>

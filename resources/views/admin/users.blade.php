@@ -1,3 +1,4 @@
+{{--Lietotājus rediģēšana, dzēšana un lomas maiņa lapa--}}
 @extends('layout.app')
 
 @section('content')
@@ -21,9 +22,11 @@
                 <tr>
                     <td><p>{{$user->First_name}}</p></td>
                     <td><p>{{$user->Last_name}}</p></td>
+                    {{--Lietotāja rediģēšanas poga--}}
                 <td>
                     <a href="/admin/users/{{$user->id}}/edit" class="btn btn-warning">Rediģēt</a>
                 </td>
+                {{--Lietotāja deaktivizācijas poga--}}
                 <td>
                     @if($user->id!= Auth::id())
                     <form method="POST" action="/admin/users/{{$user->id}}/deactivate">
@@ -33,11 +36,10 @@
                     </form>
                     @endif
                 </td>
+                {{--Lomas maiņas poga--}}
                 <td>
                 @if($user->Role== '2')
-                
                     <a href="/admin/users/{{$user->id}}/role" onclick="return confirm('Vai vēlaties nomainīt lomu?')" class="btn btn-warning">Lomas maiņa uz vadītaju</a>
-                
                 @endif
             </td>
                 </tr>

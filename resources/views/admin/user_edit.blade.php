@@ -1,3 +1,4 @@
+{{--Lietotāja rediģēšanas lapa--}}
 @extends('layout.app')
 
 @section('content')
@@ -11,10 +12,10 @@
                     <form method="POST" action="/admin/users/{{$user->id}}">
                         @csrf
                         @method('PUT')
+                        {{--Vārda ievades lauks--}}
                         <div class="form-group row">
                             <label for="First_name" class="col-md-4 col-form-label text-md-right">{{ __('Vārds') }}</label>
-
-                            <div class="col-md-6">
+                                 <div class="col-md-6">
                                 <input id="First_name" type="text" class="form-control @error('First_name') is-invalid @enderror" name="First_name" value="{{$user->First_name}}" autofocus>
 
                                 @error('First_name')
@@ -24,7 +25,7 @@
                                 @enderror
                             </div>
                         </div>
-
+                        {{--Uzvārda ievades lauks--}}
                         <div class="form-group row">
                             <label for="Last_name" class="col-md-4 col-form-label text-md-right">{{ __('Uzvārds') }}</label>
 
@@ -38,7 +39,7 @@
                                 @enderror
                             </div>
                         </div>
-
+                        {{--Epasta ievades lauks--}}
                         <div class="form-group row">
                             <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-pasta Adrese') }}</label>
 
@@ -52,13 +53,26 @@
                                 @enderror
                             </div>
                         </div>
-
+                        {{--Darba slodzes ievades lauks--}}
                         <div class="form-group row">
-                            <label for="Workload" class="col-md-4 col-form-label text-md-right">{{ __('Workload') }}</label>
+                            <label for="Workload" class="col-md-4 col-form-label text-md-right">{{ __('Darba slodze') }}</label>
 
                             <div class="col-md-6">
-                                <input id="Workload" type="text" class="form-control @error('Workload') is-invalid @enderror" name="Workload" value="{{ $user->Workload }}"  autofocus>
-
+                                <select id="Workload" class="form-control @error('Workload') is-invalid @enderror" name="Workload" required autocomplete="Workload" autofocus>
+                                    @if($user->Workload == 1.0)
+                                    <option value="1">Pilna slodze(40h nedēļā)</option> 
+                                    <option value="0.75">Nepilna slodze(30h nedēļā)</option>
+                                    <option value="0.5">Nepilna slodze(20h nedēļā)</option>
+                                    @elseif($user->Workload == 0.75)
+                                   <option value="0.75">Nepilna slodze(30h nedēļā)</option> 
+                                   <option value="1">Pilna slodze(40h nedēļā)</option> 
+                                    <option value="0.5">Nepilna slodze(20h nedēļā)</option>
+                                    @else
+                                   <option value="0.5">Nepilna slodze(20h nedēļā)</option>
+                                   <option value="0.75">Nepilna slodze(30h nedēļā)</option> 
+                                   <option value="1">Pilna slodze(40h nedēļā)</option> 
+                                    @endif
+                                  </select>
                                 @error('Workload')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>

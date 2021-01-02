@@ -1,6 +1,8 @@
+{{--Prombūtnes pieteikumi apskates lapa--}}
 @extends('layout.app')
 
 @section('content')
+{{--Pārbauda vai ir vismaz viens pieteikums--}}
 @if(count($absences)>0)
 <div class="my-3 p-3 bg-white rounded shadow-sm">
     <div class="well">
@@ -29,12 +31,14 @@
                     <td><p>{{$absence->start_date}}</p></td>
                     <td><p>{{$absence->end_date}}</p></td>
                 <td>
+                    {{--Prombūtnes pieteikuma apstiprināšanas poga--}}
                     <form method="POST" action="/admin/absence/{{$absence->id}}">
                         @csrf
                         @method('PUT')
                     <input type="submit" class="btn btn-outline-secondary" value="Apstiprināts" >
                     </form>
                 </td>
+                {{--Prombūtnes pieteikuma noraisīšanas poga--}}
                 <td>
                     <form method="POST" action="/admin/absence/{{$absence->id}}/decline">
                         @csrf
@@ -49,7 +53,7 @@
                 </div>  
 
      <a type="button" class="btn btn-outline-secondary" href="/admin">Atpakaļ</a>  
-     
+     {{--Ja nav neviens neapstiprināts pieteikums tad rāda šo--}}
     @else 
     <h4> Nav jaunu pieteikumu</h4>
        @endif

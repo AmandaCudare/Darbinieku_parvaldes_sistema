@@ -1,39 +1,38 @@
+{{--Prombūtnes rediģēšanas poga--}}
 @extends('layout.app')
 
 @section('content')
 
-<h3>Mainīt prombutnes pieteikuma datus</h3>
-
-
+<h3>Mainīt prombūtnes pieteikuma datus</h3>
 
 <form method="POST" action="/absence/{{$absence->id}}">
     @method('PUT')
   @csrf
 
 <div class="container">
-
+{{--prombūtnes pieteikuma iemesls--}}
 <div class="form-group col-md-6">
-  <label for="reason">{{ __('Iemesls') }}</label>
-  <small  class="form-text text-muted">Maksimālais simbolu skaits ir 100</small>
+  <label for="start_date">Iemesls</label>
       <input id="reason" type="text" class="form-control @error('reason') is-invalid @enderror"  name="reason" value={{$absence->reason}}>
+      <small  class="form-text text-muted">Maksimālais simbolu skaits ir 100</small> 
       @error('reason')
           <span class="invalid-feedback" role="alert">
               <strong>{{ $message }}</strong>
           </span>
       @enderror
-
 </div>
-
+{{--prombūtnes pieteikuma sākuma datums--}}
   <div class="form-group col-md-6">
         <label for="start_date">Sākuma datums</label>
         <input  class="form-control @error('start_date') is-invalid @enderror" type="date" id="start_date"  name="start_date" value={{$absence->start_date}}>
-      @error('start_date')
+        <small  class="form-text text-muted">Nedrīkst būt pirms jau izvēlētā sākuma datuma un datums nedrīkst būt pēc beigu datuma</small>
+        @error('start_date')
       <span class="invalid-feedback" role="alert">
         <strong>{{ $message }}</strong>
     </span>
       @enderror
   </div>
-
+{{--prombūtnes pieteikuma beigu datums--}}
   <div class="form-group col-md-6">
         <label for="end_date">Beigu datums</label>
         <input  class="form-control @error('end_date') is-invalid @enderror" type="date" id="end_date" name="end_date" value={{$absence->end_date}}>
@@ -44,13 +43,16 @@
       @enderror
   </div>
 
-    </div> 
-    <button type="submit" class="btn btn-primary">
+  <div class="form-group col-md-6">
+    <button type="submit" class="btn btn-secondary">
       {{ __('Saglabāt izmaiņas') }}
   </button>
-
+  </div>
   </form>
-</div>
+  <div class="form-group col-md-6">
+      {{--Atpakaļ uz galveno prombūtnes lapu poga--}}
+<a type="button" class="btn btn-outline-secondary mt-3" href="/absence">Atpakaļ</a> 
+  </div>
+</div> 
   
-
   @endsection

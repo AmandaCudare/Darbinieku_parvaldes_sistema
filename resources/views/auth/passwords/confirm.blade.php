@@ -1,3 +1,4 @@
+{{--Paroles apstiprināšanas lapa--}}
 @extends('layout.app')
 
 @section('content')

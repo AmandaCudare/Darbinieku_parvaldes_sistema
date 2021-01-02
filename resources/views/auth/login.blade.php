@@ -1,3 +1,4 @@
+{{--Autentificēšanās lapa--}}
 @extends('layout.app')
 
 @section('content')
@@ -10,7 +11,7 @@
                 <div class="card-body">
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
-
+                        {{--Epasta adreses ievades lauks--}}
                         <div class="form-group row">
                             <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-pasta adrese') }}</label>
 
@@ -24,7 +25,7 @@
                                 @enderror
                             </div>
                         </div>
-
+                        {{--Paroles ievades lauks--}}
                         <div class="form-group row">
                             <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Parole') }}</label>
 
@@ -38,7 +39,7 @@
                                 @enderror
                             </div>
                         </div>
-
+                        {{--Ievades datu atcerēšanās poga--}}
                         <div class="form-group row">
                             <div class="col-md-6 offset-md-4">
                                 <div class="form-check">
@@ -50,13 +51,13 @@
                                 </div>
                             </div>
                         </div>
-
+                        {{--Autentificēšanās poga--}}
                         <div class="form-group row mb-0">
                             <div class="col-md-8 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
                                     {{ __('Autentificēties') }}
                                 </button>
-
+                                {{--Ja reģistrēts lietotājs aizmirst paroli--}}
                                 @if (Route::has('password.request'))
                                     <a class="btn btn-link" href="{{ route('password.request') }}">
                                         {{ __('Aizmirsāt paroli?') }}

@@ -25,15 +25,6 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        Gate::define('admin-only',function($user){
-            return $user->Role == '1';
-         
-         });
-
-        Gate::define('user-only',function($user){
-            return ($user->Role == 2 || $user->Role == 3);
-        });
-
         Gate::define('manager-only',function($user){
             return ($user->Role == 3);
         });

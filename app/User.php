@@ -36,23 +36,23 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
+    //Veido attiecību starp lietotāju un amata pieteikumu
     public function user_positions(){
         return $this->hasMany('App\UserPosition');
     }
-
+    //Veido attiecību starp lietotāju un projektu
     public function projects(){
         return $this->hasMany('App\Project');
     }
-
+    //Veido attiecību starp lietotāju un prasmēm
     public function skills(){
         return $this->hasMany('App\Skill');
     }
-
+    //Veido attiecību starp lietotāju un prombūtnes pieteikumiem
     public function absences(){
         return $this->hasMany('App\Absence');
     }
-
+    //Veido attiecību starp lietotāju un dienas izdarītā ierakstu
     public function hours(){
         return $this->hasMany('App\Hour');
     }

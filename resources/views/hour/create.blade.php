@@ -2,7 +2,7 @@
 
 @section('content')
 {{--Dienas izdarītā izvedies lapa--}}
-<h1>Izveidot dienas izdarīto</h1>
+<h3>Izveidot dienas izdarīto</h3>
 
 <form method="POST" action="/hour">
   @csrf
@@ -55,11 +55,12 @@
 </div>
  {{-- Poga, lai nosutītu informaciju uz HoursController store funckiju--}} 
     </div> 
-    <button type="submit" class="btn btn-primary">
+    <button type="submit" class="btn btn-secondary">
       {{ __('Pievienot dienas izdarīto') }}
   </button>
 
   </form>
+  <a type="button" class="btn btn-outline-secondary mt-5" href="/hour">Atpakaļ</a> 
 </div>
   
 

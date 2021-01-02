@@ -1,7 +1,7 @@
 @extends('layout.app')
 
 @section('content')
-{{--Profil lapa--}}
+{{--Profila lapa--}}
 
 <div class="my-3 p-3 bg-white rounded shadow-sm"> 
                 <h1>Profils</h1>
@@ -18,9 +18,17 @@
                    @else
                    Vadītājs
                     @endif</h5>
-                <h5><b>Darba slodze:</b> {{$user->Workload}}</h5>
-
-           <a type="button" class="btn btn-outline-secondary" href="/password">Mainīt paroli</a> 
+                <h5><b>Darba slodze:</b> 
+                    @if($user->Workload == 1.0)
+                    Pilna slodze(40h nedēļā)
+                    @elseif($user->Workload == 0.75)
+                    Nepilna slodze(30h nedēļā)
+                    @else
+                    Nepilna slodze(20h nedēļā)
+                    @endif
+                </h5>
+                    {{--Paroles maiņas poga--}}
+           <a type="button" class="btn btn-outline-secondary mt-3" href="/password">Mainīt paroli</a> 
                   
 </div>
 

@@ -1,3 +1,4 @@
+{{--Uz Epasta adresi paroles maiņas nosūtīšana--}}
 @extends('layout.app')
 
 @section('content')

@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Hour;
 use App\Project;
 use Carbon\Carbon;
-
+use Illuminate\Support\Arr;
 class HoursController extends Controller
 {
     /**
@@ -15,41 +15,77 @@ class HoursController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+//Šīm funkcijām var piekļūt tikai  lietotāji ar lomu darbinieks vai vadītājs
+    public function __construct()
+    {
+         $this->middleware('users_only');
+    }
+
     //Parāda dienas izdarītā galveno lapu
     public function index()
     {
-        //Atļauja tikai darbiniekam un vadītajam
-        if (Gate::allows('user-only',Auth::user())) {
             //Izvēlās visus dienas izdarītos ierakstus, ko ir izveidojis sistemā esošais lietotājs
             $user_id= auth()->user()->id;
             //$hours= Hour::where('user_id',$user_id)->get();
             $hours=Hour::EachDay($user_id);
             $projects=Project::HourProjects($user_id);
-        return view('hour.hourmain')->with(array('hours'=>$hours, 'projects'=> $projects));
-        }
-         // Ja šis nav darbinieks vai vadītajs, lietotāju nosūta uz atpakaļ uz lapu, kura atrodas lietotājs
-       return redirect()->back();
+        return view('hour.hourmain', ['hours'=>$hours, 'projects'=> $projects]);
+        
     }
 
     //Parāda nostrādātās nedeļas grafiku
     public function showSchedule()
     {
-        if (Gate::allows('user-only',Auth::user())) {
+        //esošas dienas nedēļa
         $week=Carbon::now()->weekOfYear;
+        //Pirmās un pēdējās nedēļas dienas datums
         $week_start = Carbon::now()->startOfWeek()->format('Y/m/d');
         $week_end = Carbon::now()->endOfWeek()->format('Y/m/d');
         $user_id= auth()->user()->id;
+        //Esošās nedēļas nostrādātās stundas esošajam lietotājam ar projektiem un bez
         $weeks_hours_with_projects = Hour::WeeksHoursWithProjects($user_id, $week);
         $weeks_hours_without_projects= Hour::WeeksHoursWithoutProjects($user_id, $week);
+        //Nostrādāto stundu summa katram projekta un ārpus projekta
         $ProjectsSum= Hour::ProjectsSum($user_id, $week);
-        $projects=Project::HourProjects($user_id);
         $OutofProjectsSum = Hour::OutofProjectsSum($user_id, $week);
-        //return array('projects' => $projects, 'ProjectsSum' => $ProjectsSum,'hours_with_projects'=>$weeks_hours_with_projects ,'hours_without_projects'=> $weeks_hours_without_projects);
-        return view('hour.schedule')->with(array('from'=>$week_start, 'till'=> $week_end,'projects' => $projects, 'ProjectsSum' => $ProjectsSum,'OutofProjectsSum' => $OutofProjectsSum,'hours_with_projects'=>$weeks_hours_with_projects ,'hours_without_projects'=> $weeks_hours_without_projects));
+        //Visi projekti kuros lietotājs ir apstiprināts
+        $projects=Project::HourProjects($user_id);
+        //Nostrādāto stundu summa noteiktai nedēļai
+        $t= Hour::TotalHours($user_id, $week);
+        $total=0;
+        foreach($t as $sum){
+            $total=$sum->total;
         }
-        return redirect()->back();
+        //iegūstam lietotāja slodzi 
+        if(auth()->user()->Workload=1.0){
+        $workload=40;
+       }elseif(auth()->user()->Workload=0.75){
+        $workload=30;
+        }else{
+         $workload=20; 
+       }
+       //ja nostrādātās stundas ir vairāk nekā slodzē tad iegūst virsstundas
+       if($total>$workload){
+            $overtime=$total-$workload;
+       }else{
+           $overtime=0;
+        } 
+       
+       return view('hour.schedule')->with(array('overtime'=>$overtime,'workload'=>$workload,'total'=>$total,'from'=>$week_start, 'till'=> $week_end,'projects' => $projects, 'ProjectsSum' => $ProjectsSum,'OutofProjectsSum' => $OutofProjectsSum,'hours_with_projects'=>$weeks_hours_with_projects ,'hours_without_projects'=> $weeks_hours_without_projects));
+        
     }
-
+    //Pārbauda vai projektam ir kāda dienas izdarītā ieraksta esošajā nedēļā
+            public static function Ifhours($project_id){
+            $week=Carbon::now()->weekOfYear;
+            $user_id= auth()->user()->id;
+            $weeks_hours_with_projects = Hour::WeeksHoursWithProjects($user_id, $week);
+            foreach($weeks_hours_with_projects as $hours){
+                if($hours->id == $project_id){
+                    return true;
+                }
+            }
+            return false;
+            }
     /**
      * Show the form for creating a new resource.
      *
@@ -58,14 +94,11 @@ class HoursController extends Controller
     //Nosūta lietotāju uz dienas izdarītā ieraksta izveides lapu
     public function create()
     {
-        if (Gate::allows('user-only',Auth::user())) {
         $user_id= auth()->user()->id;
+        //Visi projekti kuros lietotājs ir apstiprināts
         $projects=Project::HourProjects($user_id);
-        //$projects = DB::select("SELECT projects.id, projects.title FROM `projects` JOIN `positions` ON projects.id=positions.project_id JOIN `user_positions` ON user_positions.position_id=positions.id JOIN `users` ON user_positions.user_id=users.id WHERE users.id=? AND user_positions.accepted=true GROUP BY projects.id, projects.title, projects.start_date, projects.end_date",[$user_id]);
         return view('hour.create')->with(array('projects' => $projects));
-        }
-    // Ja šis nav darbinieks vai vadītajs, lietotāju nosūta uz atpakaļ uz lapu kura atrodas lietotājs
-  return redirect()->back();
+        
     }
 
     /**
@@ -89,7 +122,7 @@ class HoursController extends Controller
         //Saglabā dienas izdarītā ierakstu datubāzē
         $hours = new Hour;
         $hours->day = $request->input('day');
-        $hours->week = $day->week();
+        $hours->week = $day->weekOfYear;
         $hours->description = $request->input('description');
         $hours->hours = $request->input('hours');
         $project_id=$request->input('project_id');  

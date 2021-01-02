@@ -18,7 +18,7 @@ class CreateHoursTable extends Migration
             $table->string('description',500);
             $table->date('day');
             $table->integer('week');
-            $table->integer('hours');
+            $table->double('hours',4,2);
             $table->foreignId('project_id')->nullable()->constrained('projects');
             $table->foreignId('user_id')->constrained('users');
             $table->timestamps();

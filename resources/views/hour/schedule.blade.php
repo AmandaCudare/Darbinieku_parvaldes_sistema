@@ -3,16 +3,30 @@
 @section('content')
 
 <div class="my-3 p-3 bg-white rounded shadow-sm"> 
-<h2> Šīs nedēļas Dienas izdarīto stundu grafiks</h2>
-<h4> nedēļa no {{$from}} līdz {{$till}}</h4>
+
+<h2> Šīs nedēļas nostrādāto stundu grafiks</h2>
+<h4 class="text-right"> nedēļa no {{$from}} līdz {{$till}}</h4>
+
 @if(count($hours_with_projects)>0 || count($hours_without_projects)>0)
+<h5 class="text-right"> Slodze - {{$workload}}h
+  @if($total>0)
+  , nostrādātās stundas - {{$total}}h 
+  @endif
+    @if($overtime>0)
+  , virsstundas - {{$overtime}}h  
+    @endif
+  </h5> 
+
 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-1 g-2 mt-3">
  @foreach($projects as $project) 
+  @if(count($hours_with_projects)>0) 
+  @if(App\Http\Controllers\HoursController::ifhours($project->id) == true)
  <div class="col">
   <div class="card shadow-sm mb-2">
     <div class="card-body">
      
        <h4 class="card-text">Projekts: {{$project->title}}</h4>
+      
        <div class="well table-sm">
         <table class="table table-bordered">
             <thead>
@@ -25,6 +39,7 @@
         <tbody>
           @foreach($hours_with_projects as $projectshour) <tr>
             @if($project->id == $projectshour->id)
+            
          <td><p>{{$projectshour->day}}</p></td>
          <td><p>{{$projectshour->hours}}</p></td> <td></td>
           @endif
@@ -36,15 +51,19 @@
           <td> </td> <td></td>
         <td><p> {{$sum->sum}}</p></td> 
         </tr>
+        </tbody></table></div>
+      
         @endif
         @endforeach
-      </tbody></table></div>
+      
         
     </div>
   </div>
 </div>
+@endif
+@endif
 @endforeach 
-
+@if(count($hours_without_projects)>0)
 <div class="col">
   <div class="card shadow-sm mb-2">
     <div class="card-body">
@@ -78,64 +97,17 @@
     </div>
   </div>
 </div>
+@endif
 </div>
-
-{{--
-        <div class="well">
-            <table class="table table-bordered">
-                <thead>
-                <tr>
-                  <th>Projekta nosaukums</th>
-                  <th>Datums</th>
-                  <th>Nostrādātās stundas</th>
-                </tr>
-            </thead>
-            <tbody>
-               @foreach($projects as $project)                
-               <td><p>{{$project->title}}</p></td>
-              @foreach($hours_with_projects as $projectshour) <tr>
-                 @if($project->id == $projectshour->id)
-                 <td></td>
-              <td><p>{{$projectshour->day}}</p></td>
-              <td><p>{{$projectshour->hours}}</p></td> 
-               @endif
-                @endforeach 
-               </tr>
-              @endforeach <td><p>Ārpus projekta</p></td>
-              @foreach($hours_without_projects as $hour)
-              <tr>
-                <td></td>
-              <td><p>{{$hour->day}} </p></td>
-              <td><p>{{$hour->hours}}</p></td>
-              </tr>
-            @endforeach 
-         
-        <tr>
-          Totals katrā projektā
-          @foreach ($ProjectsSum as $sum)
-             {{$sum->id}} {{$sum->sum}}
-          @endforeach
-          @foreach ($OutofProjectsSum as $notpsum)
-          Ārpus projekta {{$notpsum->sum}}
-          @endforeach
-        </tr>
-        </div>  
-        </tbody>
-          </table>
- {{--   
-    @else 
-     <h4>Jums nav projektu pašlaik</h4>
-     <p> Dodaties uz Projektulapu lai pieteiktos projektam</p>
-     @endif
---}}
  @else
  <h5>Pašreiz nav pievienoti dienas izdarītā ieraksti</h5>
- <h5>Šeit var pievienot</h5>
+ <h5>Šeit var pievienot - 
 {{--Pievienot dienas izdarītā lapa--}}
 <a type="button" class="btn btn-outline-secondary" href="hour/create">Pievienot dienas izdarīto</a>
+</h5>
 @endif  
-
-
+<br>
+<a type="button" class="btn btn-outline-secondary mt-3" href="/hour">Atpakaļ</a> 
 </div>
 @endsection
 

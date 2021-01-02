@@ -30,13 +30,13 @@ class HomeController extends Controller
         $user= User::find($user_id);
        return view('profile')->with('user', $user);
     }
-
+    //Paroles maiņas funkcija
     public function PasswordChange()
     {
         return view('password_change');
         
     }
-
+    //Paroles maiņas saglabāšana
     public function PasswordUpdate(Request $request)
     {
         //Validacija

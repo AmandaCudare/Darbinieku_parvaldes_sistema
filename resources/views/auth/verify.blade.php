@@ -1,3 +1,4 @@
+{{--Epasta adreses verificēšana--}}
 @extends('layout.app')
 
 @section('content')

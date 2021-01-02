@@ -11,18 +11,20 @@ class SkillsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+//Šīm funkcijām var piekļūt tikai  lietotāji ar lomu darbinieks vai vadītājs
+    public function __construct()
+    {
+         $this->middleware('users_only');
+    }
+
     //Nosūta uz galveno prasmju lapu
     public function index()
     {
-        //Atļauja tikai darbiniekam un vadītajam
-        if (Gate::allows('user-only')) {
          //Izvēlās visus prasmes ko ir izveidojis sistemā esošais lietotājs
             $user_id= auth()->user()->id;
             $skills = Skill::where('user_id',$user_id)->get();
    return view('skills.skillmain')->with('skills', $skills);
-        }
-        // Ja šis nav darbinieks vai vadītajs lietotāju nosūta uz atpakaļ uz lapu kura atrodas lietotājs
-         return redirect()->back();
+        
     }
 
     /**
@@ -47,7 +49,7 @@ class SkillsController extends Controller
     {
         //Valide prasmes datus
         $validatedData = $request->validate([
-            'name' => ['required', 'string','max:50'],
+            'name' => ['required', 'string','max:100'],
         ]);
             //Saglabā prasmju datu datubāzē
         $skill = new Skill;
@@ -97,7 +99,7 @@ class SkillsController extends Controller
     {
         //Validacija
         $validatedData = $request->validate([
-            'name' => ['required', 'string','max:50'],
+            'name' => ['required', 'string','max:100'],
         ]);
         //atrod prasmi 
         $skill = Skill::find($id);

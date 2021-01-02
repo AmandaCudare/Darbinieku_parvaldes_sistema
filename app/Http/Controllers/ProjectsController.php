@@ -16,21 +16,25 @@ class ProjectsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+//Šīm funkcijām var piekļūt tikai  lietotāji ar lomu darbinieks vai vadītājs
+    public function __construct()
+    {
+         $this->middleware('users_only');
+    }
+
     //Parāda projektu galveno lapu
     public function index()
     {
-        // Šai lapai vienīgi var piekļūt darbinieks un vadītajs
-        if (Gate::allows('user-only')) {
         $today=Carbon::now()->format('Y-m-d');
+        //Visi projekti kuriem pieteikties līdz datums ir pirms esošās dienas
         $projects = Project::orderBy('start_date', 'asc')->where('assign_till','>=',$today)->get();
         $user_id=auth()->user()->id;
+        //vadītāju izvediotie projekti
         $my_projects  = Project::orderBy('start_date', 'asc')->where('creator_id',$user_id)->get();
-        //$assign_projects= DB::select("SELECT projects.title, projects.start_date, projects.end_date, projects.assign_till, projects.id FROM `projects` JOIN `positions` ON projects.id=positions.project_id JOIN `user_positions` ON user_positions.position_id=positions.id JOIN `users` ON user_positions.user_id=users.id WHERE users.id=? AND user_positions.accepted='1' GROUP BY projects.title, projects.start_date ASC, projects.end_date, projects.assign_till, projects.id",[$user_id]);
+        //projekti kuriem lietotājam ir apstiprināts pieteikums
         $assign_projects=Project::AssignedProjects($user_id);
-        //return array('projects'=> $projects,'my_projects'=> $my_projects,'assign_projects' => $assign_projects);
         return view('project.projectmain')->with(array('projects'=> $projects,'my_projects'=> $my_projects,'assign_projects' => $assign_projects));
-        }
-        return redirect()->back();
+       
     }
 
     /**
@@ -57,11 +61,13 @@ class ProjectsController extends Controller
     //Saglabā izveidotā projekta datus
     public function store(Request $request)
     {
+        //* Šai lapai vienīgi var piekļūt vadītājs */
+        if (Gate::allows('manager-only')) {
         //Projekta datu validācija
         $validatedData = $request->validate([
-            'title' => ['required', 'string','max:50'],
+            'title' => ['required', 'string','max:100'],
             'Description' => ['required', 'string','max:500'],
-            'start_date' => ['required','date', 'after:assign_till'],
+            'start_date' => ['required','date', 'after:assign_till','before:end_date'],
             'end_date' => ['required','date', 'after:start_date'],
             'assign_till' => ['required', 'date','after:tomorrow' ,'before:start_date'],
         ]);
@@ -77,7 +83,9 @@ class ProjectsController extends Controller
          
 
        return redirect('/projects')->with('success', 'Projekts ir izveidots');
-    }
+        }
+       return redirect()->back();
+        }
 
     /**
      * Display the specified resource.
@@ -89,19 +97,28 @@ class ProjectsController extends Controller
     public function show($id)
     {
         $today=Carbon::today();
+        //atrod noteikto projektu
         $project = Project::find($id);
+        //amatus noteiktajam projektam
         $positions = Position::where('project_id',$id)->get();
-        //with('user_positions')->
-            $position_id = Position::where('project_id',$id)->pluck('id')->toArray();
-        $upositions_id = UserPosition::where('user_id', auth()->user()->id)->pluck('id')->toArray();
-         $results = UserPosition::whereIn('position_id', $position_id)->pluck('id')->toArray();
-         $result = array_intersect($results, $upositions_id);
-        //$upositions = UserPosition::fi(
-        $upositions = UserPosition::whereIn('id', $result)->get();
-        //return array("project" => $project, "positions" => $positions , "upositions"=>$upositions, 'today'=>$today);
-        return view('project.pshow')->with(array("project" => $project, "positions" => $positions , "upositions"=>$upositions, 'today'=>$today));
+        $user_id=auth()->user()->id;
+        //Visu amatu pieteikumus notiektā projektā noteiktajam lietotājam
+        $upositions = UserPosition::ProjectsPositions($user_id, $id);
+         return view('project.pshow')->with(array("project" => $project, "positions" => $positions , "upositions"=>$upositions, 'today'=>$today));
     
     }
+
+    //Pārbauda vai amatam ir izveidots pieteikums
+    public static function IfPositionEntry($position_id, $project_id){
+        $user_id=auth()->user()->id;
+        $upositions = UserPosition::ProjectsPositions($user_id, $project_id);
+        foreach($upositions as $uposition){
+            if($uposition->position_id == $position_id){
+                return false;
+            }
+        }
+        return true;
+        }
 
     /**
      * Show the form for editing the specified resource.
@@ -129,7 +146,11 @@ class ProjectsController extends Controller
      */
     //Saglabā projekta veiktas izmaiņas
     public function update(Request $request, $id)
-    {
+    {   
+        //Atrod izvelēto projektu saglabā izmaiņas
+        $project = Project::find($id);
+        //Pārbaudīt vai pareizā vadītāja projekts
+        if(auth()->user()->id == $project->creator_id){
         //Projekta datu validacija
         $validatedData = $request->validate([
             'title' => ['required', 'string','max:50'],
@@ -138,8 +159,7 @@ class ProjectsController extends Controller
             'end_date' => ['required','date', 'after:start_date'],
             
         ]);
-            //Atrod izvelēto projektu saglabā izmaiņas
-        $project = Project::find($id);
+         
         $project->title = $request->input('title');
         $project->Description = $request->input('Description');
         $project->start_date = $request->input('start_date');
@@ -149,6 +169,8 @@ class ProjectsController extends Controller
          
 
        return redirect('/projects')->with('success', 'Projekta izmaiņas ir saglabātas');
+    }
+    return redirect()->back();
     }
 
     /**
@@ -163,9 +185,13 @@ class ProjectsController extends Controller
         $project = Project::find($id);
         //Parbauda vai lietotajs ir projekta veidotajs
         if(auth()->user()->id == $project->creator_id){
+        //iegūst katra amata id
         $position_id = Position::where('project_id',$id)->pluck('id')->toArray();
+        //atrod katra amata pieteikumu noteiktajam amatam un izdzēš katru
         $upositions= UserPosition::whereIn('position_id', $position_id)->get()->each->delete();
+        //atrod katra amatu noteiktajam projektam un izdzēš katru
         $position = Position::where('project_id',$id)->get()->each->delete();
+        //izdzēš projektu
         $project->delete();
         return redirect('/projects')->with('success', 'Projekts ir izdzēsts');
         }

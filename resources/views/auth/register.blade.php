@@ -1,3 +1,4 @@
+{{--Registrēšanās lapa--}}
 @extends('layout.app')
 
 @section('content')
@@ -5,12 +6,12 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Reģistrēšanās') }}</div>
+                <div class="card-header">Reģistrēšanās</div>
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('register') }}">
                         @csrf
-
+                        {{--Vārda ievades lauks--}}
                         <div class="form-group row">
                             <label for="First_name" class="col-md-4 col-form-label text-md-right">{{ __('Vārds') }}</label>
 
@@ -24,7 +25,7 @@
                                 @enderror
                             </div>
                         </div>
-
+                        {{--Uzvārda ievades lauks--}}
                         <div class="form-group row">
                             <label for="Last_name" class="col-md-4 col-form-label text-md-right">{{ __('Uzvārds') }}</label>
 
@@ -38,7 +39,7 @@
                                 @enderror
                             </div>
                         </div>
-
+                        {{--Epasta ievades lauks--}}
                         <div class="form-group row">
                             <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-pasta Adrese') }}</label>
 
@@ -52,7 +53,7 @@
                                 @enderror
                             </div>
                         </div>
-
+                        {{--Paroles ievades lauks--}}
                         <div class="form-group row">
                             <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Parole') }}</label>
 
@@ -66,7 +67,7 @@
                                 @enderror
                             </div>
                         </div>
-
+                        {{--Paroles apstiprināšanas ievades lauks--}}
                         <div class="form-group row">
                             <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Paroles apstiprināšana') }}</label>
 
@@ -74,16 +75,14 @@
                                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
                             </div>
                         </div>
-
-
+                        {{--slepens aktīvais lauks--}}
                         <input type="hidden" name="Active" value="1" >
-
+                        {{--Lomas izvēlnes lauks--}}
                         <div class="form-group row">
                             <label for="Role" class="col-md-4 col-form-label text-md-right">{{ __('Loma') }}</label>
 
                             <div class="col-md-6">
-                                {{--<input id="Role" type="text" class="form-control @error('Role') is-invalid @enderror" name="Role" value="{{ old('Role') }}" required autocomplete="Role" autofocus>--}}
-                                <select id="Role" class="form-control @error('Role') is-invalid @enderror" name="Role" value="{{ old('Role') }}" required autocomplete="Role" autofocus>
+                                 <select id="Role" class="form-control @error('Role') is-invalid @enderror" name="Role" value="{{ old('Role') }}" required autocomplete="Role" autofocus>
                                     <option value="2">Darbinieks</option>
                                     <option value="3">Vadītājs</option>
                                     <option value="1">Administrators</option>
@@ -95,7 +94,7 @@
                                 @enderror
                             </div>
                         </div>
-
+                        {{--Darba slodzes izvēlnes lauks--}}
                         <div class="form-group row">
                             <label for="Workload" class="col-md-4 col-form-label text-md-right">{{ __('Darba slodze') }}</label>
 
@@ -112,7 +111,7 @@
                                 @enderror
                             </div>
                         </div>
-                
+                        {{--Reģistrēšanās viedlapas datu nosūtīšana--}}
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">

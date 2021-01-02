@@ -15,21 +15,22 @@ class AbsenceController extends Controller
      * @return \Illuminate\Http\Response
      * 
      */
+    //Šīm funkcijām var piekļūt tikai  lietotāji ar lomu darbinieks vai vadītājs
+    public function __construct()
+    {
+         $this->middleware('users_only');
+    }
 
     //Parāda prombutnes galveno lapu
     public function index()
     {
-        //Atļauja tikai darbiniekam un vadītajam
-        if (Gate::allows('user-only',Auth::user())) {
             //Izvēlās visus prombūtnes pieteikumus ko ir izveidojis sistemā esošais lietotājs
              $user_id= auth()->user()->id;
              $absence = Absence::where('user_id',$user_id)->get();
              //šodienas datums
              $today=Carbon::now()->format('Y-m-d');
             return view('absence.show')->with(array('absences'=> $absence, 'today'=>$today));
-            }
-            // Ja šis nav darbinieks vai vadītajs, lietotāju nosūta uz atpakaļ uz lapu kura atrodas lietotājs
-            return redirect()->back();
+            
     }
 
     /**
@@ -40,12 +41,8 @@ class AbsenceController extends Controller
     //Nosūta uz prombutnes izveides lapu
     public function create()
     {
-        //Atļauja tikai darbiniekam un vadītajam
-        if (Gate::allows('user-only',Auth::user())) {
             return view('absence.create');
-            }
-     // Ja šis nav darbinieks vai vadītajs lietotāju nosūta uz atpakaļ uz lapu kura atrodas lietotājs
-           return redirect()->back();
+            
     }
 
     /**
@@ -61,7 +58,7 @@ class AbsenceController extends Controller
         
        //Iegūtos datu validācija
         $validatedData = $request->validate([
-            'reason' => ['required', 'string','max:50'],
+            'reason' => ['required', 'string','max:100'],
             'start_date' => ['required','date','before:end_date','after:yesterday', ],
             'end_date' => ['required','date', 'after:start_date'],
         ]);
@@ -85,7 +82,7 @@ class AbsenceController extends Controller
      */
     public function show($id)
     {
-        return redirect()->back();
+       //
     }
 
     /**
@@ -127,7 +124,7 @@ class AbsenceController extends Controller
        $day_before->subDay();
        //Validācija
         $validatedData = $request->validate([
-            'reason' => ['required', 'string','max:50'],
+            'reason' => ['required', 'string','max:100'],
             'start_date' => ['required','date','before:end_date','after:'.$day_before, ],
             'end_date' => ['required','date', 'after:start_date'],
         ]);

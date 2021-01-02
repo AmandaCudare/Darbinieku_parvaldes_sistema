@@ -15,12 +15,12 @@ use Illuminate\Support\Facades\Route;
 //Sākuma lapa
 Route::get('/', 'StartController@index');
 //Dienas izdarītais
-Route::resource('hour', 'HoursController');
+Route::resource('hour', 'HoursController')->except(['show']);
 Route::get('/schedule', 'HoursController@showSchedule');
 //Prasmes
-Route::resource('skills', 'SkillsController');
+Route::resource('skills', 'SkillsController')->except(['create','show']);
 //Prombūtne
-Route::resource('absence', 'AbsenceController');
+Route::resource('absence', 'AbsenceController')->except(['show']);
 // Administratora panelis
 Route::get('/admin', 'AdminController@index');
 Route::get('/admin/absence', 'AdminController@showAbsence');

@@ -1,3 +1,4 @@
+{{--Paroles  atiestatīšana--}}
 @extends('layout.app')
 
 @section('content')

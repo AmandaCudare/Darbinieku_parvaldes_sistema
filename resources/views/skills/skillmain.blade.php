@@ -13,13 +13,14 @@
        <div class="row mb-3">
         <div class="col-md-7 themed-grid-col"><li class="list-group-item">
           {{--Prasmes nosaukums--}}
-         • {{$skill->name}}
+        <h5> {{$skill->name}}</h5>
+        
         </li></div>
-        <div class="col-md-1 themed-grid-col">
+        <div class="col-sm-1 themed-grid-col">
           {{--Prasmes rediģēšanas poga--}}
           <a type="button" class="btn btn-warning" href="/skills/{{$skill->id}}/edit">Rediģēt</a> 
        </div>
-        <div class="col-md-2 themed-grid-col">
+        <div class="col-sm-3 themed-grid-col">
           {{--Prasmes dzēšanas poga--}}
           <form action="/skills/{{$skill->id}}" method="POST">
       @csrf
@@ -31,9 +32,9 @@
        
     @endforeach
   </ul>
-            
+   {{--Ja nav lietotājam nevienas prasmes, tad parādīs šo tekstu--}}         
 @else 
-<div class="row mt-2">
+<div class="row mt-2 col-12" >
 <h4>Patreiz nav prasmes</h4>
 </div>
 @endif

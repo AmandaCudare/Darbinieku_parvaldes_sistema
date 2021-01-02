@@ -1,28 +1,41 @@
+{{--Lietotāja pamatinformācijas lapa--}}
 @extends('layout.app')
 
 @section('content')
 <div class="my-3 p-3 bg-white rounded shadow-sm"> 
-<div class="well">
-                    
-    <table class="table table-bordered">
-        <h4>Lietotājs</h4> 
-        <thead>
-        <tr>
-        <th>Lietotāja vārds</th>
-        <th>Lietotāja uzvārds</th>
-        <th>Lietotāja epasts</th>
-        </tr>
-    </thead>
-    <tbody>
-    <tr>
-        <td><p>{{$user->Last_name}}</p></td>
-        <td><p>{{$user->First_name}}</p></td>
-        <td><p>{{$user->email}}</p></td>
-     </tr>
-   
- 
-</tbody>
-</table>
-</div> 
+        <h3>Lietotājs</h4> 
+            <div class="form-inline">
+        <h5><b>Lietotāja vārds:</b></h5><h5>   {{$user->Last_name}}</h5>
+            </div>
+        <div class="form-inline">
+        <h5><b>Lietotāja uzvārds: </b></h5><h5> {{$user->First_name}}</h5>
+        </div>
+        <div class="form-inline">
+        <h5><b>Lietotāja epasts: </b></h5><h5> {{$user->email}}</h5>
+        </div>
+        <div class="form-inline">
+            <h5><b>Darba slodze:</b> 
+                @if($user->Workload == 1.0)
+                Pilna slodze(40h nedēļā)
+                @elseif($user->Workload == 0.75)
+                Nepilna slodze(30h nedēļā)
+                @else
+                Nepilna slodze(20h nedēļā)
+                @endif
+            </h5>
+            </div>
+   @if(count($skills)>0)
+  <h4> Lietotāja prasmes</h4>
+   <ul class="list-group mt-3">
+   @foreach ($skills as $skill)
+    <li class="list-group-item col-md-6">{{$skill->name}}</li>
+   @endforeach
+   </ul>
+   @else 
+    <p>Lietotājam nav prasmju</p>
+   @endif
+
+
 </div>
+
 @endsection

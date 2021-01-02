@@ -1,10 +1,20 @@
+{{--Prombūtnes pieteikuma apskates lapa--}}
 @extends('layout.app')
 
 @section('content')
 <div class="my-3 p-3 bg-white rounded shadow-sm"> 
-<h1> Prombūtne</h1>
 <div class="container">
-<a href="/absence/create" type="submit" class="btn btn-outline-secondary row mb-3">Prombūtne izveidošana</a>
+    <div class="row ">
+        <div class="col-md-9">
+           <h1> Prombūtne</h1> 
+        </div>
+    <div class="col-6 col-md-3"> 
+        {{--Prombūtnes izveides poga--}}
+    <a href="/absence/create" type="submit" class="btn btn-secondary row mb-3">Prombūtne izveidošana</a>
+   
+        </div>
+      </div>
+{{--Pārbauda vai ir vismaz viens prombūtnes pieteikums--}}
 @if(count($absences)>0)
 <small  class="form-text text-muted">Nevar rediģēt vai dzēst prombūtnes pieteikumu, ja ir esošā diena ir pēc beigu datuma</small>
    <div class="well">
@@ -36,10 +46,8 @@
                 </td>
                 {{--Parāda rediģēšanas un dzešanas pogu jo ir sodiena datums  ir pirms vai ir beigu datuma--}}
                <td> @if($absence->end_date >= $today)
-                
-                    <a type="button" class="btn btn-warning" href="/absence/{{$absence->id}}/edit">Rediģēt</a> 
-                    
-                    @endif
+                <a type="button" class="btn btn-warning" href="/absence/{{$absence->id}}/edit">Rediģēt</a> 
+                     @endif
                  </td>
                 <td>
                     @if($absence->end_date >= $today)
