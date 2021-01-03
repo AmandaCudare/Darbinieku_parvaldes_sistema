@@ -3,11 +3,14 @@
 
 @section('content')
 {{--Pārbauda vai ir vismaz viens pieteikums--}}
-@if(count($absences)>0)
-<div class="my-3 p-3 bg-white rounded shadow-sm">
-    <div class="well">
+<div class="my-3 p-3 bg-white rounded shadow-sm"> 
+
+    <h4>Prombūtnes pieteikumi</h4>
+    @if(count($absences)>0)
+  
+       <div class="well">
         <table class="table table-bordered">
-            <h4>Prombūtnes pieteikumi</h4>
+            
             <thead>
             <tr>
               <th>Lietotāja vārds</th>
@@ -55,7 +58,7 @@
      <a type="button" class="btn btn-outline-secondary" href="/admin">Atpakaļ</a>  
      {{--Ja nav neviens neapstiprināts pieteikums tad rāda šo--}}
     @else 
-    <h4> Nav jaunu pieteikumu</h4>
+    <h5> Nav jaunu pieteikumu</h5>
        @endif
       </div> 
 @endsection

@@ -4,7 +4,8 @@
 @section('content')
 
 <h3>Mainīt prombūtnes pieteikuma datus</h3>
-
+<small  class="form-text text-muted">Ja tiks rediģēts apstiprināts vai noraidīts  prombūtnes pieteikums, tad pieteikums atkal nonāks uz izskati.</small> 
+     
 <form method="POST" action="/absence/{{$absence->id}}">
     @method('PUT')
   @csrf

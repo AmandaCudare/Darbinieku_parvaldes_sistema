@@ -70,7 +70,7 @@ class PositionController extends Controller
         $positions=Position::ShowPositions($id);
         return view('project.accept')->with(array('positions'=> $positions, 'project_id'=> $id));
         }
-        return redirect()->back()->with('error', 'Nedrīkst piekļūt šai funckijai esošais lietotājs');
+        return redirect()->back()->with('error', 'Nedrīkst piekļūt šai funkcijai esošais lietotājs');
     }
 
         //Iegūt apstiprināto cilvēku skaits
@@ -154,7 +154,7 @@ class PositionController extends Controller
         if(auth()->user()->id ==$creator_id){
             return view('project.position_edit')->with('position', $position);
         }
-        return redirect()->back()->with('error', 'Lietotājs nedrīkst rediģet amatu');
+        return redirect()->back()->with('error', 'Lietotājs nedrīkst rediģēt amatu');
        
     }
 
@@ -208,7 +208,7 @@ class PositionController extends Controller
         $position->delete();
         return redirect()->back()->with('success', 'Amats izdzēsts');
     }
-    return redirect()->back()->with('error', 'Lietotājs nedrīkst dzēst so amatu');
+    return redirect()->back()->with('error', 'Lietotājs nedrīkst dzēst šo amatu');
     }
     //Amata pieteikuma noņemšana
     public function destroy_UserPosition($id)

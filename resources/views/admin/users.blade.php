@@ -50,5 +50,8 @@
     @else 
     <h4> Nav lietotāju</h4>
        @endif
+
+       <a type="button" class="btn btn-outline-secondary" href="/admin">Atpakaļ</a>  
+
  </div>
 @endsection

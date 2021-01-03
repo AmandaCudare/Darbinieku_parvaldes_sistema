@@ -10,10 +10,10 @@
        
 {{--Šo lapas daļu var redzēt vadītājs tikai--}} 
 @if (Auth::user()->Role == '3')
- <div class="col-6 col-md-3">
+        <div class="col-6 col-md-3">
           <a href="/projects/create" class="btn btn-secondary">Izveidot projektu</a>  
         </div>
-      </div>
+    </div>
     @if(count($my_projects)>0)
     <div class ="col-12">
    <div class="well">
@@ -41,11 +41,11 @@
         @endforeach
     </tbody>
     </table>
-            </div>  
+    </div>  
     </div>
     @else 
     <div class ="col-12">
-    <h5>Jūs patreiz neesat vēl izveidojis nevienu projektu</h5>
+    <h5 class="mt-4">Jūs patreiz neesat vēl izveidojis nevienu projektu</h5>
     </div>
     @endif
 @endif
@@ -81,7 +81,7 @@
 </div> 
 </div>
 @else 
-<div class ="col-12">
+<div class ="col-12 mt-4">
 <h5>Jūs patreiz neesat apstiprināts nevienam projektam</h5>
 </div>
 @endif

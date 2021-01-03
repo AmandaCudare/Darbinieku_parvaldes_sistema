@@ -55,7 +55,7 @@
         @include('project.position', [ 'positions' => $positions, 'project'=> $project, 'today'=>$today, 'upositions'=>$upositions])
 
     @if(Auth::user()->id == $project->creator_id)
-
+    @if($project->assign_till>$today)
 {{--Amata pievienošana--}}
 
         <h4 class="mt-5">Pievienot amatus</h4>
@@ -95,6 +95,7 @@
             </div>
 </div>
 </form>
+@endif
 @endif
 {{--Visu projektu lapas poga--}}
 <a type="button" class="btn btn-outline-secondary mt-5" href="/projects">Atpakaļ</a> 

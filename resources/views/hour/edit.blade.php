@@ -2,6 +2,7 @@
 
 @section('content')
 {{--Dienas izdarītā izvedies lapa--}}
+<div class="my-3 p-3 bg-white rounded shadow-sm"> 
 <h1>Rediģēt dienas izdarīto</h1>
 
 <form method="POST" action="/hour/{{$hour->id}}">
@@ -41,8 +42,11 @@
 <div class="form-group col-md-6">
   <label for="project_id">{{ __('Projekts') }}</label>
       <select id="project_id" class="form-control @error('project_id') is-invalid @enderror" name="project_id" required autocomplete="project_id" autofocus>
+        @if($hour->project_id!=NULL)
         <option value={{$hour->project_id}}>{{$project_title}}</option>
-        <option value=NULL >nav</option>
+        <option value=NULL >Ārpus projekta</option>
+        @else <option value=NULL >Ārpus projekta</option>
+        @endif
          {{--paradīs katru projektu kurma ir amats aptiprināts--}}
           @foreach($projects as $project)
           <option value="{{$project->id}}">{{$project->title}}</option>

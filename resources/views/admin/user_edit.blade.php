@@ -2,13 +2,13 @@
 @extends('layout.app')
 
 @section('content')
-<div class="container">
+<div class="my-3 p-3 bg-white rounded shadow-sm"> 
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">Rediģēšana</div>
+            
+            <h4 class="text-center mb-4">Rediģēšana</h4>
 
-                <div class="card-body">
+                
                     <form method="POST" action="/admin/users/{{$user->id}}">
                         @csrf
                         @method('PUT')
@@ -23,6 +23,7 @@
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
+                                <small  class="form-text text-muted">Maksimālais simbolu skaits ir 100</small> 
                             </div>
                         </div>
                         {{--Uzvārda ievades lauks--}}
@@ -37,6 +38,7 @@
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
+                                <small  class="form-text text-muted">Maksimālais simbolu skaits ir 100</small> 
                             </div>
                         </div>
                         {{--Epasta ievades lauks--}}
@@ -51,6 +53,7 @@
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
+                                <small  class="form-text text-muted">Maksimālais simbolu skaits ir 100 un jābūt unikālai</small> 
                             </div>
                         </div>
                         {{--Darba slodzes ievades lauks--}}
@@ -83,15 +86,15 @@
                 
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" class="btn btn-secondary">
                                     {{ __('Saglabāt izmaiņas') }}
                                 </button>
                             </div>
                         </div>
                     </form>
-                </div>
+                    <a type="button" class="btn btn-outline-secondary mt-3" href="/admin/users">Atpakaļ</a>  
             </div>
         </div>
-    </div>
-</div>
+  </div>
+
 @endsection

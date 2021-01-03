@@ -95,8 +95,9 @@ class HoursController extends Controller
     public function create()
     {
         $user_id= auth()->user()->id;
+        $today = Carbon::now()->format('Y-m-d');
         //Visi projekti kuros lietotājs ir apstiprināts
-        $projects=Project::HourProjects($user_id);
+        $projects=Project::HourProjects($user_id, $today);
         return view('hour.create')->with(array('projects' => $projects));
         
     }
@@ -167,11 +168,9 @@ class HoursController extends Controller
         $project_title=Project::where('id', $project_id)->value('title');
         //Iegūt projektus, kuri nav jau dienas izdarīta ieraksta projekts
         $projects=Project::HourEditProjects($user_id, $project_id);
-        //$projects = DB::select("SELECT projects.id, projects.title FROM `projects` JOIN `positions` ON projects.id=positions.project_id JOIN `user_positions` ON user_positions.position_id=positions.id JOIN `users` ON user_positions.user_id=users.id WHERE users.id=? AND user_positions.accepted=true AND projects.id NOT IN(SELECT projects.id FROM `projects` WHERE projects.id=?) GROUP BY projects.id, projects.title, projects.start_date, projects.end_date",[$user_id, $project_id]);
-       
         return view('hour.edit')->with(array('projects' => $projects, 'hour'=>$hour, 'project_title' =>$project_title));
         }
-        return redirect()->back();
+        return redirect()->back()->with('error', 'Šis lietotājs dienas izdarīta ierakstu nedrīkst rediģēt');
     }
 
     /**
@@ -196,7 +195,7 @@ class HoursController extends Controller
     //Saglabā dienas izdarītā ierakstu datubāzē
     $hours = Hour::find($id);
     $hours->day = $request->input('day');
-    $hours->week = $day->week();
+    $hours->week = $day->weekOfYear;
     $hours->description = $request->input('description');
     $hours->hours = $request->input('hours');
     $project_id=$request->input('project_id');  
@@ -230,6 +229,6 @@ class HoursController extends Controller
            $hour->delete();
          redirect('/hour')->with('error', 'Dienas izdarīta ieraksts ir izdzēsts');
         }
-        return redirect()->back();
+        return redirect()->back()->with('error', 'Šis lietotajs dienas izdarīta ierakstu nedrīkst izdzēst');
     }
 }

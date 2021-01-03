@@ -12,7 +12,7 @@
                 {{--Amata nosaukuma ievades logs--}}
                         <div class="form-group col-md-6">
                             <label class="label">Amata nosaukums</label>
-                            <input id="name" type="text" class="form-control @error('name') is-invalid @enderror"  name="name" value={{$position->name}}>
+                            <input id="name" type="text" class="form-control @error('name') is-invalid @enderror"  name="name" value="{{$position->name}}">
                       
                             @error('name')
                                 <span class="invalid-feedback" role="alert">
@@ -25,7 +25,7 @@
                 {{--Amatam cilvēku skaits ievades logs--}}
                 <div class="form-group col-md-6">
                             <label class="label">Amatam cilvēku skaits</label>
-                            <input id="people_count" type="text" class="form-control @error('people_count') is-invalid @enderror"  name="people_count" value={{$position->people_count}}>
+                            <input id="people_count" type="text" class="form-control @error('people_count') is-invalid @enderror"  name="people_count" value="{{$position->people_count}}">
                       
                             @error('people_count')
                                 <span class="invalid-feedback" role="alert">

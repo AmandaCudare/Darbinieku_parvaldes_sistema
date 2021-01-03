@@ -1,3 +1,4 @@
+{{--Projekta rediģēšanas lapa--}}
 @extends('layout.app')
 
 @section('content')
@@ -20,7 +21,7 @@
               <strong>{{ $message }}</strong>
           </span>
       @enderror
-      <small class="form-text text-muted">Maksimālais simbolu skaits ir 100</small>
+      <small class="form-text text-muted">Maksimālais simbolu skaits ir 50</small>
 </div>
 
 {{--projekta apraksta ievades logs--}}
@@ -77,7 +78,10 @@
   </button>
 
   </form>
+
+{{--Visu projektu lapas poga--}}
+<a type="button" class="btn btn-outline-secondary mt-5" href="/projects">Atpakaļ</a> 
+
 </div>
-  
 
   @endsection

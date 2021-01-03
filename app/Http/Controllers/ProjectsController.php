@@ -65,7 +65,7 @@ class ProjectsController extends Controller
         if (Gate::allows('manager-only')) {
         //Projekta datu validācija
         $validatedData = $request->validate([
-            'title' => ['required', 'string','max:100'],
+            'title' => ['required', 'string','max:50'],
             'Description' => ['required', 'string','max:500'],
             'start_date' => ['required','date', 'after:assign_till','before:end_date'],
             'end_date' => ['required','date', 'after:start_date'],
@@ -94,16 +94,16 @@ class ProjectsController extends Controller
      * @return \Illuminate\Http\Response
      */
     //Nosūta uz vienu no projektiem 
-    public function show($id)
+    public function show($project_id)
     {
         $today=Carbon::today();
         //atrod noteikto projektu
-        $project = Project::find($id);
+        $project = Project::find($project_id);
         //amatus noteiktajam projektam
-        $positions = Position::where('project_id',$id)->get();
+        $positions = Position::where('project_id',$project_id)->get();
         $user_id=auth()->user()->id;
         //Visu amatu pieteikumus notiektā projektā noteiktajam lietotājam
-        $upositions = UserPosition::ProjectsPositions($user_id, $id);
+        $upositions = UserPosition::ProjectsPositions($user_id, $project_id);
          return view('project.pshow')->with(array("project" => $project, "positions" => $positions , "upositions"=>$upositions, 'today'=>$today));
     
     }
@@ -127,9 +127,9 @@ class ProjectsController extends Controller
      * @return \Illuminate\Http\Response
      */
     //Nosuta uz projekta reiģēsanas lapu
-    public function edit($id)
+    public function edit($project_id)
     {
-        $project = Project::find($id);
+        $project = Project::find($project_id);
         //Pārbaudīt vai pareizā vadītāja projekts
         if(auth()->user()->id == $project->creator_id){
             return view('project.pedit')->with('project',$project);
@@ -145,10 +145,10 @@ class ProjectsController extends Controller
      * @return \Illuminate\Http\Response
      */
     //Saglabā projekta veiktas izmaiņas
-    public function update(Request $request, $id)
+    public function update(Request $request, $project_id)
     {   
         //Atrod izvelēto projektu saglabā izmaiņas
-        $project = Project::find($id);
+        $project = Project::find($project_id);
         //Pārbaudīt vai pareizā vadītāja projekts
         if(auth()->user()->id == $project->creator_id){
         //Projekta datu validacija
@@ -180,21 +180,21 @@ class ProjectsController extends Controller
      * @return \Illuminate\Http\Response
      */
     //Projekta dzēšana
-    public function destroy($id)
+    public function destroy($project_id)
     {
-        $project = Project::find($id);
+        $project = Project::find($project_id);
         //Parbauda vai lietotajs ir projekta veidotajs
         if(auth()->user()->id == $project->creator_id){
         //iegūst katra amata id
-        $position_id = Position::where('project_id',$id)->pluck('id')->toArray();
+        $position_id = Position::where('project_id',$project_id)->pluck('id')->toArray();
         //atrod katra amata pieteikumu noteiktajam amatam un izdzēš katru
         $upositions= UserPosition::whereIn('position_id', $position_id)->get()->each->delete();
         //atrod katra amatu noteiktajam projektam un izdzēš katru
-        $position = Position::where('project_id',$id)->get()->each->delete();
+        $position = Position::where('project_id',$project_id)->get()->each->delete();
         //izdzēš projektu
         $project->delete();
         return redirect('/projects')->with('success', 'Projekts ir izdzēsts');
         }
-        return redirect()->back();
+        return redirect()->back()->with('error', 'Šis nav šī lietotāja veidots projekts');
      }
 }

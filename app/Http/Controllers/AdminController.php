@@ -93,9 +93,9 @@ class AdminController extends Controller
           
              //Lietotāja datu validacija
         $validatedData = $request->validate([
-            'First_name' => ['required', 'string', 'max:50'],
-            'Last_name' => ['required', 'string', 'max:50'],
-            'email' => ['required', 'string', 'email', 'max:255'],
+            'First_name' => ['required', 'string', 'max:100'],
+            'Last_name' => ['required', 'string', 'max:100'],
+            'email' => ['required', 'string', 'email', 'max:100'],
             'Workload' => ['required'],
             
         ]);
@@ -113,7 +113,7 @@ class AdminController extends Controller
     //Deaktivizēt lietotāju
     public function deactivateUser($id)
     {
-            //Atrod aktīvus lietotājus
+            //pārbauda lai administrators pats sevi nedeaktivizētu
             if($id != auth()->user()->id){
             $user = User::find($id);
             $user->Active = false;

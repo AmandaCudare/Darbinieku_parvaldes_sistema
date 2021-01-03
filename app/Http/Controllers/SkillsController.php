@@ -61,17 +61,6 @@ class SkillsController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
@@ -85,6 +74,7 @@ class SkillsController extends Controller
         if(auth()->user()->id == $skill->user_id ){
           return view('skills.edit')->with('skill',$skill);
          }
+         return redirect()->back()->with('error', 'Lietotājs šo prasmi nedrīkst rediģēt');
     }
 
     /**
@@ -127,7 +117,7 @@ class SkillsController extends Controller
            $skill->delete();
          redirect('/skills')->with('success', 'Prasme ir izdzēsta');
         }
-        return redirect()->back();
+        return redirect()->back()->with('error', 'Lietotājs šo prasmi nedrīkst dzēst');
     
     }
 }

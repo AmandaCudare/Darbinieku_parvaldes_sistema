@@ -17,7 +17,7 @@
               <strong>{{ $message }}</strong>
           </span>
       @enderror
-      <small class="form-text text-muted">Maksimālais simbolu skaits ir 100</small>
+      <small class="form-text text-muted">Maksimālais simbolu skaits ir 50</small>
 </div>
 {{--projekta apraksta ievades logs--}}
   <div class="form-group col-md-6">
@@ -73,6 +73,10 @@
   </button>
 
   </form>
+
+{{--Visu projektu lapas poga--}}
+<a type="button" class="btn btn-outline-secondary mt-5" href="/projects">Atpakaļ</a> 
+
 </div>
   
 

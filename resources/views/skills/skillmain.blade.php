@@ -1,3 +1,4 @@
+{{--Prasmju galvenā lapa--}}
 @extends('layout.app')
 
 @section('content')
@@ -34,8 +35,8 @@
   </ul>
    {{--Ja nav lietotājam nevienas prasmes, tad parādīs šo tekstu--}}         
 @else 
-<div class="row mt-2 col-12" >
-<h4>Patreiz nav prasmes</h4>
+<div class="mt-4 col-12" >
+<h5>Patreiz nav prasmes</h5>
 </div>
 @endif
 {{--Šeit ir create.blade.php daļa ievieto šajā lapā--}}

@@ -8,7 +8,7 @@
         <div class="col-md-9">
            <h1> Prombūtne</h1> 
         </div>
-    <div class="col-6 col-md-3"> 
+    <div class="col-md-3"> 
         {{--Prombūtnes izveides poga--}}
     <a href="/absence/create" type="submit" class="btn btn-secondary row mb-3">Prombūtne izveidošana</a>
    
@@ -63,7 +63,7 @@
     </table>
        </div>        
         @else
-        <h4>Patreiz nav izveidoti prombūtnes pieteikumu.</h4>
+        <h5 class="mt-4">Patreiz nav izveidoti prombūtnes pieteikumu</h5>
         @endif
 </div>
 </div>

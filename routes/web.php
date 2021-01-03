@@ -34,8 +34,9 @@ Route::put('/admin/users/{user_id}/deactivate', 'AdminController@deactivateUser'
 
 //Autenfifikacija
 Auth::routes();
-//Projeti un amati
+//Projeti
 Route::resource('projects', 'ProjectsController');
+//Amati
 Route::post('/userposition/store', 'PositionController@store_userposition')->name('user_position.add');
 Route::post('/project/{project_id}/position', 'PositionController@store')->name('position.add');
 Route::get('/projects/{project_id}/assign', 'PositionController@show');

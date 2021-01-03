@@ -4,11 +4,12 @@
 @section('content')
 <div class="my-3 p-3 bg-white rounded shadow-sm"> 
 {{--Pārbauda vai ir kāds amata pieteikums --}}
+<h4>Visi pieteikumi</h4> 
 @if(count($positions)>0)
 <div class="well">
                     
     <table class="table table-bordered">
-        <h4>Visi pieteikumi</h4> 
+        
         <thead>
         <tr>
         <th>Amata nosaukums</th>
@@ -46,7 +47,7 @@
 </table>
 
 @else 
-<h4>Patreiz Jums nav pieteikumu</h4>
+<h5 class="mt-3">Patreiz Jums nav pieteikumu</h5>
 @endif
 
 {{--Uz projektu lapas poga--}}

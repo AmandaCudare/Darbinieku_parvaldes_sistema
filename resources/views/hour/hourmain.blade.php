@@ -4,9 +4,9 @@
  <div class="my-3 p-3 bg-white rounded shadow-sm"> 
 <h1>Izveidotie dienas izdarītā ieraksti</h1>
 {{--Apskatīt grafiku poga--}}
-<a type="button" class="btn btn-outline-secondary" href="/schedule">Apskatīt grafiku</a> 
+<a type="button" class="btn btn-secondary" href="/schedule">Apskatīt grafiku</a> 
 {{--Pievienot dienas izdarītā lapa--}}
-<a type="button" class="btn btn-outline-secondary" href="hour/create">Pievienot dienas izdarīto</a>
+<a type="button" class="btn btn-secondary" href="hour/create">Pievienot dienas izdarīto</a>
         {{--Parādīt katras dienas izdarīto noteiktajā nedēļā--}}
         @if(count($hours)>0)
             <div class="container">
@@ -52,7 +52,7 @@
       </div>
       {{--Ja nav neviena dienas izdarītā šim lietotājam tad tiks paŗadīts sis teksts--}}
       @else 
-      <h3>Nav vēl izveidots neviens dienas izdarītā ieraksts</h3>
+      <h5 class="mt-4">Nav vēl izveidots neviens dienas izdarītā ieraksts</h5>
       @endif
      
 @endsection

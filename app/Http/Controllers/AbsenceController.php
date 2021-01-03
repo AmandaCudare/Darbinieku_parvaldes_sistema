@@ -26,7 +26,7 @@ class AbsenceController extends Controller
     {
             //Izvēlās visus prombūtnes pieteikumus ko ir izveidojis sistemā esošais lietotājs
              $user_id= auth()->user()->id;
-             $absence = Absence::where('user_id',$user_id)->get();
+             $absence = Absence::orderBy('start_date', 'asc')->where('user_id',$user_id)->get();
              //šodienas datums
              $today=Carbon::now()->format('Y-m-d');
             return view('absence.show')->with(array('absences'=> $absence, 'today'=>$today));
@@ -105,7 +105,7 @@ class AbsenceController extends Controller
          }
          return redirect()->back()->with('error', 'Pieteikumu nedrīkst rediģēt pēc beigu datuma');
         }
-        return redirect()->back()->with('error', 'Šis lietotājs nav veidojis so pieteikumu');
+        return redirect()->back()->with('error', 'Šis lietotājs nav veidojis šo pieteikumu');
     }
 
     /**
