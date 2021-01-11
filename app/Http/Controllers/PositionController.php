@@ -34,7 +34,7 @@ class PositionController extends Controller
         //Validācija
         $validatedData = $request->validate([
             'name' => ['required', 'string','max:100'],
-            'people_count' => ['required', 'numeric', 'gt:0'],
+            'people_count' => ['required', 'integer', 'gt:0', 'lt:50'],
             ]);
         //Saglabā amata datus datubazē
         $position = new Position;
@@ -42,7 +42,7 @@ class PositionController extends Controller
         $position->people_count = $request->input('people_count');
         $position->project_id = $request->input('project_id');
         $position->save();
-        return redirect()->back();
+        return redirect()->back()->with('success', 'Amats ir pievienots');
      }
 
      //Saglabā amata pieteikumu
@@ -64,6 +64,7 @@ class PositionController extends Controller
     //projekta amata
     public function show($id)
     {
+        $check=Project::findOrFail($id);
         $creator_id=Project::where('id', $id)->value('creator_id');
         if(auth()->user()->id == $creator_id){
         //tiek iegūta amata nosaukumus, lietotaja vārds, uzvārds, epasts, identifikātors un pieteikuma identifikators, ja pieteikušais lietotajs sakrīt ar pieteikumu, pieteikums sakrīt ar amatu un amats ar projektu.
@@ -83,6 +84,7 @@ class PositionController extends Controller
     //vadītājs ar so funckiju apstiprina lietotāja amata pieteikumu
     public function accept_userposition($userposition_id)
     {
+        $check=UserPosition::findOrFail($userposition_id);
         //iegūts pieteikuma amata id
         $position_id= UserPosition::where('id', $userposition_id)->value('position_id');
         //ieguts pieteikumu skaits, kas atbilst amatam un kuri ir apstiprināti
@@ -100,7 +102,7 @@ class PositionController extends Controller
         $uposition = UserPosition::find($userposition_id);
         $uposition->accepted = true;
         $uposition->save();
-        return back()->with('success', 'Apstiprināts');
+        return back()->with('success', 'Lietotājs amatam ir apstiprināts');
         //ja nav tad tiek nosūtīt paziņojums ka nevar apstiprināt
         }else{
             return back()->with('error', 'Pieņemto skaits ir pietiekams');
@@ -111,6 +113,7 @@ class PositionController extends Controller
     //vadītājs ar so funckiju noraida lietotāja amata pieteikumu
      public function decline_userposition($id)
      {
+        $check=UserPosition::findOrFail($id);
           //iegūts pieteikuma amata id
         $position_id= UserPosition::where('id', $id)->value('position_id');
          $project_id=Position::where('id', $position_id)->value('project_id');
@@ -147,6 +150,7 @@ class PositionController extends Controller
      */
     public function edit($id)
     {
+        $check=Position::findOrFail($id);
         $project_id = Position::where('id',$id)->pluck('project_id');
         $creator_id=Project::where('id',$project_id)->value('creator_id');
         $position=Position::find($id);
@@ -173,15 +177,15 @@ class PositionController extends Controller
         //Validācija
         $validatedData = $request->validate([
             'name' => ['required', 'string','max:100'],
-            'people_count' => ['required', 'numeric', 'gt:0'],
+            'people_count' => ['required', 'integer', 'gt:0', 'lt:50'],
             ]);
         //Saglabā izmaiņas amata datus datubazē
-        $position = Position::find($id);
+        $position = Position::findOrFail($id);
         $position->name = $request->input('name');
         $position->people_count = $request->input('people_count');
         $position->save();
         $project_id=Project::where('id', $position->project_id)->pluck('id')->sum();
-         return redirect('/projects/'.$project_id)->with('success', 'Amats atjaunināts');
+         return redirect('/projects/'.$project_id)->with('success', 'Amata izmaiņas ir saglabātas');
         }
         return redirect()->back()->with('error', 'Lietotājs nedrīkst rediģet amatu');
     }
@@ -195,6 +199,7 @@ class PositionController extends Controller
     //Izdzēst amatu
     public function destroyPosition($id)
     {
+        $check=Position::findOrFail($id);
         //atrast amata projektu
         $project_id = Position::where('id',$id)->pluck('project_id');
         $creator_id=Project::where('id',$project_id)->pluck('creator_id')->sum();
@@ -206,13 +211,14 @@ class PositionController extends Controller
         $uposition= UserPosition::where('position_id', $id)->get()->each->delete();
         //izdzēst amatu
         $position->delete();
-        return redirect()->back()->with('success', 'Amats izdzēsts');
+        return redirect()->back()->with('success', 'Amats ir izdzēsts');
     }
     return redirect()->back()->with('error', 'Lietotājs nedrīkst dzēst šo amatu');
     }
     //Amata pieteikuma noņemšana
     public function destroy_UserPosition($id)
     {
+        $check=Position::findOrFail($id);
         $user_id= auth()->user()->id;
         $uposition= UserPosition::where('position_id', $id)->where('user_id', $user_id)->get()->each->delete();
         return redirect()->back()->with('success', 'Pieteikums noņemts');

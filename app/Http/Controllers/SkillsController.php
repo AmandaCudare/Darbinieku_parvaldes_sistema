@@ -28,17 +28,6 @@ class SkillsController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-
-   public function create()
-     {
-       //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -69,7 +58,7 @@ class SkillsController extends Controller
     //Nosūta uz rediģēšanas lapu
     public function edit($id)
     {
-        $skill = Skill::find($id); 
+        $skill = Skill::findOrFail($id); 
         //Pārbauda vai lietotājs ir prasmes veidotajs
         if(auth()->user()->id == $skill->user_id ){
           return view('skills.edit')->with('skill',$skill);
@@ -92,7 +81,7 @@ class SkillsController extends Controller
             'name' => ['required', 'string','max:100'],
         ]);
         //atrod prasmi 
-        $skill = Skill::find($id);
+        $skill = Skill::findOrFail($id);
         //atjaunina informāciju
         $skill->name = $request->input('name');
         $skill->save();
@@ -110,12 +99,12 @@ class SkillsController extends Controller
     public function destroy($id)
     {
         //atrod prasmi
-        $skill = Skill::find($id);
+        $skill = Skill::findOrFail($id);
           //Pārbauda vai lietotājs ir prasmes veidotajs
         if(auth()->user()->id == $skill->user_id){
             //Izdzēš prasmi
            $skill->delete();
-         redirect('/skills')->with('success', 'Prasme ir izdzēsta');
+        return redirect('/skills')->with('success', 'Prasme ir izdzēsta');
         }
         return redirect()->back()->with('error', 'Lietotājs šo prasmi nedrīkst dzēst');
     

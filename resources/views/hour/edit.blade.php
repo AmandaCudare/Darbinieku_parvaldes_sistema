@@ -13,9 +13,11 @@
 {{--Dienas izdarītā datums aizpildes lauks--}}
   <div class="form-group col-md-6">
     <label for="day">{{ __('Datums') }}</label>
-    <input  class="form-control @error('day') is-invalid @enderror" type="date" id="day"  name="day" value={{$hour->day}}>
+    <input  class="form-control @error('day') is-invalid @enderror" type="date" id="day"  name="day" value="{{$hour->day}}">
   @error('day')
-  <div class="alert alert-danger">{{ $message }}</div>
+  <span class="invalid-feedback" role="alert">
+    <strong>{{ $message }}</strong>
+</span>
   @enderror
 </div>
 {{--Dienas izdarītā apraksts aizpildes lauks--}}
@@ -23,14 +25,16 @@
         <label for="description">{{ __('Apraksts') }}</label>
         <textarea class="form-control  @error('description') is-invalid @enderror" type="text" id="description" rows="5" name="description" >{{$hour->description}}</textarea>
       @error('description')
-      <div class="alert alert-danger">{{ $message }}</div>
+      <span class="invalid-feedback" role="alert">
+        <strong>{{ $message }}</strong>
+    </span>
       @enderror
       <small id="description" class="form-text text-muted">Maksimālais rakstu zīmju skaits ir 500</small>
   </div>
 {{--Dienas izdarītā nostrādātās stundas aizpildes lauks--}}
 <div class="form-group col-md-6">
   <label for="hours">{{ __('Nostrādātās stundas') }}</label>
-      <input id="hours" type="text" class="form-control @error('hours') is-invalid @enderror"  name="hours" value={{$hour->hours}}>
+      <input id="hours" type="text" class="form-control @error('hours') is-invalid @enderror"  name="hours" value="{{$hour->hours}}">
       @error('hours')
           <span class="invalid-feedback" role="alert">
               <strong>{{ $message }}</strong>
@@ -54,9 +58,9 @@
         
         </select>
       @error('project_id')
-          <span class="invalid-feedback" role="alert">
-              <strong>{{ $message }}</strong>
-          </span>
+      <span class="invalid-feedback" role="alert">
+        <strong>{{ $message }}</strong>
+    </span>
       @enderror
 </div>
  {{-- Poga, lai nosutītu informaciju uz HoursController store funckiju--}} 

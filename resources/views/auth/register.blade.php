@@ -17,7 +17,7 @@
                             <label for="First_name" class="col-md-4 col-form-label text-md-right">{{ __('Vārds') }}</label>
 
                             <div class="col-md-6">
-                                <input id="First_name" type="text" class="form-control @error('First_name') is-invalid @enderror" name="First_name" value="{{ old('First_name') }}" required autocomplete="First_name" autofocus>
+                                <input id="First_name" type="text" class="form-control @error('First_name') is-invalid @enderror" name="First_name" value="{{ old('First_name') }}" >
 
                                 @error('First_name')
                                     <span class="invalid-feedback" role="alert">
@@ -32,7 +32,7 @@
                             <label for="Last_name" class="col-md-4 col-form-label text-md-right">{{ __('Uzvārds') }}</label>
 
                             <div class="col-md-6">
-                                <input id="Last_name" type="text" class="form-control @error('Last_name') is-invalid @enderror" name="Last_name" value="{{ old('Last_name') }}" required autocomplete="Last_name" autofocus>
+                                <input id="Last_name" type="text" class="form-control @error('Last_name') is-invalid @enderror" name="Last_name" value="{{ old('Last_name') }}" >
 
                                 @error('Last_name')
                                     <span class="invalid-feedback" role="alert">
@@ -47,7 +47,7 @@
                             <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-pasta Adrese') }}</label>
 
                             <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
+                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" >
 
                                 @error('email')
                                     <span class="invalid-feedback" role="alert">
@@ -62,7 +62,7 @@
                             <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Parole') }}</label>
 
                             <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
+                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" >
 
                                 @error('password')
                                     <span class="invalid-feedback" role="alert">
@@ -77,7 +77,7 @@
                             <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Paroles apstiprināšana') }}</label>
 
                             <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
+                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" >
                             
                             <small  class="form-text text-muted">Paroles apstiprināšana jāsakrīt ar paroli</small> </div>
                         </div>
@@ -88,7 +88,7 @@
                             <label for="Role" class="col-md-4 col-form-label text-md-right">{{ __('Loma') }}</label>
 
                             <div class="col-md-6">
-                                 <select id="Role" class="form-control @error('Role') is-invalid @enderror" name="Role" value="{{ old('Role') }}" required autocomplete="Role" autofocus>
+                                 <select id="Role" class="form-control @error('Role') is-invalid @enderror" name="Role" value="{{ old('Role') }}" >
                                     <option value="2">Darbinieks</option>
                                     <option value="3">Vadītājs</option>
                                     <option value="1">Administrators</option>
@@ -105,7 +105,7 @@
                             <label for="Workload" class="col-md-4 col-form-label text-md-right">{{ __('Darba slodze') }}</label>
 
                             <div class="col-md-6">
-                                <select id="Workload" class="form-control @error('Workload') is-invalid @enderror" name="Workload" value="{{ old('Workload') }}" required autocomplete="Workload" autofocus>
+                                <select id="Workload" class="form-control @error('Workload') is-invalid @enderror" name="Workload" value="{{ old('Workload') }}">
                                     <option value="1">Pilna slodze(40h nedēļā)</option> 
                                     <option value="0.75">Nepilna slodze(30h nedēļā)</option>
                                     <option value="0.5">Nepilna slodze(20h nedēļā)</option>

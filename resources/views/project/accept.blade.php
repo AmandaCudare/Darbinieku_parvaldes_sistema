@@ -17,8 +17,8 @@
         <th>Apstiprinātais cilvēku skaits</th>
         <th>Lietotāja vārds</th>
         <th>Lietotāja uzvārds</th>
-        <th>Lietotāja epasts</th>
-        <th>Apskatīt</th>
+        <th>Lietotāja e-pasts</th>
+        <th>Apskatīt profilu</th>
         <th>Apstiprināt</th>
         <th>Noraidīt</th>
         </tr>

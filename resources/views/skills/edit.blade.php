@@ -12,7 +12,7 @@
 {{--Prasmes nosaukuma aizpildes lauks, kuram jau ir noteiktas prasmes informācija--}}
 <div class="form-group col-md-6">
   <label for="name">{{ __('Prasme') }}</label>
-      <input id="name" type="text" class="form-control @error('name') is-invalid @enderror"  name="name" value={{$skill->name}}>
+      <input id="name" type="text" class="form-control @error('name') is-invalid @enderror"  name="name" value="{{$skill->name}}">
       @error('name')
           <span class="invalid-feedback" role="alert">
               <strong>{{ $message }}</strong>

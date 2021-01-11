@@ -98,7 +98,7 @@ class ProjectsController extends Controller
     {
         $today=Carbon::today();
         //atrod noteikto projektu
-        $project = Project::find($project_id);
+        $project = Project::findOrFail($project_id);
         //amatus noteiktajam projektam
         $positions = Position::where('project_id',$project_id)->get();
         $user_id=auth()->user()->id;
@@ -129,7 +129,7 @@ class ProjectsController extends Controller
     //Nosuta uz projekta reiģēsanas lapu
     public function edit($project_id)
     {
-        $project = Project::find($project_id);
+        $project = Project::findOrFail($project_id);
         //Pārbaudīt vai pareizā vadītāja projekts
         if(auth()->user()->id == $project->creator_id){
             return view('project.pedit')->with('project',$project);
@@ -148,7 +148,7 @@ class ProjectsController extends Controller
     public function update(Request $request, $project_id)
     {   
         //Atrod izvelēto projektu saglabā izmaiņas
-        $project = Project::find($project_id);
+        $project = Project::findOrFail($project_id);
         //Pārbaudīt vai pareizā vadītāja projekts
         if(auth()->user()->id == $project->creator_id){
         //Projekta datu validacija
@@ -182,7 +182,7 @@ class ProjectsController extends Controller
     //Projekta dzēšana
     public function destroy($project_id)
     {
-        $project = Project::find($project_id);
+        $project = Project::findOrFail($project_id);
         //Parbauda vai lietotajs ir projekta veidotajs
         if(auth()->user()->id == $project->creator_id){
         //iegūst katra amata id

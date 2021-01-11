@@ -7,7 +7,7 @@
               <tr>
                 <th>Amats</th>
                 <th>Amatu skaits</th>
-                <th>Status</th>
+                <th>Statuss</th>
                 <th></th>
                 <th></th>
                 <th></th>
@@ -35,12 +35,12 @@
         @if($uposition->position_id == $position->id)  
         {{--Parbauda vai amata pieteikums ir aptiprināts --}}     
     @if($uposition->accepted== '1' )
-  <td> Status: Pieņemts</td>
+  <td> Statuss: Pieņemts</td>
   {{--Parbauda vai amata pieteikums ir noraidīts --}}
    @elseif($uposition->accepted== '0' )
-  <td> Status: Noraidīts </td>
+  <td> Statuss: Noraidīts </td>
     @else
-  <td> Status: Pieteicies </td>
+  <td> Statuss: Pieteicies </td>
   {{--Parbauda vai projekta pieteikties datums ir pirms šodienas --}}
  @if($project->assign_till>$today) 
  {{--Amata pieteikuma noņemšanas poga --}}

@@ -10,7 +10,7 @@
         </div>
     <div class="col-md-3"> 
         {{--Prombūtnes izveides poga--}}
-    <a href="/absence/create" type="submit" class="btn btn-secondary row mb-3">Prombūtne izveidošana</a>
+    <a href="/absence/create" type="submit" class="btn btn-secondary row mb-3">Prombūtnes izveidošana</a>
    
         </div>
       </div>
@@ -24,7 +24,7 @@
           <th>Iemesls</th>
           <th>Sākuma datums</th>
           <th>Beigu datums</th>
-          <th>Status</th>
+          <th>Statuss</th>
           <th></th>
           <th></th>
         </tr>

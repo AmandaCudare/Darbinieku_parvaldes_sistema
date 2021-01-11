@@ -15,7 +15,7 @@
 {{--projekta nosaukuma ievades logs--}}
 <div class="form-group col-md-6">
   <label for="title">{{ __('Nosaukums') }}</label>
-      <input id="title" type="text" class="form-control @error('title') is-invalid @enderror"  name="title" value=" {{$project->title}}">
+      <input id="title" type="text" class="form-control @error('title') is-invalid @enderror"  name="title" value="{{$project->title}}">
       @error('title')
           <span class="invalid-feedback" role="alert">
               <strong>{{ $message }}</strong>

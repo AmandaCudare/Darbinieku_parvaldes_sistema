@@ -13,15 +13,17 @@
     <label for="day">{{ __('Datums') }}</label>
     <input  class="form-control @error('day') is-invalid @enderror" type="date" id="day"  name="day">
   @error('day')
-  <div class="alert alert-danger">{{ $message }}</div>
+  <span class="invalid-feedback" role="alert">
+    <strong>{{ $message }}</strong>
   @enderror
 </div>
 {{--Dienas izdarītā apraksts aizpildes lauks--}}
  <div class="form-group col-md-6">
         <label for="description">{{ __('Apraksts') }}</label>
-        <textarea class="form-control  @error('description') is-invalid @enderror" type="text" id="description" rows="5" name="description" ></textarea>
+        <textarea class="form-control  @error('description') is-invalid @enderror" type="text" id="description" rows="5" name="description"></textarea>
       @error('description')
-      <div class="alert alert-danger">{{ $message }}</div>
+      <span class="invalid-feedback" role="alert">
+        <strong>{{ $message }}</strong>
       @enderror
       <small id="description" class="form-text text-muted">Maksimālais rakstu zīmju skaits ir 500</small>
   </div>

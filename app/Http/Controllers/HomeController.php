@@ -45,7 +45,7 @@ class HomeController extends Controller
         ]);
         //atrod lietotāju
         $id=auth()->user()->id;
-        $user = User::find($id);
+        $user = User::findOrFail($id);
         $new_password=$request->input('password');
         if(Hash::check($new_password, $user->password)){
  

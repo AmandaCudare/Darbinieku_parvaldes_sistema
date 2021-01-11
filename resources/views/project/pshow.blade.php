@@ -67,23 +67,24 @@
                         <div class="col-md-6">
                             <label class="label">Amata nosaukums</label>
                             <input id="name" type="text" class="form-control @error('name') is-invalid @enderror"  name="name" />
-                      
+                      <small  class="form-text text-muted">Maksimālais simbolu skaits ir 100</small> 
                             @error('name')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
                             @enderror
-                            <small  class="form-text text-muted">Maksimālais simbolu skaits ir 100</small> 
+                            
                         </div>
                         <div class="col-md-6">
                             <label class="label">Amatam cilvēku skaits</label>
                             <input id="people_count" type="number" class="form-control @error('people_count') is-invalid @enderror"  name="people_count" />
+                           <small  class="form-text text-muted">Cilvēku skaitam ir jabūt lielākam par 0</small>  
                         @error('people_count')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
                             @enderror
-                            <small  class="form-text text-muted">Cilvēku skaitam ir jabūt lielākam par 0</small> 
+                            
                         </div>
                       
                 <input type="hidden" name="project_id" value="{{ $project->id }}" />

@@ -6,13 +6,13 @@
         <h3>Lietotājs</h4> 
             {{--Lietotāja pamatinformācija--}}
             <div class="form-inline">
-        <h5><b>Lietotāja vārds:</b></h5><h5>   {{$user->Last_name}}</h5>
+        <h5><b>Vārds:</b></h5><h5>   {{$user->Last_name}}</h5>
             </div>
         <div class="form-inline">
-        <h5><b>Lietotāja uzvārds: </b></h5><h5> {{$user->First_name}}</h5>
+        <h5><b>Uzvārds: </b></h5><h5> {{$user->First_name}}</h5>
         </div>
         <div class="form-inline">
-        <h5><b>Lietotāja epasts: </b></h5><h5> {{$user->email}}</h5>
+        <h5><b>E-pasts: </b></h5><h5> {{$user->email}}</h5>
         </div>
         <div class="form-inline">
             <h5><b>Darba slodze:</b> 

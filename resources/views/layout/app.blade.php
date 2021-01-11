@@ -14,6 +14,8 @@
             @include('inc.messages')
 @yield('content')  
 </main>
+@guest
+@else 
 <div class="container-fluid">
 <footer class="footer row justify-content-md-center">
   
@@ -21,6 +23,6 @@
   E-pasts: Admin@info.lv</p>
 </footer>
 </div>
-         
+@endguest     
     </body>
 </html>

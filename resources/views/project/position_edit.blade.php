@@ -32,7 +32,7 @@
                                     <strong>{{ $message }}</strong>
                                 </span>
                             @enderror
-                            <small  class="form-text text-muted">Amata cilvēku skaitam ir jabūt lielākam par 0</small> 
+                            <small  class="form-text text-muted">Amatā cilvēku skaitam ir jābūt lielākam par 0, bet mazākam par 50</small> 
                         </div>
            
                         <div class="form-group col-md-6">

@@ -48,7 +48,7 @@ class AdminController extends Controller
     //Prombutnes aptiprināšanas funkcija
     public function updateAbsence($id)
     {
-           $absences = Absence::find($id);
+           $absences = Absence::findOrFail($id);
            $absences->accepted = true;
            $absences->save();
            return redirect('admin/absence')->with('success', 'Prombūtnes pieteikums ir apstiprināta');
@@ -57,7 +57,7 @@ class AdminController extends Controller
     //Prombutnes noraidīšanas funkcija
     public function declineAbsence($id)
     {
-           $absences = Absence::find($id);
+           $absences = Absence::findOrFail($id);
            $absences->accepted = false;
            $absences->save();
            return redirect('admin/absence')->with('error', 'Prombūtnes pieteikums noraidīts');
@@ -68,7 +68,7 @@ class AdminController extends Controller
     public function editUser($id)
     {
             //Atrod aktīvus lietotājus
-            $user = User::find($id);
+            $user = User::findOrFail($id);
         return view ('admin.user_edit')->with('user', $user);
 
     }
@@ -76,7 +76,7 @@ class AdminController extends Controller
     public function editRole($id)
     {
         //Atrod lietotāju
-         $user = User::find($id);
+         $user = User::findOrFail($id);
          //Pārbauda vai lietotājs ir darbinieks
         if($user->Role == '2'){
         //Nomaina lomu uz vadītāja lomu - 3
@@ -96,11 +96,11 @@ class AdminController extends Controller
             'First_name' => ['required', 'string', 'max:100'],
             'Last_name' => ['required', 'string', 'max:100'],
             'email' => ['required', 'string', 'email', 'max:100'],
-            'Workload' => ['required'],
+            'Workload' => ['required','in:0.5,0.75,1'],
             
         ]);
             //Atrod izvelēto projektu saglabā izmaiņas
-        $user = User::find($id);
+        $user = User::findOrFail($id);
         $user->First_name = $request->input('First_name');
         $user->Last_name = $request->input('Last_name');
         $user->email = $request->input('email');
@@ -115,7 +115,7 @@ class AdminController extends Controller
     {
             //pārbauda lai administrators pats sevi nedeaktivizētu
             if($id != auth()->user()->id){
-            $user = User::find($id);
+            $user = User::findOrFail($id);
             $user->Active = false;
             $user->save();
             return redirect('/admin/users')->with('error', 'Lietotājs ir deaktivizēts');

@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class Project extends Model
 {
@@ -33,18 +34,20 @@ class Project extends Model
        return $assignprojects;
     }
    //funkcija kurā iegūst projekta nosaukumu un identifikātoru nostrādāto stundu funkcijai
-    public function scopeHourProjects($query,$user_id, $today){
+    public function scopeHourProjects($query,$user_id){
 
-        $hourprojects=DB::select("SELECT projects.title, projects.id FROM `projects` JOIN `positions` ON projects.id=positions.project_id 
+         $today = Carbon::now()->format('Y-m-d');
+        $hourprojects=DB::select("SELECT projects.title, projects.id 
+        FROM `projects` JOIN `positions` ON projects.id=positions.project_id 
         JOIN `user_positions` ON user_positions.position_id=positions.id 
         JOIN `users` ON user_positions.user_id=users.id 
-        WHERE users.id=? AND user_positions.accepted='1'AND projects.start_date<=?
-        GROUP BY projects.title, projects.id",[$user_id, $today]);
+        WHERE users.id=? AND user_positions.accepted='1'AND projects.start_date<=? 
+        GROUP BY projects.title, projects.id",[$user_id,$today]);
          
         return $hourprojects;
      }
      //Funckija kurā iegūst projektu kas ir pievienots nostrādāto stundu ierakstam
-     public function scopeHourEditProjects($query,$user_id, $project_id){
+     public function scopeHourEditProjects($query,$user_id,$project_id){
 
         $editprojects = DB::select("SELECT projects.id, projects.title 
         FROM `projects` JOIN `positions` ON projects.id=positions.project_id 

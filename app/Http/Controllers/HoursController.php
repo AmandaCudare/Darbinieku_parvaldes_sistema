@@ -57,9 +57,9 @@ class HoursController extends Controller
             $total=$sum->total;
         }
         //iegūstam lietotāja slodzi 
-        if(auth()->user()->Workload=1.0){
+        if(auth()->user()->Workload==1.0){
         $workload=40;
-       }elseif(auth()->user()->Workload=0.75){
+       }elseif(auth()->user()->Workload==0.75){
         $workload=30;
         }else{
          $workload=20; 
@@ -94,10 +94,9 @@ class HoursController extends Controller
     //Nosūta lietotāju uz dienas izdarītā ieraksta izveides lapu
     public function create()
     {
-        $user_id= auth()->user()->id;
-        $today = Carbon::now()->format('Y-m-d');
+        $user_id= auth()->user()->id;        
         //Visi projekti kuros lietotājs ir apstiprināts
-        $projects=Project::HourProjects($user_id, $today);
+        $projects=Project::HourProjects($user_id);
         return view('hour.create')->with(array('projects' => $projects));
         
     }
@@ -158,7 +157,7 @@ class HoursController extends Controller
     public function edit($id)
     {
         //Atrast dienas izdarītā ieraksta dtus
-        $hour = Hour::find($id);
+        $hour = Hour::findOrFail($id);
         //Pārbaudīt vai pareizā vadītāja projekts
         if(auth()->user()->id == $hour->user_id){
         $user_id= auth()->user()->id;
@@ -193,7 +192,7 @@ class HoursController extends Controller
     //Pārveido "Day" string data tipu uz laika datu tipu
     $day=Carbon::parse($day=$request->input('day')) ;
     //Saglabā dienas izdarītā ierakstu datubāzē
-    $hours = Hour::find($id);
+    $hours = Hour::findOrFail($id);
     $hours->day = $request->input('day');
     $hours->week = $day->weekOfYear;
     $hours->description = $request->input('description');
@@ -222,13 +221,13 @@ class HoursController extends Controller
     public function destroy($id)
     {
         //Atrod dienas izdarīto
-        $hour = Hour::find($id);
+        $hour = Hour::findOrFail($id);
           //Pārbauda vai lietotājs ir dienas izdarīta ieraksta veidotājs
         if(auth()->user()->id == $hour->user_id){
             //Izdzēš dienas izdarītā ierakstu
            $hour->delete();
-         redirect('/hour')->with('error', 'Dienas izdarīta ieraksts ir izdzēsts');
+        return redirect('/hour')->with('error', 'Dienas izdarīta ieraksts ir izdzēsts');
         }
-        return redirect()->back()->with('error', 'Šis lietotajs dienas izdarīta ierakstu nedrīkst izdzēst');
+        return redirect()->back()->with('error', 'Šis lietotājs dienas izdarīta ierakstu nedrīkst izdzēst');
     }
 }

@@ -52,13 +52,13 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'First_name' => ['required', 'string', 'max:50'],
-            'Last_name' => ['required', 'string', 'max:50'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'First_name' => ['required', 'string', 'max:100'],
+            'Last_name' => ['required', 'string', 'max:100'],
+            'email' => ['required', 'string', 'email', 'max:100', 'unique:users'],
+            'password' => ['required', 'string', 'min:8', 'max:150','confirmed'],
             'Active' => ['required'],
-            'Role' => ['required', 'max:2'],
-            'Workload' => ['required', ],
+            'Role' => ['required', 'in:1,2,3'],
+            'Workload' => ['required','in:0.5,0.75,1'],
         ]);
     }
 
@@ -94,7 +94,7 @@ class RegisterController extends Controller
         //return $this->registered($request, $user)
         //                ?: redirect($this->redirectPath());
 
-    return redirect('/admin')->with('success', 'Lietotājs izveidots');
+    return redirect('/admin')->with('success', 'Lietotājs ir izveidots');
     }
 
 }
