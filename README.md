@@ -8,16 +8,16 @@
 </p>
 
 ## Pamācībā
-- [Jāinstalē Git, kā arī Composer.
-- [Ar Git palīdzību lejuplādē uz datora "Darbinieku_parvaldes_sistema" repozitoriju.
-- [Lejuplādē Xampp 7.2.34 versiju, un svarīgi ir komponentēs izvēlēties phpMyAdmin, MySQL.
-- [Kad ieslēdz Xampp, uzspiest start pie Apache un MySQL.
-- [Jāatrod, kur datorā ir instalēts Xampp serveris, jānonāk "\xampp\htdocs" mapē un jāievieto lejuplādētā datorā Darbinieku_parvaldes_sistema"" mape un jāpārsauc mapi par "DPS".
-- [Ieejot tīmekļa pārlūkprogrammā ir jāieiet localhost - "http://localhost/phpmyadmin/index.php" ir jāizveido datubāze ar nosakumu "DPS".
-- [Šajā datubāzē jāizvēlas sadaļa "Privilages" un jāizvēlas ar "Username" - root un "Host name" - "localhost" un nospiest "Edit privileges". Šeit jānospiež "Change password". Šai parolei ir jāsakrīt ar .env faila "DB_PASSWORD" paroli.
-- [Var vai nu datora terminālē, vai arī Visual Studio Code terminālē(ja šis ir instalēts) ar cd funkcijas palīdzību nonākt "/xampp/htdocs/DPS" atrašanās vietā.
-- [Sākotnēji vajadzēs palaist datubāzi ar funkciju "php artisan migrate" terminālī. Tad terminālī "php artisan db:seed --class DatabaseSeeder", ja vēlās tikai administratoru, bet ja visas 3 lomas lietotājus sistēmā uzreiz, tad "php artisan db:seed --class UsersTableSeeder".
-- [Lai palaistu sistēmu tīmekļa lietotnē, tad jāieraksta terminālī funckija "php artisan serve" un ieraksta "Laravel development server started:" linku pārlūkprogrammā. Ja terminali aiztaisīs ciet, tad tīmekļa lietotne vairs nestrādās pārlūkprogrammā.
+- Jāinstalē Git, kā arī Composer.
+- Ar Git palīdzību lejuplādē uz datora "Darbinieku_parvaldes_sistema" repozitoriju.
+- Lejuplādē Xampp 7.2.34 versiju, un svarīgi ir komponentēs izvēlēties phpMyAdmin, MySQL.
+- Kad ieslēdz Xampp, uzspiest start pie Apache un MySQL.
+- Jāatrod, kur datorā ir instalēts Xampp serveris, jānonāk "\xampp\htdocs" mapē un jāievieto lejuplādētā datorā Darbinieku_parvaldes_sistema"" mape un jāpārsauc mapi par "DPS".
+- Ieejot tīmekļa pārlūkprogrammā ir jāieiet localhost - "http://localhost/phpmyadmin/index.php" ir jāizveido datubāze ar nosakumu "DPS".
+- Šajā datubāzē jāizvēlas sadaļa "Privilages" un jāizvēlas ar "Username" - root un "Host name" - "localhost" un nospiest "Edit privileges". Šeit jānospiež "Change password". Šai parolei ir jāsakrīt ar .env faila "DB_PASSWORD" paroli.
+- Var vai nu datora terminālē, vai arī Visual Studio Code terminālē(ja šis ir instalēts) ar cd funkcijas palīdzību nonākt "/xampp/htdocs/DPS" atrašanās vietā.
+- Sākotnēji vajadzēs palaist datubāzi ar funkciju "php artisan migrate" terminālī. Tad terminālī "php artisan db:seed --class DatabaseSeeder", ja vēlās tikai administratoru, bet ja visas 3 lomas lietotājus sistēmā uzreiz, tad "php artisan db:seed --class UsersTableSeeder".
+- Lai palaistu sistēmu tīmekļa lietotnē, tad jāieraksta terminālī funckija "php artisan serve" un ieraksta "Laravel development server started:" linku pārlūkprogrammā. Ja terminali aiztaisīs ciet, tad tīmekļa lietotne vairs nestrādās pārlūkprogrammā.
 
 
 ## About Laravel
